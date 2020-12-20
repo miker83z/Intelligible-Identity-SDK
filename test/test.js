@@ -13,7 +13,11 @@ const personalInformation = {
 };
 
 const main = async () => {
-  intelligibleOne.initWeb3(web3Provider, JSON.parse(intelligibleIdArtifact));
+  intelligibleOne.initWeb3(
+    web3Provider,
+    JSON.parse(intelligibleIdArtifact),
+    '5777'
+  );
   const res = await intelligibleOne.newIdentityTokenWeb3(personalInformation);
   const aknDocumentPartiallySigned = intelligibleOne.newAKNDocument(
     res.identityAknURI,

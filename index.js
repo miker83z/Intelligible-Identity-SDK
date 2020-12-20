@@ -113,13 +113,13 @@ const template = {
 };
 
 class IntelligibleIdentity {
-  async initWeb3(web3Provider, intelligibleIdArtifact) {
+  async initWeb3(web3Provider, intelligibleIdArtifact, networkId) {
     this.web3 = new Web3(web3Provider);
 
     //const intelligibleIdArtifact = await JSON.parse(contractArtifactRaw);
     this.contract = new this.web3.eth.Contract(
       intelligibleIdArtifact.abi,
-      intelligibleIdArtifact.networks['5777'].address
+      intelligibleIdArtifact.networks[networkId].address
     );
 
     this.contract.setProvider(web3Provider);
