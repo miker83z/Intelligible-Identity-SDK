@@ -19,6 +19,14 @@
   "homepage": "https://github.com/BitNomos/Intelligible-Identity-SDK#readme",
   "dependencies": {
     "algosdk": "^1.8.1",
+    "assert": "^2.0.0",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.1.1",
+    "url": "^0.11.0",
+    "util": "^0.12.3",
     "web3": "^1.3.0",
     "xmlbuilder2": "^2.4.0"
   },
