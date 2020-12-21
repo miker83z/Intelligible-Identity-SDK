@@ -8,6 +8,13 @@ const intelligibleIdArtifact = JSON.parse(
     'contract_development/build/contracts/IntelligibleIdentity.json'
   )
 );
+
+const baseServer = 'https://testnet-algorand.api.purestake.io/idx2';
+const port = '';
+const apiToken = {
+  'X-API-Key': fs.readFileSync('test/.secret').toString(),
+};
+
 const personalInformation = {
   name: 'Mario',
   email: 'mario@wii.jp',
@@ -21,12 +28,19 @@ const main = async () => {
     networkId
   );
   const res = await intelligibleOneWeb3.newIdentityToken(personalInformation);
+  const intelligibleOneAlgo = new IntelligibleIdentity.algo.AlgoWrapper(
+    baseServer,
+    port,
+    apiToken
+  );
+  const publicKeyAlgo = intelligibleOneAlgo.newAddress().addr;
   const aknDocumentPartiallySigned = IntelligibleIdentity.akn.newAKNDocument(
     res.identityAknURI,
     personalInformation,
     res.publicKey,
     intelligibleIdArtifact.networks[networkId].address,
-    res.tokenId
+    res.tokenId,
+    publicKeyAlgo
   );
   const aknDocumentComplete = await intelligibleOneWeb3.signData(
     aknDocumentPartiallySigned

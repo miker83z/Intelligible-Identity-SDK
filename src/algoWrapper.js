@@ -5,13 +5,8 @@ class AlgoWrapper {
     console.log('TODO');
   }
 
-  async newAddress() {
-    try {
-      const account = algosdk.generateAccount();
-      console.log(account);
-    } catch (error) {
-      console.log(error);
-    }
+  newAddress() {
+    return algosdk.generateAccount();
   }
 }
 
