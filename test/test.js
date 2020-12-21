@@ -42,7 +42,7 @@ const main = async () => {
     res.tokenId,
     publicKeyAlgo
   );
-  const aknDocumentComplete = await intelligibleOneWeb3.signData(
+  const aknDocumentComplete = await intelligibleOneWeb3.signDataNoPersonal(
     aknDocumentPartiallySigned
   );
   console.log(aknDocumentComplete);

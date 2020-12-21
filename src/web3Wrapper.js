@@ -44,7 +44,16 @@ class Web3Wrapper {
     const signers = await this.web3.eth.getAccounts();
     if (signers.length < 1) return;
 
-    //const signature = await this.web3.eth.personal.sign(data, signers[0]);
+    const signature = await this.web3.eth.personal.sign(data, signers[0]);
+
+    return aknBuilder.ultimate(data, signature);
+  }
+
+  async signDataNoPersonal(data) {
+    if (this.web3 === 'undefined') return;
+    const signers = await this.web3.eth.getAccounts();
+    if (signers.length < 1) return;
+
     const signature = await this.web3.eth.sign(data, signers[0]);
 
     return aknBuilder.ultimate(data, signature);
