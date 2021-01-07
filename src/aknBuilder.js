@@ -7,7 +7,8 @@ const newAKNDocument = (
   publicKeyWeb3,
   scAddressWeb3,
   tokenIdWeb3,
-  publicKeyAlgo
+  publicKeyAlgo,
+  tokenIdAlgo
 ) => {
   const xml = JSON.parse(JSON.stringify(utils.template));
 
@@ -110,8 +111,7 @@ const newAKNDocument = (
       },
       p: {
         '@eId': 'tblock_5__p_1',
-        smartContractAddress: 'scAddressAlgo',
-        tokenId: 'tokenIdAlgo',
+        tokenId: tokenIdAlgo,
       },
     },
   ];

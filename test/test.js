@@ -8,11 +8,12 @@ const intelligibleIdArtifact = JSON.parse(
     'contract_development/build/contracts/IntelligibleIdentity.json'
   )
 );
+const secrets = fs.readFileSync('test/.secret').toString().split('\n');
 
-const baseServer = 'https://testnet-algorand.api.purestake.io/idx2';
+const baseServer = 'https://testnet-algorand.api.purestake.io/ps2';
 const port = '';
 const apiToken = {
-  'X-API-Key': fs.readFileSync('test/.secret').toString(),
+  'X-API-Key': secrets[0],
 };
 
 const personalInformation = {
@@ -22,31 +23,45 @@ const personalInformation = {
 const networkId = '5777';
 
 const main = async () => {
+  // Web3
   const intelligibleOneWeb3 = new IntelligibleIdentity.web3.Web3Wrapper(
     web3Provider,
     intelligibleIdArtifact,
     networkId
   );
-  const res = await intelligibleOneWeb3.newIdentityToken(personalInformation);
+  const resWeb3 = await intelligibleOneWeb3.newIdentityToken(
+    personalInformation
+  );
+
+  // Algorand
+  const txIssuer = IntelligibleIdentity.algo.fromMnemonic(secrets[1]);
   const intelligibleOneAlgo = new IntelligibleIdentity.algo.AlgoWrapper(
     baseServer,
     port,
-    apiToken
+    apiToken,
+    txIssuer,
+    true
   );
-  const publicKeyAlgo = intelligibleOneAlgo.newAddress().addr;
-  const aknDocumentPartiallySigned = IntelligibleIdentity.akn.newAKNDocument(
-    res.identityAknURI,
+  const identityAlgo = intelligibleOneAlgo.newAddress();
+  const resAlgo = await intelligibleOneAlgo.newIdentityToken(
     personalInformation,
-    res.publicKey,
+    identityAlgo
+  );
+
+  // AKN document
+  const aknDocumentPartiallySigned = IntelligibleIdentity.akn.newAKNDocument(
+    resWeb3.identityAknURI,
+    personalInformation,
+    resWeb3.publicKey,
     intelligibleIdArtifact.networks[networkId].address,
-    res.tokenId,
-    publicKeyAlgo
+    resWeb3.tokenId,
+    identityAlgo.addr,
+    resAlgo.assetID
   );
   const aknDocumentComplete = await intelligibleOneWeb3.signDataNoPersonal(
     aknDocumentPartiallySigned
   );
   console.log(aknDocumentComplete);
-  //intelligibleOneWeb3.newAddress();
 };
 
 main();
