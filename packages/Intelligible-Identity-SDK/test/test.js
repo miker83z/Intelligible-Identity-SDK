@@ -30,23 +30,22 @@ const networkId = '5777';
 // Test starts
 const simpleNoWeb3NoAlgo = async () => {
   const a = new iid.IntelligibleIdentity();
-  await a.newPersonIdentityStandard(personalInformation, false);
+  await a.newIdentityStandard(personalInformation, false);
 };
 
 const simpleNoAlgo = async () => {
   const a = new iid.IntelligibleIdentity();
-  await a.newPersonIdentityStandard(personalInformation, false, {
+  await a.newIdentityStandard(personalInformation, false, {
     web3Provider,
     mainAddress: 0,
     intelligibleIdArtifact,
     networkId,
   });
-  console.log(a.akn.finalize());
 };
 
 const simple = async () => {
   const a = new iid.IntelligibleIdentity();
-  await a.newPersonIdentityStandard(
+  await a.newIdentityStandard(
     personalInformation,
     {
       web3Provider,
@@ -65,8 +64,28 @@ const simple = async () => {
   console.log(a.akn.finalize());
 };
 
+const fromAddress = async () => {
+  const a = new iid.IntelligibleIdentity();
+  await a.newIdentityStandard(personalInformation, false, {
+    web3Provider,
+    mainAddress: 0,
+    intelligibleIdArtifact,
+    networkId,
+  });
+
+  const b = new iid.IntelligibleIdentity();
+  await b.fromWeb3Address(
+    web3Provider,
+    0,
+    a.web3.address,
+    intelligibleIdArtifact,
+    networkId
+  );
+  b.fromStringAKN(a.akn.finalize());
+};
+
 simpleNoWeb3NoAlgo();
 simpleNoAlgo();
 //simple();
 
-//fromAddress(); TODO
+fromAddress();

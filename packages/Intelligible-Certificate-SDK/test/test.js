@@ -3,7 +3,6 @@ const assert = require('assert').strict;
 const Web3 = require('web3');
 const {
   ecrecover,
-  keccakFromString,
   hashPersonalMessage,
   fromRpcSig,
   Address,
@@ -11,8 +10,6 @@ const {
 
 const ice = require(__dirname + '/..');
 const iid = require('@intelligiblesuite/identity');
-
-const testAlgo = false;
 
 // Setup info////////////////////////
 const web3Provider = new Web3.providers.HttpProvider('HTTP://127.0.0.1:8545');
@@ -40,113 +37,45 @@ const certificateInformation = {
   documentDigest: 'bO8GOuyG8g76FI7f65DtfYHG67a7fe67',
 };
 const networkId = '5777';
-const addressIdSmartContractWeb3 =
-  intelligibleIdArtifact.networks[networkId].address;
-const addressCertSmartContractWeb3 =
-  intelligibleCertArtifact.networks[networkId].address;
 //////////////////////////////////////
 
 // Test starts
-const main = async () => {
+const simpleNoAlgo = async () => {
   const p = new iid.IntelligibleIdentity();
-  await p.newPersonIdentityStandard(
-    { name: 'Owner', email: 'owner@e.corp' },
-    {
-      web3Provider,
-      txIssuer: 0,
-      addressWeb3: 'undefined',
-      intelligibleIdArtifact,
-      networkId,
-    }
-  );
+  await p.newIdentityStandard({ name: 'Provider', email: 'pr@na.chi' }, false, {
+    web3Provider,
+    mainAddress: 0,
+    intelligibleIdArtifact,
+    networkId,
+  });
   const o = new iid.IntelligibleIdentity();
-  await o.newPersonIdentityStandard(
-    {
-      name: 'Provider',
-      email: 'provider@na.chi',
-    },
-    {
-      web3Provider,
-      txIssuer: 0,
-      addressWeb3: 'undefined',
-      intelligibleIdArtifact,
-      networkId,
-    }
-  );
+  await o.newIdentityStandard({ name: 'Owner', email: 'owner@e.corp' }, false, {
+    web3Provider,
+    mainAddress: 0,
+    intelligibleIdArtifact,
+    networkId,
+  });
 
   const c = new ice.IntelligibleCertificate();
-  await c.newCertificateStandard(certificateInformation, p, o, {
+  await c.newCertificateStandard(certificateInformation, {
     web3Provider,
-    txIssuer: 0,
-    receiverAddress: o.web3.address,
+    mainAddress: 0,
+    addressWeb3: o.web3.address,
     intelligibleCertArtifact,
     networkId,
   });
 
-  await verifySignature(c.akn.finalize(), p.akn.finalize(), o.akn.finalize());
-};
-
-const mainWithAlgo = async () => {
-  const p = new iid.IntelligibleIdentity();
-  await p.newPersonIdentityStandard(
-    { name: 'Owner', email: 'owner@e.corp' },
-    {
-      web3Provider,
-      txIssuer: 0,
-      addressWeb3: 'undefined',
-      intelligibleIdArtifact,
-      networkId,
-    },
-    {
-      baseServer,
-      port,
-      apiToken,
-      txIssuerMnemonic: mnemonic,
-      addressAlgo: 'undefined',
-    }
+  //sign
+  const pSignatture = await p.web3.signData(
+    c.akn.finalizeNoConclusions(),
+    false
   );
-  const o = new iid.IntelligibleIdentity();
-  await o.newPersonIdentityStandard(
-    {
-      name: 'Provider',
-      email: 'provider@na.chi',
-    },
-    {
-      web3Provider,
-      txIssuer: 0,
-      addressWeb3: 'undefined',
-      intelligibleIdArtifact,
-      networkId,
-    },
-    {
-      baseServer,
-      port,
-      apiToken,
-      txIssuerMnemonic: mnemonic,
-      addressAlgo: 'undefined',
-    }
+  const oSignatture = await o.web3.signData(
+    c.akn.finalizeNoConclusions(),
+    false
   );
-
-  const c = new ice.IntelligibleCertificate();
-  await c.newCertificateStandard(
-    certificateInformation,
-    p,
-    o,
-    {
-      web3Provider,
-      txIssuer: 0,
-      receiverAddress: o.web3.address,
-      intelligibleCertArtifact,
-      networkId,
-    },
-    {
-      baseServer,
-      port,
-      apiToken,
-      txIssuerMnemonic: mnemonic,
-      receiverAddress: o.algo.address,
-    }
-  );
+  c.akn.addSignature(pSignatture, 'providerSignature');
+  c.akn.addSignature(oSignatture, 'ownerSignature');
 
   await verifySignature(c.akn.finalize(), p.akn.finalize(), o.akn.finalize());
 };
@@ -156,18 +85,21 @@ const verifySignature = async (
   aknProviderIdentityDocumentString,
   aknOwnerIdentityDocumentString
 ) => {
-  const c = ice.CertificateAKN.fromString(aknCertificateDocumentString);
-  const signedPayload = c.finalizeNoConclusions();
+  const c = new ice.IntelligibleCertificate();
+  c.fromStringAKN(aknCertificateDocumentString);
+  const signedPayload = c.akn.finalizeNoConclusions();
 
-  const p = iid.IdentityAKN.fromString(aknProviderIdentityDocumentString);
-  const providerSignature = c.conclusions.signatures.providerSignature['#'];
-  const providerAddress = p.metaAndMain.akomaNtoso.doc.mainBody.tblock.find(
+  const p = new iid.IntelligibleIdentity();
+  p.fromStringAKN(aknProviderIdentityDocumentString);
+  const providerSignature = c.akn.conclusions.signatures.providerSignature['#'];
+  const providerAddress = p.akn.metaAndMain.akomaNtoso.doc.mainBody.tblock.find(
     (t) => t['@eId'] == 'tblock_2'
   ).p.addressWeb3;
 
-  const o = iid.IdentityAKN.fromString(aknOwnerIdentityDocumentString);
-  const ownerSignature = c.conclusions.signatures.ownerSignature['#'];
-  const ownerAddress = o.metaAndMain.akomaNtoso.doc.mainBody.tblock.find(
+  const o = new iid.IntelligibleIdentity();
+  o.fromStringAKN(aknOwnerIdentityDocumentString);
+  const ownerSignature = c.akn.conclusions.signatures.ownerSignature['#'];
+  const ownerAddress = o.akn.metaAndMain.akomaNtoso.doc.mainBody.tblock.find(
     (t) => t['@eId'] == 'tblock_2'
   ).p.addressWeb3;
 
@@ -196,7 +128,7 @@ const verifySignature = async (
     Address.fromString(providerAddress)
   );
 
-  const parsedOwnSig = fromRpcSig(providerSignature);
+  const parsedOwnSig = fromRpcSig(ownerSignature);
   const extractedOwnPublicKey = ecrecover(
     digest,
     parsedOwnSig.v,
@@ -211,4 +143,4 @@ const verifySignature = async (
   console.log('Signatures verified!');
 };
 
-main();
+simpleNoAlgo();

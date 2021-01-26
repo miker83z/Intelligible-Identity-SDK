@@ -1,28 +1,21 @@
 const { Web3Wrapper } = require('@intelligiblesuite/wrappers');
 
+/**
+ * @description Provides the means to create and manage an intelligible certificate
+ * in Ethereum.
+ * @extends {Web3Wrapper}
+ */
 class CertificateWeb3 extends Web3Wrapper {
-  async newCertificateToken(data, receiverAddress, certificateAknURI) {
-    if (
-      this.web3 === 'undefined' &&
-      this.contract === 'undefined' &&
-      this.txIssuer === 'undefined' &&
-      data.name === 'undefined'
-    )
-      return;
-    try {
-      const res = await this.contract.methods
-        .newCertificate(receiverAddress, certificateAknURI)
-        .send({ from: this.txIssuer, gas: 1000000 });
-      const tokenId = res.events['Transfer'].returnValues['tokenId'];
-      console.log('Token Id:' + tokenId);
-
-      this.receiverAddress = receiverAddress;
-      this.tokenId = tokenId;
-
-      return tokenId;
-    } catch (error) {
-      console.log('Token Creation Error: ' + error);
-    }
+  /**
+   * @description Creates an instance of CertificateWeb3. An instance only requires a
+   * provider: in such case, methods not related to the smart contract will work.
+   * @param {Object} provider The web3 provider
+   * @param {Object} contractArtifact The json object containing the contract abi
+   * @param {number} networkId The id of the network where the provider operates
+   */
+  constructor(provider, contractArtifact, networkId) {
+    super(provider, contractArtifact, networkId);
+    this.useCase = 'certificate';
   }
 }
 

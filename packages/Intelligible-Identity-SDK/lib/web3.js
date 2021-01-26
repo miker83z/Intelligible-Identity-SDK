@@ -7,149 +7,15 @@ const { Web3Wrapper } = require('@intelligiblesuite/wrappers');
  */
 class IdentityWeb3 extends Web3Wrapper {
   /**
-   * @description Creates a new intelligible identity token by calling an Ethereum
-   * smart contract method.
-   * @param {string} identityAddress The Ethereum address to send the token to
-   * @param {string} identityAknURI The URI to register in the token
-   * @return {number} The token id within the smart contract
+   * @description Creates an instance of CertificateWeb3. An instance only requires a
+   * provider: in such case, methods not related to the smart contract will work.
+   * @param {Object} provider The web3 provider
+   * @param {Object} contractArtifact The json object containing the contract abi
+   * @param {number} networkId The id of the network where the provider operates
    */
-  async newIdentityToken(identityAddress, identityAknURI) {
-    if (this.contract === undefined)
-      throw new Error('identity/web3: You need to provide a contract artifact');
-    if (this.mainAddress === undefined)
-      throw new Error(
-        'identity/web3: You need to provide a main address for operations'
-      );
-    if (
-      identityAddress === undefined ||
-      !Web3Wrapper.checkIfAddress(identityAddress)
-    ) {
-      throw new Error(
-        'identity/web3: Invalid Ethereum address to send the token to'
-      );
-    }
-    if (identityAknURI === undefined || !identityAknURI) {
-      throw new Error('identity/web3: You need to provide an identity URI');
-    }
-    if (this.address !== undefined) {
-      throw new Error(
-        'identity/web3: A token has already been instanciated for this object'
-      );
-    }
-
-    const res = await this.contract.methods
-      .newIdentity(identityAddress, identityAknURI)
-      .send({ from: this.mainAddress, gas: 1000000 });
-    const tokenId = res.events['Transfer'].returnValues['tokenId'];
-
-    this.address = identityAddress;
-    this.tokenId = tokenId;
-
-    return tokenId;
-  }
-
-  /**
-   * @description Reserves a token id that can later be associated to a token
-   * by calling an Ethereum smart contract method
-   * @return {number} The reserved token id within the smart contract
-   */
-  async reserveTokenId() {
-    if (this.contract === undefined)
-      throw new Error('identity/web3: You need to provide a contract artifact');
-    if (this.mainAddress === undefined)
-      throw new Error(
-        'identity/web3: You need to provide a main address for operations'
-      );
-
-    const res = await this.contract.methods
-      .reserveIds(1)
-      .send({ from: this.mainAddress, gas: 1000000 });
-    const tokenId = res.events['Reserved'].returnValues['firstReservedId'];
-
-    this.tokenId = tokenId;
-
-    return tokenId;
-  }
-
-  /**
-   * @description Creates a new intelligible identity token by calling an Ethereum
-   * smart contract method, after a token id has been reserved with reserveTokenId().
-   * @param {string} identityAddress The Ethereum address to send the token to
-   * @param {string} URI The URI to register in the token
-   */
-  async newIdentityTokenFromReserved(identityAddress, URI) {
-    if (this.contract === undefined)
-      throw new Error('identity/web3: You need to provide a contract artifact');
-    if (this.mainAddress === undefined)
-      throw new Error(
-        'identity/web3: You need to provide a main address for operations'
-      );
-    if (
-      identityAddress === undefined ||
-      !Web3Wrapper.checkIfAddress(identityAddress)
-    ) {
-      throw new Error(
-        'identity/web3: Invalid Ethereum address to send the token to'
-      );
-    }
-    if (URI === undefined || !URI) {
-      throw new Error('identity/web3: You need to provide a URI');
-    }
-    if (this.address !== undefined) {
-      throw new Error(
-        'identity/web3: A token has already been instanciated for this object'
-      );
-    }
-    if (this.tokenId === undefined) {
-      throw new Error('identity/web3: A token id must be reserved');
-    }
-
-    await this.contract.methods
-      .newIdentityFromReserved(identityAddress, URI, this.tokenId)
-      .send({ from: this.mainAddress, gas: 1000000 });
-
-    this.address = identityAddress;
-  }
-
-  /**
-   * @description Creates a new intelligible identity by fetching the information from
-   * the last token issued to an address
-   * @param {string} identityAddress The address the token was issued to
-   * @return {string} The token uri
-   */
-  async getIdentityToken(identityAddress) {
-    if (this.contract === undefined)
-      throw new Error('identity/web3: You need to provide a contract artifact');
-    if (this.mainAddress === undefined)
-      throw new Error(
-        'identity/web3: You need to provide a main address for operations'
-      );
-    if (
-      identityAddress === undefined ||
-      !Web3Wrapper.checkIfAddress(identityAddress)
-    ) {
-      throw new Error(
-        'identity/web3: Invalid Ethereum address to get the token from'
-      );
-    }
-
-    const balanceOf = await this.contract.methods
-      .balanceOf(identityAddress)
-      .call({ from: this.mainAddress });
-    if (balanceOf <= 0) {
-      throw new Error('identity/web3: No token issued for this address');
-    }
-    const tokenId = await this.contract.methods
-      .tokenOfOwnerByIndex(identityAddress, balanceOf - 1)
-      .call({ from: this.mainAddress });
-    const tokenURI = await this.contract.methods
-      .tokenURI(tokenId)
-      .call({ from: this.mainAddress });
-
-    this.address = identityAddress;
-    this.tokenId = tokenId;
-
-    return tokenURI;
+  constructor(provider, contractArtifact, networkId) {
+    super(provider, contractArtifact, networkId);
+    this.useCase = 'identity';
   }
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "@intelligiblesuite/wrappers",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Several wrappers for the Intelligible Suite",
   "main": "index.js",
   "scripts": {

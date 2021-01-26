@@ -26,8 +26,10 @@ class CertificateAKN extends AKNWrapper {
       );
     }
   }
-  static uriString =
-    '/akn/eu/intelligibleIdentity/person/#/decentralizedIdentity/nonFungible.akn';
+
+  static aknUriFrom(name) {
+    return `/akn/eu/intelligibleCertificate/document/${name}/decentralizedCertificate/nonFungible.akn`;
+  }
 
   newCertificateAKNDocument(
     certificateAknURI,
@@ -42,7 +44,7 @@ class CertificateAKN extends AKNWrapper {
     const xml = JSON.parse(JSON.stringify(utils.templates.metaAndMainTemplate));
 
     // global attr
-    const hrefIdName = '#' + certifiableEntityInformation.name;
+    //const hrefIdName = '#' + certifiableEntityInformation.name;
     const hrefIdAuthor = '#certificateProvider';
     const hrefIdOwner = '#certificateOwner';
     //meta

@@ -1,6 +1,6 @@
 {
   "name": "@intelligiblesuite/certificates",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Intelligible Contract",
   "main": "index.js",
   "scripts": {
