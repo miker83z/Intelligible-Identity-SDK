@@ -32,7 +32,7 @@ class CertificateAlgo extends AlgoWrapper {
     let assetName = 'intid';
 
     // Optional string pointing to a URL relating to the asset
-    let assetURL = 'http://someurl'; // = certificateAknURI; //TODO max 32 chars
+    let assetURL = certificateAknURI.slice(0, 32); // 'http://someurl'; // = certificateAknURI; //TODO max 32 chars
     // Optional hash commitment of some sort relating to the asset. 32 character length.
     let assetMetadataHash = '16efaa3924a6fd9d3a4824799a4ac65d'; // TODO asset hash
 

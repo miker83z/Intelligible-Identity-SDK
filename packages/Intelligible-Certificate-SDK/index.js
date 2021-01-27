@@ -100,17 +100,20 @@ class IntelligibleCertificate {
    * @description Creates a new akn object fetching the information from the certificate
    * information object (setCertificateInformation required), the web3 object (not required)
    * and the algo object (not required). PROVIDER AND RECEIVER SIGNATURES ARE NOT INCLUDED.
+   * @param {string} certifiableEntityOwnerIdentityURI The receiver URI
+   * @param {string} certificateProviderIdentityURI The provider URI
    */
-  newCertificateAKN() {
+  newCertificateAKN(
+    certifiableEntityOwnerIdentityURI,
+    certificateProviderIdentityURI
+  ) {
     if (!this.information) {
       throw new Error(
         'certificate: You need to set personal information first'
       );
     }
-    let createdWeb3 =
-      this.web3 && this.web3.address === undefined && this.web3.tokenId;
-    let createdAlgo =
-      this.algo && this.algo.address === undefined && this.algo.tokenId;
+    let createdWeb3 = this.web3 && this.web3.tokenId;
+    let createdAlgo = this.algo && this.algo.tokenId;
 
     // AKN document
     this.akn = new aknlib.CertificateAKN(
@@ -121,7 +124,9 @@ class IntelligibleCertificate {
         : 'addressSmartContractWeb3',
       createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
       createdAlgo ? this.algo.address : 'addressAlgo',
-      createdAlgo ? this.algo.tokenId : 'tokenIdAlgo'
+      createdAlgo ? this.algo.tokenId : 'tokenIdAlgo',
+      certifiableEntityOwnerIdentityURI,
+      certificateProviderIdentityURI
     );
 
     //Signatures
