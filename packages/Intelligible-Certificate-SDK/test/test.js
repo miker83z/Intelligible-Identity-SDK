@@ -80,6 +80,26 @@ const simpleNoAlgo = async () => {
   await verifySignature(c.akn.finalize(), p.akn.finalize(), o.akn.finalize());
 };
 
+const onlyAlgo = async () => {
+  const o = new iid.IntelligibleIdentity();
+  await o.newIdentityStandard({ name: 'Owner', email: 'owner@e.corp' }, false, {
+    web3Provider,
+    mainAddress: 0,
+    intelligibleIdArtifact,
+    networkId,
+  });
+
+  const c = new ice.IntelligibleCertificate();
+  const mainAddress = iid.IdentityAlgo.fromMnemonic(mnemonic);
+  await c.newCertificateStandard(certificateInformation, undefined, {
+    baseServer,
+    port,
+    apiToken,
+    mainAddress,
+    addressAlgo: 'undefined',
+  });
+};
+
 const verifySignature = async (
   aknCertificateDocumentString,
   aknProviderIdentityDocumentString,
@@ -144,3 +164,4 @@ const verifySignature = async (
 };
 
 simpleNoAlgo();
+//onlyAlgo();

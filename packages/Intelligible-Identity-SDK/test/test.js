@@ -45,8 +45,10 @@ const simpleNoAlgo = async () => {
 
 const simple = async () => {
   const a = new iid.IntelligibleIdentity();
+  const mainAddress = iid.IdentityAlgo.fromMnemonic(mnemonic);
   await a.newIdentityStandard(
     personalInformation,
+    false,
     {
       web3Provider,
       mainAddress: 0,
@@ -57,7 +59,7 @@ const simple = async () => {
       baseServer,
       port,
       apiToken,
-      mainAddressMnemonic: mnemonic,
+      mainAddress,
       addressAlgo: 'undefined',
     }
   );
@@ -86,6 +88,6 @@ const fromAddress = async () => {
 
 simpleNoWeb3NoAlgo();
 simpleNoAlgo();
-//simple();
+simple();
 
 fromAddress();

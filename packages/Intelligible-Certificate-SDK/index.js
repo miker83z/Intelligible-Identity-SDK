@@ -61,27 +61,53 @@ class IntelligibleCertificate {
     await this.web3.newTokenFromReserved(uri);
   }
 
-  //TODO algo refactoring
+  /**
+   * @description Creates a new algo object by initializing the provider and the main
+   * address
+   * @param {string} baseServer The provider's base server url
+   * @param {string} port The provider's server port
+   * @param {string} apiToken The api token for provider communication
+   * @param {string} mainAddress The main address for sending txs
+   * @param {string} [addressAlgo] The address to send the certificate token to
+   */
   async prepareNewCertificateAlgo(
     baseServer,
     port,
     apiToken,
-    mainAddressMnemonic,
+    mainAddress,
     addressAlgo
   ) {
-    console.log(
-      baseServer +
-        port +
-        apiToken +
-        mainAddressMnemonic +
-        addressAlgo +
-        'TODO algo'
-    ); //TODO
+    this.algo = new algolib.CertificateAlgo(
+      {
+        baseServer,
+        port,
+        apiToken,
+      },
+      true
+    );
+    this.algo.setMainAddress(mainAddress);
+
+    if (addressAlgo === 'undefined') {
+      addressAlgo = algolib.CertificateAlgo.newAddress().addr;
+    }
+    this.algo.address = addressAlgo;
   }
 
-  //TODO algo refactoring
-  async finalizeNewCertificateAlgo(uri) {
-    console.log(uri + 'TODO algo'); //TODO
+  /**
+   * @description Finalizes an algo object by issuing the token
+   * @param {string} assetConfig The object containing the asset information.
+   * It must contain at least one of assetURL or assetMetadataHash
+   */
+  async finalizeNewCertificateAlgo(assetConfig) {
+    if (
+      !this.algo.mainAddress ||
+      !this.algo.algodClient ||
+      !this.algo.address
+    ) {
+      throw new Error('certificate: You need to prepare an algo object first');
+    }
+
+    await this.algo.newCertificateToken(assetConfig);
   }
 
   /**
@@ -164,7 +190,7 @@ class IntelligibleCertificate {
         algoSettings.baseServer,
         algoSettings.port,
         algoSettings.apiToken,
-        algoSettings.mainAddressMnemonic,
+        algoSettings.mainAddress,
         algoSettings.addressAlgo
       );
     }
@@ -177,7 +203,9 @@ class IntelligibleCertificate {
       await this.finalizeNewCertificateWeb3(this.information.certificateAknURI);
     }
     if (createAlgo) {
-      await this.finalizeNewCertificateAlgo(this.information.certificateAknURI);
+      await this.finalizeNewCertificateAlgo({
+        assetURL: this.information.certificateAknURI.slice(0, 32), //TODO
+      });
     }
   }
 
