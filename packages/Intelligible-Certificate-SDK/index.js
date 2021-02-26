@@ -135,7 +135,7 @@ class IntelligibleCertificate {
   ) {
     if (!this.information) {
       throw new Error(
-        'certificate: You need to set personal information first'
+        'certificate: You need to set certificate information first'
       );
     }
     let createdWeb3 = this.web3 && this.web3.tokenId;

@@ -2,6 +2,8 @@ const { AKNWrapper, utils } = require('@intelligiblesuite/wrappers');
 
 class CertificateAKN extends AKNWrapper {
   constructor(
+    certificateElements
+    /*
     certificateAknURI,
     certifiableEntityInformation,
     addressSmartContractWeb3,
@@ -9,7 +11,7 @@ class CertificateAKN extends AKNWrapper {
     addressAlgo,
     tokenIdAlgo,
     certifiableEntityOwnerIdentityAknURI,
-    certificateProviderIdentityAknURI
+    certificateProviderIdentityAknURI*/
   ) {
     super();
 
