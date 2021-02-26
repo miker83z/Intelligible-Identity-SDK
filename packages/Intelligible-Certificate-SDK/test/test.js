@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const fs = require('fs');
 const assert = require('assert').strict;
 const Web3 = require('web3');
@@ -19,25 +20,66 @@ const intelligibleIdArtifact = JSON.parse(
 const intelligibleCertArtifact = JSON.parse(
   fs.readFileSync(__dirname + '/IntelligibleCertificate.json')
 );
-const secrets = fs
-  .readFileSync(__dirname + '/.secret')
-  .toString()
-  .split('\n');
 
-const baseServer = 'https://testnet-algorand.api.purestake.io/ps2';
-const port = '';
-const apiToken = {
-  'X-API-Key': secrets[0],
-};
-const mnemonic = secrets[1];
-
-const certificateInformation = {
-  name: 'measurementsX',
-  uri: '/akn/eu/openData/dataset/measurements/measurementsX.akn',
-  documentDigest: 'bO8GOuyG8g76FI7f65DtfYHG67a7fe67',
-};
 const networkId = '5777';
 //////////////////////////////////////
+
+const newCertificate = () => {
+  const todayDate = new Date().toISOString().slice(0, 10);
+  const certificateInformation = {
+    certificateType: 'GDPRCompliance',
+    certifiedEntityType: 'software',
+    certificateDate: todayDate,
+    certificateExpression: `en@${todayDate}`,
+    FRBRWork: {},
+    FRBRExpression: {},
+    FRBRManifestation: {},
+    additionalBody: {},
+  };
+  const certificateReferences = {
+    certIssuer: {
+      type: 'TLCOrganization',
+      name: 'CompanyX',
+      '@eId': '#certIssuer',
+      '@href': '/akn/eu/doc/intelligibleIdentity/organization/CompanyX/',
+      '@showAs': 'Issuer',
+    },
+    certIssuerRepresentative: {
+      type: 'TLCPerson',
+      name: 'PersonX',
+      '@eId': '#certIssuerRepresentative',
+      '@href': '/akn/eu/doc/intelligibleIdentity/person/PersonX/',
+      '@showAs': 'Author',
+    },
+    certIssuerSoftware: {
+      type: 'TLCObject',
+      name: 'IntelligibleSuite@0.1.0',
+      '@eId': '#issuerSoftware',
+      '@href': '/akn/eu/doc/object/software/IntelligibleSuite/ver@0.1.0.akn',
+      '@showAs': 'IssuerSoftware',
+    },
+    certReceiver: {
+      type: 'TLCPerson',
+      name: 'PersonY',
+      '@eId': '#certReceiver',
+      '@href': '/akn/eu/doc/intelligibleIdentity/person/PersonY/',
+      '@showAs': 'Receiver',
+    },
+    certEntity: {
+      type: 'TLCObject',
+      name: 'softwareX',
+      documentHashDigest: 'bO8GOuyG8g76FI7f65DtfYHG67a7fe67',
+      '@eId': '#certEntity',
+      '@href': '/some/uri/softwareX',
+      '@showAs': 'CertifiedEntity',
+    },
+  };
+
+  const c = new ice.IntelligibleCertificate();
+  c.setCertificateInformation(certificateInformation, certificateReferences);
+  c.newCertificateAKN();
+  console.log(c.akn.finalize());
+};
 
 // Test starts
 const simpleNoAlgo = async () => {
@@ -56,48 +98,81 @@ const simpleNoAlgo = async () => {
     networkId,
   });
 
+  const todayDate = new Date().toISOString().slice(0, 10);
+  const certificateInformation = {
+    certificateType: 'GDPRCompliance',
+    certifiedEntityType: 'software',
+    certificateDate: todayDate,
+    certificateExpression: `en@${todayDate}`,
+    FRBRWork: {},
+    FRBRExpression: {},
+    FRBRManifestation: {},
+    additionalBody: {},
+  };
+  const certificateReferences = {
+    certIssuer: {
+      type: 'TLCOrganization',
+      name: 'CompanyX',
+      '@eId': 'certIssuer',
+      '@href': '/akn/eu/doc/intelligibleIdentity/organization/CompanyX/',
+      '@showAs': 'Issuer',
+    },
+    certIssuerRepresentative: {
+      type: 'TLCPerson',
+      name: 'PersonX',
+      '@eId': 'certIssuerRepresentative',
+      '@href': '/akn/eu/doc/intelligibleIdentity/person/PersonX/',
+      '@showAs': 'Author',
+    },
+    certIssuerSoftware: {
+      type: 'TLCObject',
+      name: 'IntelligibleSuite@0.1.0',
+      '@eId': 'issuerSoftware',
+      '@href': '/akn/eu/doc/object/software/IntelligibleSuite/ver@0.1.0.akn',
+      '@showAs': 'IssuerSoftware',
+    },
+    certReceiver: {
+      type: 'TLCPerson',
+      name: 'PersonY',
+      '@eId': 'certReceiver',
+      '@href': '/akn/eu/doc/intelligibleIdentity/person/PersonY/',
+      '@showAs': 'Receiver',
+    },
+    certEntity: {
+      type: 'TLCObject',
+      name: 'softwareX',
+      documentHashDigest: 'bO8GOuyG8g76FI7f65DtfYHG67a7fe67',
+      '@eId': 'certEntity',
+      '@href': '/some/uri/softwareX',
+      '@showAs': 'CertifiedEntity',
+    },
+  };
+
   const c = new ice.IntelligibleCertificate();
-  await c.newCertificateStandard(certificateInformation, {
+  await c.prepareNewCertificateWeb3(
     web3Provider,
-    mainAddress: 0,
-    addressWeb3: o.web3.address,
+    0,
     intelligibleCertArtifact,
     networkId,
-  });
-
-  //sign
+    o.web3.address
+  );
+  c.setCertificateInformation(certificateInformation, certificateReferences);
+  c.newCertificateAKN();
   const pSignatture = await p.web3.signData(
     c.akn.finalizeNoConclusions(),
     false
   );
+  c.akn.addSignature(pSignatture, 'providerSignature');
+  await c.finalizeNewCertificateWeb3('certificateHash');
+
+  // receiver signature
   const oSignatture = await o.web3.signData(
     c.akn.finalizeNoConclusions(),
     false
   );
-  c.akn.addSignature(pSignatture, 'providerSignature');
   c.akn.addSignature(oSignatture, 'ownerSignature');
 
   await verifySignature(c.akn.finalize(), p.akn.finalize(), o.akn.finalize());
-};
-
-const onlyAlgo = async () => {
-  const o = new iid.IntelligibleIdentity();
-  await o.newIdentityStandard({ name: 'Owner', email: 'owner@e.corp' }, false, {
-    web3Provider,
-    mainAddress: 0,
-    intelligibleIdArtifact,
-    networkId,
-  });
-
-  const c = new ice.IntelligibleCertificate();
-  const mainAddress = iid.IdentityAlgo.fromMnemonic(mnemonic);
-  await c.newCertificateStandard(certificateInformation, undefined, {
-    baseServer,
-    port,
-    apiToken,
-    mainAddress,
-    addressAlgo: 'undefined',
-  });
 };
 
 const verifySignature = async (
@@ -163,5 +238,6 @@ const verifySignature = async (
   console.log('Signatures verified!');
 };
 
-simpleNoAlgo();
+//simpleNoAlgo();
 //onlyAlgo();
+newCertificate();
