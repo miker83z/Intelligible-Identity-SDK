@@ -1,6 +1,5 @@
-const web3lib = require('./lib/web3');
-const algolib = require('./lib/algo');
-const aknlib = require('./lib/akn');
+const { IdentityWeb3 } = require('./lib/web3');
+const { IdentityAKN } = require('./lib/akn');
 
 /**
  * @description Represents an Intelligible Identity and includes tha objects that compose it.
@@ -13,7 +12,6 @@ class IntelligibleIdentity {
    */
   constructor() {
     this.web3 = {};
-    this.algo = {};
     this.akn = {};
     this.information = {};
   }
@@ -24,21 +22,21 @@ class IntelligibleIdentity {
    * @param {Object} web3Provider The web3 provider
    * @param {number|string} mainAddress The selected main address or its
    * position within the provider accounts list
-   * @param {Object} intelligibleIdArtifact The json object containing the contract abi
-   * @param {number} networkId The id of the network where the provider operates
    * @param {string} [addressWeb3] The Ethereum address to send the token to
+   * @param {number} [networkId] The id of the network where the provider operates
+   * @param {Object} [intelligibleIdArtifact] The json object containing the contract abi
    */
   async prepareNewIdentityWeb3(
     web3Provider,
     mainAddress,
-    intelligibleIdArtifact,
+    addressWeb3,
     networkId,
-    addressWeb3
+    intelligibleIdArtifact
   ) {
-    this.web3 = new web3lib.IdentityWeb3(
+    this.web3 = new IdentityWeb3(
       web3Provider,
-      intelligibleIdArtifact,
-      networkId
+      networkId,
+      intelligibleIdArtifact
     );
     await this.web3.setMainAddress(mainAddress);
     await this.web3.reserveTokenId();
@@ -61,156 +59,75 @@ class IntelligibleIdentity {
   }
 
   /**
-   * @description Creates a new algo object by initializing the provider and the main
-   * address
-   * @param {string} baseServer The provider's base server url
-   * @param {string} port The provider's server port
-   * @param {string} apiToken The api token for provider communication
-   * @param {string} mainAddress The main address for sending txs
-   * @param {string} [addressAlgo] The address to send the identity token to
-   */
-  async prepareNewIdentityAlgo(
-    baseServer,
-    port,
-    apiToken,
-    mainAddress,
-    addressAlgo
-  ) {
-    this.algo = new algolib.IdentityAlgo(
-      {
-        baseServer,
-        port,
-        apiToken,
-      },
-      true
-    );
-    this.algo.setMainAddress(mainAddress);
-
-    if (addressAlgo === 'undefined') {
-      addressAlgo = algolib.IdentityAlgo.newAddress().addr;
-    }
-    this.algo.address = addressAlgo;
-  }
-
-  /**
-   * @description Finalizes an algo object by issuing the token
-   * @param {string} assetConfig The object containing the asset information.
-   * It must contain at least one of assetURL or assetMetadataHash
-   */
-  async finalizeNewIdentityAlgo(assetConfig) {
-    if (
-      !this.algo.mainAddress ||
-      !this.algo.algodClient ||
-      !this.algo.address
-    ) {
-      throw new Error('identity: You need to prepare an algo object first');
-    }
-
-    await this.algo.newIdentityToken(assetConfig);
-  }
-
-  /**
    * @description Sets the personal information of a newly created intelligible identity
-   * @param {Object} personalInformation Identity's personal information object
+   * @param {Object} information Identity's personal information object
+   * @param {Object} references Identity's references object
    */
-  setPersonalInformation(personalInformation) {
-    personalInformation.name =
-      personalInformation.name.replace(/\s/g, '') + Date.now();
-    const identityAknURI = aknlib.IdentityAKN.aknUriFrom(
-      personalInformation.name
-    );
-    this.information = { ...personalInformation, identityAknURI };
+  setIdentityInformation(information, references) {
+    this.information = information;
+    this.references = references;
   }
 
   /**
    * @description Creates a new akn object fetching the information from the personal
-   * information object (setPersonalInformation required), the web3 object (not required)
+   * information object (setIdentityInformation required), the web3 object (not required)
    * and the algo object (not required)
    * @param {boolean} [optionalNoPersonalSign] The option for signing with eth.personal.sign
    * (if true) or eth.sign (if false)
+   * @param {Object} [information] Identity's personal information object
+   * @param {Object} [references] Identity's references object
    */
-  async newIdentityAKN(optionalNoPersonalSign) {
-    if (!this.information) {
-      throw new Error('identity: You need to set personal information first');
+  async newIdentityAKN(optionalNoPersonalSign, information, references) {
+    if (information !== undefined) {
+      this.information = information;
+    }
+    if (references !== undefined) {
+      this.references = references;
+    }
+    if (!this.information || !this.references) {
+      throw new Error(
+        'identity: You need to set identity information and references first'
+      );
     }
     let createdWeb3 = !!Object.keys(this.web3).length && !!this.web3.tokenId;
-    let createdAlgo = !!Object.keys(this.algo).length && !!this.algo.tokenId;
 
-    // AKN document
-    this.akn = new aknlib.IdentityAKN(
-      this.information.identityAknURI,
-      this.information,
-      createdWeb3 ? this.web3.address : 'addressWeb3',
-      createdWeb3
+    const web3Information = {
+      accountAddress: createdWeb3 ? this.web3.address : 'addressWeb3',
+      smartContractAddress: createdWeb3
         ? this.web3.contract.options.address
         : 'addressSmartContractWeb3',
-      createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
-      createdAlgo ? this.algo.address : 'addressAlgo',
-      createdAlgo ? this.algo.tokenId : 'tokenIdAlgo'
+      tokenId: createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
+    };
+
+    // AKN document
+    this.akn = new IdentityAKN(
+      this.information,
+      this.references,
+      web3Information
     );
 
     //Signatures
-    this.akn.addSignature('softwareSignature', 'softwareSignature'); // Software signature TODO
+    this.akn.addSwSignature(
+      this.references.idIssuerSoftware['@eId'],
+      this.references.idIssuerSoftware.name,
+      'softwareSignature' // Software signature TODO
+    );
 
     if (createdWeb3) {
       const signature = await this.web3.signData(
         this.akn.finalizeNoConclusions(),
         optionalNoPersonalSign
       );
-      this.akn.addSignature(signature, 'identitySignature');
-    }
-  }
-
-  /**
-   * @description Creates a new Intelligible Identity for all the objects involved (
-   * web3, algo, akn). It mainly aggregates the other methods found in this class.
-   * @param {Object} personalInformation  Identity's personal information object
-   * @param {boolean} [optionalNoPersonalSign] The option for signing with eth.personal.sign
-   * (if true) or eth.sign (if false)
-   * @param {Object} [web3Settings] An object containing the settings for creating a web3
-   * object. If undefined, the object won't be created.
-   * @param {Object} [algoSettings] An object containing the settings for creating a algo
-   * object. If undefined, the object won't be created.
-   */
-  async newIdentityStandard(
-    personalInformation,
-    optionalNoPersonalSign,
-    web3Settings,
-    algoSettings
-  ) {
-    const createWeb3 = !!web3Settings;
-    const createAlgo = !!algoSettings;
-
-    if (createWeb3) {
-      await this.prepareNewIdentityWeb3(
-        web3Settings.web3Provider,
-        web3Settings.mainAddress,
-        web3Settings.intelligibleIdArtifact,
-        web3Settings.networkId,
-        web3Settings.addressWeb3
+      this.akn.addSignature(
+        this.references.idIssuerRepresentative['@eId'],
+        this.references.idIssuerRepresentative.name,
+        this.references.idIssuerRepresentativeRole['@eId'],
+        this.references.idIssuerRepresentativeRole.name,
+        this.references.idIssuerRepresentative['@href'], //TODO
+        this.web3.mainAddress,
+        Date.now(),
+        signature
       );
-    }
-    if (createAlgo) {
-      await this.prepareNewIdentityAlgo(
-        algoSettings.baseServer,
-        algoSettings.port,
-        algoSettings.apiToken,
-        algoSettings.mainAddress,
-        algoSettings.addressAlgo
-      );
-    }
-
-    this.setPersonalInformation(personalInformation);
-
-    await this.newIdentityAKN(optionalNoPersonalSign);
-
-    if (createWeb3) {
-      await this.finalizeNewIdentityWeb3(this.information.identityAknURI);
-    }
-    if (createAlgo) {
-      await this.finalizeNewIdentityAlgo({
-        assetURL: this.information.identityAknURI.slice(0, 32), //TODO
-      });
     }
   }
 
@@ -222,21 +139,21 @@ class IntelligibleIdentity {
    * position within the provider accounts list
    * @param {string} [addressWeb3] The address the token was issued to. If undefined the main address
    * will be used instead
-   * @param {Object} intelligibleIdArtifact The json object containing the contract abi
-   * @param {number} networkId The id of the network where the provider operates
+   * @param {number} [networkId] The id of the network where the provider operates
+   * @param {Object} [intelligibleIdArtifact] The json object containing the contract abi
    * @return {string} The token URI
    */
   async fromWeb3Address(
     web3Provider,
     mainAddress,
     addressWeb3,
-    intelligibleIdArtifact,
-    networkId
+    networkId,
+    intelligibleIdArtifact
   ) {
-    this.web3 = new web3lib.IdentityWeb3(
+    this.web3 = new IdentityWeb3(
       web3Provider,
-      intelligibleIdArtifact,
-      networkId
+      networkId,
+      intelligibleIdArtifact
     );
     await this.web3.setMainAddress(mainAddress);
     if (addressWeb3 === undefined) {
@@ -246,32 +163,12 @@ class IntelligibleIdentity {
     return await this.web3.getTokenByAddress(addressWeb3); //tokenURI
   }
 
-  //TODO algo refactoring
-  async fromAlgoAddress(
-    baseServer,
-    port,
-    apiToken,
-    mainAddressMnemonic,
-    addressAlgo
-  ) {
-    this.algo = new algolib.IdentityAlgo(
-      baseServer,
-      port,
-      apiToken,
-      mainAddressMnemonic,
-      false
-    );
-
-    return addressAlgo; //TODO
-    // return await this.algo.getToken(addressAlgo); //tokenURI
-  }
-
   /**
    * @description Creates an akn instance from a string that represents the AKN document
    * @param {string} aknDocumentString The string that represents the XML document
    */
   fromStringAKN(aknDocumentString) {
-    this.akn = aknlib.IdentityAKN.fromString(aknDocumentString);
+    this.akn = IdentityAKN.fromString(aknDocumentString);
 
     const {
       name,
@@ -291,8 +188,7 @@ class IntelligibleIdentity {
 }
 
 module.exports = {
-  IdentityWeb3: web3lib.IdentityWeb3,
-  IdentityAlgo: algolib.IdentityAlgo,
-  IdentityAKN: aknlib.IdentityAKN,
+  IdentityWeb3,
+  IdentityAKN,
   IntelligibleIdentity,
 };

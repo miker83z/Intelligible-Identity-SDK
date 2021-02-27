@@ -1,155 +1,150 @@
-const { AKNWrapper, utils } = require('@intelligiblesuite/wrappers');
+const { AKNDoc } = require('@intelligiblesuite/akomantoso-doc');
 
-class IdentityAKN extends AKNWrapper {
-  constructor(
-    identityAknURI,
-    personalInformation,
-    addressWeb3,
-    addressSmartContractWeb3,
-    tokenIdWeb3,
-    addressAlgo,
-    tokenIdAlgo
-  ) {
+class IdentityAKN extends AKNDoc {
+  constructor(information, references, web3Information) {
     super();
 
-    if (identityAknURI !== undefined) {
-      this.newIdentityAKNDocument(
-        identityAknURI,
-        personalInformation,
-        addressWeb3,
-        addressSmartContractWeb3,
-        tokenIdWeb3,
-        addressAlgo,
-        tokenIdAlgo
-      );
-    }
+    const tmpAdditionalBody =
+      information.additionalBody !== undefined
+        ? information.additionalBody
+        : {};
+    const tmpFRBRWork =
+      information.FRBRWork !== undefined ? information.FRBRWork : {};
+    const tmpFRBRExpression =
+      information.FRBRExpression !== undefined
+        ? information.FRBRExpression
+        : {};
+    const tmpFRBRManifestation =
+      information.FRBRManifestation !== undefined
+        ? information.FRBRManifestation
+        : {};
+
+    const identityElements = {
+      identification: {
+        FRBRWork: {
+          FRBRthis: {
+            '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/!main`,
+          },
+          FRBRuri: {
+            '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/`,
+          },
+          FRBRdate: { '@date': information.identityDate },
+          FRBRauthor: {
+            '@href': references.idIssuerRepresentative['@eId'],
+          },
+          ...tmpFRBRWork,
+        },
+        FRBRExpression: {
+          FRBRthis: {
+            '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/!main`,
+          },
+          FRBRuri: {
+            '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/`,
+          },
+          FRBRdate: { '@date': information.identityDate },
+          FRBRauthor: {
+            '@href': references.idIssuerRepresentative['@eId'],
+          },
+          ...tmpFRBRExpression,
+        },
+        FRBRManifestation: {
+          FRBRthis: {
+            '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/!main.xml`,
+          },
+          FRBRuri: {
+            '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}.akn`,
+          },
+          FRBRdate: { '@date': information.identityDate },
+          FRBRauthor: {
+            '@href': references.idIssuerRepresentative['@eId'],
+          },
+          ...tmpFRBRManifestation,
+        },
+      },
+      references: references,
+      prefaceTitle: `Identity of type ${information.identityType} issued by ${references.idIssuer.name} to ${references.idReceiver.name}`,
+      mainBody: {
+        information: {
+          blockTitle: 'Identity Information',
+          p: {
+            identityType: information.identityType,
+            identityExpression: information.identityExpression,
+            docDate: {
+              '@eId': 'id_info_id_date',
+              '@date': information.identityDate,
+              '#': information.identityDate,
+            },
+            [information.identityType]: {
+              '@eId': 'id_info_id_info',
+              '@refersTo': references.idReceiver['@eId'],
+              '#': {
+                name: information.name,
+                email: information.email,
+              },
+            },
+          },
+        },
+        web3: {
+          blockTitle: 'Ethereum Address',
+          p: web3Information,
+        },
+        identities: {
+          blockTitle: 'Identities',
+          p: {
+            mod: [
+              {
+                '@eId': 'identities_mod_id_issuer',
+                [references.idIssuer.type.slice(3).toLowerCase()]: {
+                  '@eId': 'identities_id_issuer',
+                  '@refersTo': references.idIssuer['@eId'],
+                  '#': references.idIssuer.name,
+                },
+                role: {
+                  '@eId': 'identities_id_issuer_role',
+                  '@refersTo': references.idIssuerRole['@eId'],
+                  '#': references.idIssuerRole.name,
+                },
+              },
+              {
+                '@eId': 'identities_mod_id_issuer_repr',
+                [references.idIssuerRepresentative.type
+                  .slice(3)
+                  .toLowerCase()]: {
+                  '@eId': 'identities_id_issuer_repr',
+                  '@refersTo': references.idIssuerRepresentative['@eId'],
+                  '#': references.idIssuerRepresentative.name,
+                },
+                role: {
+                  '@eId': 'identities_id_issuer_repr_role',
+                  '@refersTo': references.idIssuerRepresentativeRole['@eId'],
+                  '#': references.idIssuerRepresentativeRole.name,
+                },
+              },
+              {
+                '@eId': 'identities_mod_id_issuer_repr',
+                [references.idReceiver.type.slice(3).toLowerCase()]: {
+                  '@eId': 'identities_id_issuer_repr',
+                  '@refersTo': references.idReceiver['@eId'],
+                  '#': references.idReceiver.name,
+                },
+                role: {
+                  '@eId': 'identities_id_issuer_repr_role',
+                  '@refersTo': references.idReceiverRole['@eId'],
+                  '#': references.idReceiverRole.name,
+                },
+              },
+            ],
+          },
+        },
+        ...tmpAdditionalBody,
+      },
+    };
+
+    this.newAKNDocument(identityElements);
   }
 
   static aknUriFrom(name) {
     return `/akn/eu/intelligibleIdentity/person/${name}/decentralizedIdentity/nonFungible.akn`;
-  }
-
-  newIdentityAKNDocument(
-    identityAknURI,
-    personalInformation,
-    addressWeb3,
-    addressSmartContractWeb3,
-    tokenIdWeb3,
-    addressAlgo,
-    tokenIdAlgo
-  ) {
-    this.identityAknURI = identityAknURI;
-
-    const xml = JSON.parse(JSON.stringify(utils.templates.metaAndMainTemplate));
-
-    // global attr
-    const hrefId = '#' + personalInformation.name;
-    //meta
-    ////Identification
-    //////FRBRWork
-    xml.akomaNtoso.doc.meta.identification.FRBRWork.FRBRthis['@value'] =
-      '/akn/eu/intelligibleIdentity/person/' + personalInformation.name;
-    xml.akomaNtoso.doc.meta.identification.FRBRWork.FRBRdate[
-      '@date'
-    ] = new Date().toISOString().slice(0, 10);
-    xml.akomaNtoso.doc.meta.identification.FRBRWork.FRBRauthor[
-      '@href'
-    ] = hrefId;
-    //////FRBRExpression
-    xml.akomaNtoso.doc.meta.identification.FRBRExpression.FRBRthis['@value'] =
-      '/akn/eu/intelligibleIdentity/person/' +
-      personalInformation.name +
-      'decentralizedIdentity';
-    xml.akomaNtoso.doc.meta.identification.FRBRExpression.FRBRdate[
-      '@date'
-    ] = new Date().toISOString().slice(0, 10);
-    xml.akomaNtoso.doc.meta.identification.FRBRExpression.FRBRauthor[
-      '@href'
-    ] = hrefId;
-    //////FRBRManifestation
-    xml.akomaNtoso.doc.meta.identification.FRBRManifestation.FRBRthis[
-      '@value'
-    ] = identityAknURI;
-    xml.akomaNtoso.doc.meta.identification.FRBRManifestation.FRBRdate[
-      '@date'
-    ] = new Date().toISOString().slice(0, 10);
-    xml.akomaNtoso.doc.meta.identification.FRBRManifestation.FRBRauthor[
-      '@href'
-    ] = hrefId;
-    ////Reference
-    xml.akomaNtoso.doc.meta.references['TLCPerson'] = {
-      '@eId': hrefId.slice(1),
-      '@href':
-        '/akn/eu/intelligibleIdentity/person/' + personalInformation.name,
-      '@showAs': 'Author',
-    };
-
-    //preface
-    xml.akomaNtoso.doc.preface.longTitle.p =
-      personalInformation.name + ' Identity';
-
-    //mainBody
-    xml.akomaNtoso.doc.mainBody['tblock'] = [
-      {
-        '@eId': 'tblock_1',
-        heading: {
-          '@eId': 'tblock_1__heading',
-          '#': 'Personal Information',
-        },
-        p: {
-          '@eId': 'tblock_1__p_1',
-          name: personalInformation.name,
-          email: personalInformation.email,
-        },
-      },
-      {
-        '@eId': 'tblock_2',
-        heading: {
-          '@eId': 'tblock_2__heading',
-          '#': 'Ethereum Address',
-        },
-        p: {
-          '@eId': 'tblock_2__p_1',
-          addressWeb3,
-        },
-      },
-      {
-        '@eId': 'tblock_3',
-        heading: {
-          '@eId': 'tblock_3__heading',
-          '#': 'Ethereum Token Reference',
-        },
-        p: {
-          '@eId': 'tblock_3__p_1',
-          smartContractAddress: addressSmartContractWeb3,
-          tokenId: tokenIdWeb3,
-        },
-      },
-      {
-        '@eId': 'tblock_4',
-        heading: {
-          '@eId': 'tblock_4__heading',
-          '#': 'Algorand Address',
-        },
-        p: {
-          '@eId': 'tblock_4__p_1',
-          addressAlgo,
-        },
-      },
-      {
-        '@eId': 'tblock_5',
-        heading: {
-          '@eId': 'tblock_5__heading',
-          '#': 'Algorand Token Reference',
-        },
-        p: {
-          '@eId': 'tblock_5__p_1',
-          tokenId: tokenIdAlgo,
-        },
-      },
-    ];
-
-    this.metaAndMain = xml;
   }
 }
 

@@ -1,4 +1,4 @@
-const { Web3Wrapper } = require('@intelligiblesuite/wrappers');
+const { Web3Wrapper } = require('@intelligiblesuite/token-ethereum');
 
 /**
  * @description Provides the means to create and manage an intelligible identity
@@ -10,12 +10,11 @@ class IdentityWeb3 extends Web3Wrapper {
    * @description Creates an instance of CertificateWeb3. An instance only requires a
    * provider: in such case, methods not related to the smart contract will work.
    * @param {Object} provider The web3 provider
-   * @param {Object} contractArtifact The json object containing the contract abi
-   * @param {number} networkId The id of the network where the provider operates
+   * @param {number} [networkId] The id of the network where the provider operates
+   * @param {Object} [contractArtifact] The json object containing the contract abi
    */
-  constructor(provider, contractArtifact, networkId) {
-    super(provider, contractArtifact, networkId);
-    this.useCase = 'identity';
+  constructor(provider, networkId, contractArtifact) {
+    super(provider, 'identity', networkId, contractArtifact);
   }
 
   /**

@@ -1,5 +1,5 @@
-const web3lib = require('./lib/web3');
-const aknlib = require('./lib/akn');
+const { Web3Wrapper } = require('@intelligiblesuite/token-ethereum');
+const { CertificateAKN } = require('./lib/akn');
 
 /**
  * @description Represents an Intelligible Certificate and includes tha objects that compose it.
@@ -22,26 +22,27 @@ class IntelligibleCertificate {
    * @param {Object} web3Provider The web3 provider
    * @param {number|string} mainAddress The selected main address or its
    * position within the provider accounts list
-   * @param {Object} intelligibleCertArtifact The json object containing the contract abi
-   * @param {number} networkId The id of the network where the provider operates
    * @param {string} addressWeb3 The Ethereum address to send the token to
+   * @param {number} [networkId] The id of the network where the provider operates
+   * @param {Object} [intelligibleCertArtifact] The json object containing the contract abi
    */
   async prepareNewCertificateWeb3(
     web3Provider,
     mainAddress,
-    intelligibleCertArtifact,
+    addressWeb3,
     networkId,
-    addressWeb3
+    intelligibleCertArtifact
   ) {
     if (addressWeb3 === undefined) {
       throw new Error(
         'certificate: You need to provide a valid receiver address'
       );
     }
-    this.web3 = new web3lib.CertificateWeb3(
+    this.web3 = new Web3Wrapper(
       web3Provider,
-      intelligibleCertArtifact,
-      networkId
+      'certificate',
+      networkId,
+      intelligibleCertArtifact
     );
     await this.web3.setMainAddress(mainAddress);
     await this.web3.reserveTokenId();
@@ -88,108 +89,28 @@ class IntelligibleCertificate {
         'certificate: You need to set certificate information and references first'
       );
     }
-    let createdWeb3 = this.web3 && this.web3.tokenId;
+    let createdWeb3 = !!Object.keys(this.web3).length && !!this.web3.tokenId;
 
-    const tmpAdditionalBody =
-      this.information.additionalBody !== undefined
-        ? this.information.additionalBody
-        : {};
-    const tmpFRBRWork =
-      this.information.FRBRWork !== undefined ? this.information.FRBRWork : {};
-    const tmpFRBRExpression =
-      this.information.FRBRExpression !== undefined
-        ? this.information.FRBRExpression
-        : {};
-    const tmpFRBRManifestation =
-      this.information.FRBRManifestation !== undefined
-        ? this.information.FRBRManifestation
-        : {};
-
-    const certificateElements = {
-      identification: {
-        FRBRWork: {
-          FRBRthis: {
-            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/!main`,
-          },
-          FRBRuri: {
-            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/`,
-          },
-          FRBRdate: { '@date': this.information.certificateDate },
-          FRBRauthor: {
-            '@href': this.references.certIssuerRepresentative['@eId'],
-          },
-          ...tmpFRBRWork,
-        },
-        FRBRExpression: {
-          FRBRthis: {
-            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/${this.information.certificateExpression}/!main`,
-          },
-          FRBRuri: {
-            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/${this.information.certificateExpression}/`,
-          },
-          FRBRdate: { '@date': this.information.certificateDate },
-          FRBRauthor: {
-            '@href': this.references.certIssuerRepresentative['@eId'],
-          },
-          ...tmpFRBRExpression,
-        },
-        FRBRManifestation: {
-          FRBRthis: {
-            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/${this.information.certificateExpression}/!main.xml`,
-          },
-          FRBRuri: {
-            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/${this.information.certificateExpression}.akn`,
-          },
-          FRBRdate: { '@date': this.information.certificateDate },
-          FRBRauthor: {
-            '@href': this.references.certIssuerRepresentative['@eId'],
-          },
-          ...tmpFRBRManifestation,
-        },
-      },
-      references: this.references,
-      prefaceTitle: `${this.information.certificateType} Certificate issued by ${this.references.certIssuer.name} to ${this.references.certReceiver.name} in reference to ${this.references.certEntity.name}`,
-      mainBody: {
-        information: {
-          blockTitle: 'Certified Entity Information',
-          p: {
-            certificateType: this.information.certificateType,
-            certifiedEntityType: this.information.certifiedEntityType,
-            certificateDate: this.information.certificateDate,
-            certificateExpression: this.information.certificateExpression,
-            certificateEntity: this.references.certEntity['@eId'],
-            certifiedEntityName: this.references.certEntity.name,
-            certifiedEntityRepresentativeDocumentHashDigest: this.references
-              .certEntity.documentHashDigest,
-          },
-        },
-        web3: {
-          blockTitle: 'Ethereum Token Reference',
-          p: {
-            smartContractAddress: createdWeb3
-              ? this.web3.contract.options.address
-              : 'addressSmartContractWeb3',
-            tokenId: createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
-          },
-        },
-        identities: {
-          blockTitle: 'Identities',
-          p: {
-            certificateIssuer: this.references.certIssuer['@eId'],
-            certificateIssuerRepresentative: this.references
-              .certIssuerRepresentative['@eId'],
-            certReceiver: this.references.certReceiver['@eId'],
-          },
-        },
-        ...tmpAdditionalBody,
-      },
+    const web3Information = {
+      smartContractAddress: createdWeb3
+        ? this.web3.contract.options.address
+        : 'addressSmartContractWeb3',
+      tokenId: createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
     };
 
     // AKN document
-    this.akn = new aknlib.CertificateAKN(certificateElements);
+    this.akn = new CertificateAKN(
+      this.information,
+      this.references,
+      web3Information
+    );
 
     //Signatures
-    this.akn.addSignature('softwareSignature', 'softwareSignature'); // Software signature TODO
+    this.akn.addSwSignature(
+      this.references.certIssuerSoftware['@eId'],
+      this.references.certIssuerSoftware.name,
+      'softwareSignature' // Software signature TODO
+    );
   }
 
   /**
@@ -199,21 +120,22 @@ class IntelligibleCertificate {
    * @param {number|string} mainAddress The selected main address or its
    * position within the provider accounts list
    * @param {string} tokenId The token id
-   * @param {Object} intelligibleCertArtifact The json object containing the contract abi
-   * @param {number} networkId The id of the network where the provider operates
+   * @param {number} [networkId] The id of the network where the provider operates
+   * @param {Object} [intelligibleCertArtifact] The json object containing the contract abi
    * @return {string} The token URI
    */
   async fromWeb3TokenId(
     web3Provider,
     mainAddress,
     tokenId,
-    intelligibleCertArtifact,
-    networkId
+    networkId,
+    intelligibleCertArtifact
   ) {
-    this.web3 = new web3lib.IdentityWeb3(
+    this.web3 = new Web3Wrapper(
       web3Provider,
-      intelligibleCertArtifact,
-      networkId
+      'certificate',
+      networkId,
+      intelligibleCertArtifact
     );
     await this.web3.setMainAddress(mainAddress);
     return await this.web3.getTokenById(tokenId); //tokenURI
@@ -224,7 +146,7 @@ class IntelligibleCertificate {
    * @param {string} aknDocumentString The string that represents the XML document
    */
   fromStringAKN(aknDocumentString) {
-    this.akn = aknlib.CertificateAKN.fromString(aknDocumentString);
+    this.akn = CertificateAKN.fromString(aknDocumentString);
 
     const {
       name,
@@ -245,7 +167,6 @@ class IntelligibleCertificate {
 }
 
 module.exports = {
-  CertificateWeb3: web3lib.CertificateWeb3,
-  CertificateAKN: aknlib.CertificateAKN,
+  CertificateAKN,
   IntelligibleCertificate,
 };

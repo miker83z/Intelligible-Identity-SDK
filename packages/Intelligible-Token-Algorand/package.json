@@ -1,0 +1,14 @@
+{
+  "name": "@intelligiblesuite/token-algorand",
+  "version": "0.1.0",
+  "description": "Algorand wrapper for the Intelligible Suite",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "author": "Mirko Zichichi <mikerz83@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "algosdk": "^1.8.1"
+  }
+}

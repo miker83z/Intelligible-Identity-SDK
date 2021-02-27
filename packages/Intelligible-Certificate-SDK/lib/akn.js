@@ -1,110 +1,149 @@
-const { AKNWrapper, utils } = require('@intelligiblesuite/wrappers');
+const { AKNDoc } = require('@intelligiblesuite/akomantoso-doc');
 
-class CertificateAKN extends AKNWrapper {
-  constructor(certificateElements) {
+class CertificateAKN extends AKNDoc {
+  constructor(information, references, web3Information) {
     super();
 
-    this.newCertificateAKNDocument(certificateElements);
+    const tmpAdditionalBody =
+      information.additionalBody !== undefined
+        ? information.additionalBody
+        : {};
+    const tmpFRBRWork =
+      information.FRBRWork !== undefined ? information.FRBRWork : {};
+    const tmpFRBRExpression =
+      information.FRBRExpression !== undefined
+        ? information.FRBRExpression
+        : {};
+    const tmpFRBRManifestation =
+      information.FRBRManifestation !== undefined
+        ? information.FRBRManifestation
+        : {};
+
+    const certificateElements = {
+      identification: {
+        FRBRWork: {
+          FRBRthis: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/!main`,
+          },
+          FRBRuri: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/`,
+          },
+          FRBRdate: { '@date': information.certificateDate },
+          FRBRauthor: {
+            '@href': references.certIssuerRepresentative['@eId'],
+          },
+          ...tmpFRBRWork,
+        },
+        FRBRExpression: {
+          FRBRthis: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/!main`,
+          },
+          FRBRuri: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/`,
+          },
+          FRBRdate: { '@date': information.certificateDate },
+          FRBRauthor: {
+            '@href': references.certIssuerRepresentative['@eId'],
+          },
+          ...tmpFRBRExpression,
+        },
+        FRBRManifestation: {
+          FRBRthis: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/!main.xml`,
+          },
+          FRBRuri: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}.akn`,
+          },
+          FRBRdate: { '@date': information.certificateDate },
+          FRBRauthor: {
+            '@href': references.certIssuerRepresentative['@eId'],
+          },
+          ...tmpFRBRManifestation,
+        },
+      },
+      references: references,
+      prefaceTitle: `${information.certificateType} Certificate issued by ${references.certIssuer.name} to ${references.certReceiver.name} in reference to ${references.certEntity.name}`,
+      mainBody: {
+        information: {
+          blockTitle: 'Certified Entity Information',
+          p: {
+            certificateType: information.certificateType,
+            certifiedEntityType: information.certifiedEntityType,
+            certificateExpression: information.certificateExpression,
+            docDate: {
+              '@eId': 'cert_ent_info_cert_date',
+              '@date': information.certificateDate,
+              '#': information.certificateDate,
+            },
+            certificateEntity: {
+              object: {
+                '@eId': 'cert_ent_info_cert_entity',
+                '@refersTo': references.certEntity['@eId'],
+                '#': references.certEntity.name,
+              },
+              documentHashDigest: references.certEntity.documentHashDigest,
+            },
+          },
+        },
+        web3: {
+          blockTitle: 'Ethereum Token Reference',
+          p: web3Information,
+        },
+        identities: {
+          blockTitle: 'Identities',
+          p: {
+            mod: [
+              {
+                '@eId': 'identities_mod_cert_issuer',
+                organization: {
+                  '@eId': 'identities_cert_issuer',
+                  '@refersTo': references.certIssuer['@eId'],
+                  '#': references.certIssuer.name,
+                },
+                role: {
+                  '@eId': 'identities_cert_issuer_role',
+                  '@refersTo': references.certIssuerRole['@eId'],
+                  '#': references.certIssuerRole.name,
+                },
+              },
+              {
+                '@eId': 'identities_mod_cert_issuer_repr',
+                person: {
+                  '@eId': 'identities_cert_issuer_repr',
+                  '@refersTo': references.certIssuerRepresentative['@eId'],
+                  '#': references.certIssuerRepresentative.name,
+                },
+                role: {
+                  '@eId': 'identities_cert_issuer_repr_role',
+                  '@refersTo': references.certIssuerRepresentativeRole['@eId'],
+                  '#': references.certIssuerRepresentativeRole.name,
+                },
+              },
+              {
+                '@eId': 'identities_mod_cert_issuer_repr',
+                person: {
+                  '@eId': 'identities_cert_issuer_repr',
+                  '@refersTo': references.certReceiver['@eId'],
+                  '#': references.certReceiver.name,
+                },
+                role: {
+                  '@eId': 'identities_cert_issuer_repr_role',
+                  '@refersTo': references.certReceiverRole['@eId'],
+                  '#': references.certReceiverRole.name,
+                },
+              },
+            ],
+          },
+        },
+        ...tmpAdditionalBody,
+      },
+    };
+
+    this.newAKNDocument(certificateElements);
   }
 
   static aknUriFrom(name) {
     return `/akn/eu/intelligibleCertificate/document/${name}/decentralizedCertificate/nonFungible.akn`;
-  }
-
-  newCertificateAKNDocument(certificateElements) {
-    const xml = JSON.parse(JSON.stringify(utils.templates.metaAndMainTemplate));
-    //meta
-    ////Identification
-    //////FRBRWork
-    Object.keys(certificateElements.identification.FRBRWork).forEach((e) => {
-      if (e in xml.akomaNtoso.doc.meta.identification.FRBRWork) {
-        xml.akomaNtoso.doc.meta.identification.FRBRWork[e] = {
-          ...xml.akomaNtoso.doc.meta.identification.FRBRWork[e],
-          ...certificateElements.identification.FRBRWork[e],
-        };
-      } else {
-        xml.akomaNtoso.doc.meta.identification.FRBRWork[e] = {
-          ...certificateElements.identification.FRBRWork[e],
-        };
-      }
-    });
-    //////
-    //////FRBRExpression
-    Object.keys(certificateElements.identification.FRBRExpression).forEach(
-      (e) => {
-        if (e in xml.akomaNtoso.doc.meta.identification.FRBRExpression) {
-          xml.akomaNtoso.doc.meta.identification.FRBRExpression[e] = {
-            ...xml.akomaNtoso.doc.meta.identification.FRBRExpression[e],
-            ...certificateElements.identification.FRBRExpression[e],
-          };
-        } else {
-          xml.akomaNtoso.doc.meta.identification.FRBRExpression[e] = {
-            ...certificateElements.identification.FRBRExpression[e],
-          };
-        }
-      }
-    );
-    //////
-    //////FRBRManifestation
-    Object.keys(certificateElements.identification.FRBRManifestation).forEach(
-      (e) => {
-        if (e in xml.akomaNtoso.doc.meta.identification.FRBRManifestation) {
-          xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e] = {
-            ...xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e],
-            ...certificateElements.identification.FRBRManifestation[e],
-          };
-        } else {
-          xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e] = {
-            ...certificateElements.identification.FRBRManifestation[e],
-          };
-        }
-      }
-    );
-    //////
-    ////
-    ////Reference
-    Object.keys(certificateElements.references).forEach((r) => {
-      if (
-        xml.akomaNtoso.doc.meta.references[
-          certificateElements.references[r].type
-        ] === undefined
-      )
-        xml.akomaNtoso.doc.meta.references[
-          certificateElements.references[r].type
-        ] = [];
-      console.log(certificateElements.references[r].type);
-      xml.akomaNtoso.doc.meta.references[
-        certificateElements.references[r].type
-      ].push({
-        '@eId': certificateElements.references[r]['@eId'],
-        '@href': certificateElements.references[r]['@href'],
-        '@showAs': certificateElements.references[r]['@showAs'],
-      });
-    });
-    ////
-    //
-    //preface
-    xml.akomaNtoso.doc.preface.longTitle.p = certificateElements.prefaceTitle;
-    //
-    //mainBody
-    xml.akomaNtoso.doc.mainBody['tblock'] = [];
-    let iBlock = 0;
-    Object.keys(certificateElements.mainBody).forEach((b) => {
-      xml.akomaNtoso.doc.mainBody['tblock'].push({
-        '@eId': `tblock_${iBlock}`,
-        heading: {
-          '@eId': `tblock_${iBlock}__heading`,
-          '#': certificateElements.mainBody[b].blockTitle,
-        },
-        p: {
-          '@eId': `tblock_${iBlock}__p_${iBlock++}`,
-          ...certificateElements.mainBody[b].p,
-        },
-      });
-    });
-    //
-
-    this.metaAndMain = xml;
   }
 }
 
