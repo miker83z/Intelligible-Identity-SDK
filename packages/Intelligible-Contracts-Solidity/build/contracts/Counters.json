@@ -12,9 +12,7 @@
   "ast": {
     "absolutePath": "@openzeppelin/contracts/utils/Counters.sol",
     "exportedSymbols": {
-      "Counters": [
-        2058
-      ]
+      "Counters": [2058]
     },
     "id": 2059,
     "license": "MIT",
@@ -22,15 +20,7 @@
     "nodes": [
       {
         "id": 2010,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:14"
       },
@@ -58,9 +48,7 @@
         },
         "fullyImplemented": true,
         "id": 2058,
-        "linearizedBaseContracts": [
-          2058
-        ],
+        "linearizedBaseContracts": [2058],
         "name": "Counters",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -602,9 +590,7 @@
   "legacyAST": {
     "absolutePath": "@openzeppelin/contracts/utils/Counters.sol",
     "exportedSymbols": {
-      "Counters": [
-        2058
-      ]
+      "Counters": [2058]
     },
     "id": 2059,
     "license": "MIT",
@@ -612,15 +598,7 @@
     "nodes": [
       {
         "id": 2010,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:14"
       },
@@ -648,9 +626,7 @@
         },
         "fullyImplemented": true,
         "id": 2058,
-        "linearizedBaseContracts": [
-          2058
-        ],
+        "linearizedBaseContracts": [2058],
         "name": "Counters",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -1194,8 +1170,8 @@
     "version": "0.6.11+commit.5ef660b1.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2021-01-27T11:58:41.426Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2021-02-16T10:15:09.302Z",
   "devdoc": {
     "author": "Matt Condon (@shrugs)",
     "details": "Provides counters that can only be incremented or decremented by one. This can be used e.g. to track the number of elements in a mapping, issuing ERC721 ids, or counting request ids. Include with `using Counters for Counters.Counter;` Since it is not possible to overflow a 256 bit integer with increments of one, `increment` can skip the {SafeMath} overflow check, thereby saving gas. This does assume however correct usage, in that the underlying `_value` is never directly accessed.",

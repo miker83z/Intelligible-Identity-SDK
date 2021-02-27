@@ -12,9 +12,7 @@
   "ast": {
     "absolutePath": "@openzeppelin/contracts/utils/Address.sol",
     "exportedSymbols": {
-      "Address": [
-        2008
-      ]
+      "Address": [2008]
     },
     "id": 2009,
     "license": "MIT",
@@ -22,15 +20,7 @@
     "nodes": [
       {
         "id": 1766,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".2",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".2", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:13"
       },
@@ -47,9 +37,7 @@
         },
         "fullyImplemented": true,
         "id": 2008,
-        "linearizedBaseContracts": [
-          2008
-        ],
+        "linearizedBaseContracts": [2008],
         "name": "Address",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -60,9 +48,7 @@
               "src": "792:347:13",
               "statements": [
                 {
-                  "assignments": [
-                    1776
-                  ],
+                  "assignments": [1776],
                   "declarations": [
                     {
                       "constant": false,
@@ -453,10 +439,7 @@
                       "id": 1792,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2137:7:13",
                       "typeDescriptions": {
@@ -484,10 +467,7 @@
                   "src": "2137:73:13"
                 },
                 {
-                  "assignments": [
-                    1804,
-                    null
-                  ],
+                  "assignments": [1804, null],
                   "declarations": [
                     {
                       "constant": false,
@@ -583,9 +563,7 @@
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "names": [
-                        "value"
-                      ],
+                      "names": ["value"],
                       "nodeType": "FunctionCallOptions",
                       "options": [
                         {
@@ -676,10 +654,7 @@
                       "id": 1812,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2362:7:13",
                       "typeDescriptions": {
@@ -870,10 +845,7 @@
                       "id": 1828,
                       "name": "functionCall",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        1835,
-                        1855
-                      ],
+                      "overloadedDeclarations": [1835, 1855],
                       "referencedDeclaration": 1855,
                       "src": "3292:12:13",
                       "typeDescriptions": {
@@ -1111,10 +1083,7 @@
                       "id": 1847,
                       "name": "functionCallWithValue",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        1875,
-                        1925
-                      ],
+                      "overloadedDeclarations": [1875, 1925],
                       "referencedDeclaration": 1925,
                       "src": "3715:21:13",
                       "typeDescriptions": {
@@ -1380,10 +1349,7 @@
                       "id": 1867,
                       "name": "functionCallWithValue",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        1875,
-                        1925
-                      ],
+                      "overloadedDeclarations": [1875, 1925],
                       "referencedDeclaration": 1925,
                       "src": "4266:21:13",
                       "typeDescriptions": {
@@ -1711,10 +1677,7 @@
                       "id": 1889,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4759:7:13",
                       "typeDescriptions": {
@@ -1828,10 +1791,7 @@
                       "id": 1900,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4850:7:13",
                       "typeDescriptions": {
@@ -1859,10 +1819,7 @@
                   "src": "4850:60:13"
                 },
                 {
-                  "assignments": [
-                    1908,
-                    1910
-                  ],
+                  "assignments": [1908, 1910],
                   "declarations": [
                     {
                       "constant": false,
@@ -1980,9 +1937,7 @@
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "names": [
-                        "value"
-                      ],
+                      "names": ["value"],
                       "nodeType": "FunctionCallOptions",
                       "options": [
                         {
@@ -2362,10 +2317,7 @@
                       "id": 1935,
                       "name": "functionStaticCall",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        1942,
-                        1977
-                      ],
+                      "overloadedDeclarations": [1942, 1977],
                       "referencedDeclaration": 1977,
                       "src": "5425:18:13",
                       "typeDescriptions": {
@@ -2606,10 +2558,7 @@
                       "id": 1954,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "5827:7:13",
                       "typeDescriptions": {
@@ -2637,10 +2586,7 @@
                   "src": "5827:67:13"
                 },
                 {
-                  "assignments": [
-                    1962,
-                    1964
-                  ],
+                  "assignments": [1962, 1964],
                   "declarations": [
                     {
                       "constant": false,
@@ -3132,10 +3078,7 @@
                                   "id": 1998,
                                   "name": "revert",
                                   "nodeType": "Identifier",
-                                  "overloadedDeclarations": [
-                                    -19,
-                                    -19
-                                  ],
+                                  "overloadedDeclarations": [-19, -19],
                                   "referencedDeclaration": -19,
                                   "src": "6785:6:13",
                                   "typeDescriptions": {
@@ -3458,9 +3401,7 @@
   "legacyAST": {
     "absolutePath": "@openzeppelin/contracts/utils/Address.sol",
     "exportedSymbols": {
-      "Address": [
-        2008
-      ]
+      "Address": [2008]
     },
     "id": 2009,
     "license": "MIT",
@@ -3468,15 +3409,7 @@
     "nodes": [
       {
         "id": 1766,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".2",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".2", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:13"
       },
@@ -3493,9 +3426,7 @@
         },
         "fullyImplemented": true,
         "id": 2008,
-        "linearizedBaseContracts": [
-          2008
-        ],
+        "linearizedBaseContracts": [2008],
         "name": "Address",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -3506,9 +3437,7 @@
               "src": "792:347:13",
               "statements": [
                 {
-                  "assignments": [
-                    1776
-                  ],
+                  "assignments": [1776],
                   "declarations": [
                     {
                       "constant": false,
@@ -3899,10 +3828,7 @@
                       "id": 1792,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2137:7:13",
                       "typeDescriptions": {
@@ -3930,10 +3856,7 @@
                   "src": "2137:73:13"
                 },
                 {
-                  "assignments": [
-                    1804,
-                    null
-                  ],
+                  "assignments": [1804, null],
                   "declarations": [
                     {
                       "constant": false,
@@ -4029,9 +3952,7 @@
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "names": [
-                        "value"
-                      ],
+                      "names": ["value"],
                       "nodeType": "FunctionCallOptions",
                       "options": [
                         {
@@ -4122,10 +4043,7 @@
                       "id": 1812,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "2362:7:13",
                       "typeDescriptions": {
@@ -4316,10 +4234,7 @@
                       "id": 1828,
                       "name": "functionCall",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        1835,
-                        1855
-                      ],
+                      "overloadedDeclarations": [1835, 1855],
                       "referencedDeclaration": 1855,
                       "src": "3292:12:13",
                       "typeDescriptions": {
@@ -4557,10 +4472,7 @@
                       "id": 1847,
                       "name": "functionCallWithValue",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        1875,
-                        1925
-                      ],
+                      "overloadedDeclarations": [1875, 1925],
                       "referencedDeclaration": 1925,
                       "src": "3715:21:13",
                       "typeDescriptions": {
@@ -4826,10 +4738,7 @@
                       "id": 1867,
                       "name": "functionCallWithValue",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        1875,
-                        1925
-                      ],
+                      "overloadedDeclarations": [1875, 1925],
                       "referencedDeclaration": 1925,
                       "src": "4266:21:13",
                       "typeDescriptions": {
@@ -5157,10 +5066,7 @@
                       "id": 1889,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4759:7:13",
                       "typeDescriptions": {
@@ -5274,10 +5180,7 @@
                       "id": 1900,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "4850:7:13",
                       "typeDescriptions": {
@@ -5305,10 +5208,7 @@
                   "src": "4850:60:13"
                 },
                 {
-                  "assignments": [
-                    1908,
-                    1910
-                  ],
+                  "assignments": [1908, 1910],
                   "declarations": [
                     {
                       "constant": false,
@@ -5426,9 +5326,7 @@
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "names": [
-                        "value"
-                      ],
+                      "names": ["value"],
                       "nodeType": "FunctionCallOptions",
                       "options": [
                         {
@@ -5808,10 +5706,7 @@
                       "id": 1935,
                       "name": "functionStaticCall",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        1942,
-                        1977
-                      ],
+                      "overloadedDeclarations": [1942, 1977],
                       "referencedDeclaration": 1977,
                       "src": "5425:18:13",
                       "typeDescriptions": {
@@ -6052,10 +5947,7 @@
                       "id": 1954,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "5827:7:13",
                       "typeDescriptions": {
@@ -6083,10 +5975,7 @@
                   "src": "5827:67:13"
                 },
                 {
-                  "assignments": [
-                    1962,
-                    1964
-                  ],
+                  "assignments": [1962, 1964],
                   "declarations": [
                     {
                       "constant": false,
@@ -6578,10 +6467,7 @@
                                   "id": 1998,
                                   "name": "revert",
                                   "nodeType": "Identifier",
-                                  "overloadedDeclarations": [
-                                    -19,
-                                    -19
-                                  ],
+                                  "overloadedDeclarations": [-19, -19],
                                   "referencedDeclaration": -19,
                                   "src": "6785:6:13",
                                   "typeDescriptions": {
@@ -6906,8 +6792,8 @@
     "version": "0.6.11+commit.5ef660b1.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2021-01-27T11:58:41.422Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2021-02-16T10:15:09.299Z",
   "devdoc": {
     "details": "Collection of functions related to the address type",
     "kind": "dev",

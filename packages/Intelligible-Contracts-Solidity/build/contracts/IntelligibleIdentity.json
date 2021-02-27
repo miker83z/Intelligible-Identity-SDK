@@ -576,9 +576,7 @@
   "ast": {
     "absolutePath": "/home/miker/workspace/bitnomos/IntelligibleSuite/packages/Intelligible-Contracts-Solidity/contracts/IntelligibleIdentity.sol",
     "exportedSymbols": {
-      "IntelligibleIdentity": [
-        169
-      ]
+      "IntelligibleIdentity": [169]
     },
     "id": 170,
     "license": "MIT",
@@ -586,12 +584,7 @@
     "nodes": [
       {
         "id": 86,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:23:1"
       },
@@ -668,16 +661,7 @@
             "src": "242:15:1"
           }
         ],
-        "contractDependencies": [
-          353,
-          376,
-          433,
-          445,
-          1572,
-          1688,
-          1719,
-          1746
-        ],
+        "contractDependencies": [353, 376, 433, 445, 1572, 1688, 1719, 1746],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
@@ -1105,9 +1089,7 @@
               "src": "709:118:1",
               "statements": [
                 {
-                  "assignments": [
-                    135
-                  ],
+                  "assignments": [135],
                   "declarations": [
                     {
                       "constant": false,
@@ -1671,9 +1653,7 @@
   "legacyAST": {
     "absolutePath": "/home/miker/workspace/bitnomos/IntelligibleSuite/packages/Intelligible-Contracts-Solidity/contracts/IntelligibleIdentity.sol",
     "exportedSymbols": {
-      "IntelligibleIdentity": [
-        169
-      ]
+      "IntelligibleIdentity": [169]
     },
     "id": 170,
     "license": "MIT",
@@ -1681,12 +1661,7 @@
     "nodes": [
       {
         "id": 86,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:23:1"
       },
@@ -1763,16 +1738,7 @@
             "src": "242:15:1"
           }
         ],
-        "contractDependencies": [
-          353,
-          376,
-          433,
-          445,
-          1572,
-          1688,
-          1719,
-          1746
-        ],
+        "contractDependencies": [353, 376, 433, 445, 1572, 1688, 1719, 1746],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
@@ -2200,9 +2166,7 @@
               "src": "709:118:1",
               "statements": [
                 {
-                  "assignments": [
-                    135
-                  ],
+                  "assignments": [135],
                   "declarations": [
                     {
                       "constant": false,
@@ -2844,11 +2808,55 @@
           ],
           "name": "Transfer",
           "type": "event"
+        },
+        "0x98c913eafb0a1bd21d56fa98d0710b9714ad00065673854b5a570b7036e5f826": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "exOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "uint256",
+              "name": "freedId",
+              "type": "uint256"
+            }
+          ],
+          "name": "Freed",
+          "type": "event"
+        },
+        "0xd0b6eb008b0a9669c5a33ab4f818313e4e69b7925ad073dab1f6dc70cd719229": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "uint256",
+              "name": "firstReservedId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "internalType": "uint256",
+              "name": "lastReservedId",
+              "type": "uint256"
+            }
+          ],
+          "name": "Reserved",
+          "type": "event"
         }
       },
       "links": {},
-      "address": "0xE87bC1E2CB28701b70d5092D0Eb4c492E63eC302",
-      "transactionHash": "0x6926b397a50eca32b3c245c35f7a416e12c9a129b364fcb74701fa062c7af087"
+      "address": "0x5D26Ab2e3407116E3450490e16722fd89F80C37e",
+      "transactionHash": "0x85d0aacf2a3da09891cd88e9d85510fcea73143090fbf4bca2c479d3e7e937c3"
     },
     "5777": {
       "events": {
@@ -2973,12 +2981,12 @@
         }
       },
       "links": {},
-      "address": "0x631c8ea444Fbe9B296508Eb6a07A6552574457bF",
-      "transactionHash": "0x69e7f3d767fe8091d081f5da076446912d78c4ecfe34dfed42404ed16033d6c5"
+      "address": "0x7d4dD48cC245396C2Ad915E638fF9140E74B6840",
+      "transactionHash": "0x54269d1fe60216c03b255331faa9384a3d96753a87d8f86a27bdd91a7214172e"
     }
   },
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2021-01-27T11:58:46.855Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2021-02-16T10:31:03.286Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

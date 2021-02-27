@@ -102,9 +102,7 @@
   "ast": {
     "absolutePath": "/home/miker/workspace/bitnomos/IntelligibleSuite/packages/Intelligible-Contracts-Solidity/contracts/ReservedCounter.sol",
     "exportedSymbols": {
-      "ReservedCounter": [
-        353
-      ]
+      "ReservedCounter": [353]
     },
     "id": 354,
     "license": "MIT",
@@ -112,12 +110,7 @@
     "nodes": [
       {
         "id": 204,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:23:3"
       },
@@ -176,17 +169,12 @@
             "src": "250:7:3"
           }
         ],
-        "contractDependencies": [
-          376
-        ],
+        "contractDependencies": [376],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
         "id": 353,
-        "linearizedBaseContracts": [
-          353,
-          376
-        ],
+        "linearizedBaseContracts": [353, 376],
         "name": "ReservedCounter",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -594,10 +582,7 @@
                       "id": 242,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "711:7:3",
                       "typeDescriptions": {
@@ -631,9 +616,7 @@
                     "src": "832:105:3",
                     "statements": [
                       {
-                        "assignments": [
-                          260
-                        ],
+                        "assignments": [260],
                         "declarations": [
                           {
                             "constant": false,
@@ -839,9 +822,7 @@
                   },
                   "id": 272,
                   "initializationExpression": {
-                    "assignments": [
-                      250
-                    ],
+                    "assignments": [250],
                     "declarations": [
                       {
                         "constant": false,
@@ -932,9 +913,7 @@
                   "src": "788:149:3"
                 },
                 {
-                  "assignments": [
-                    274
-                  ],
+                  "assignments": [274],
                   "declarations": [
                     {
                       "constant": false,
@@ -1017,9 +996,7 @@
                   "src": "946:29:3"
                 },
                 {
-                  "assignments": [
-                    280
-                  ],
+                  "assignments": [280],
                   "declarations": [
                     {
                       "constant": false,
@@ -1568,10 +1545,7 @@
                       "id": 305,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "1175:7:3",
                       "typeDescriptions": {
@@ -1725,10 +1699,7 @@
                       "id": 317,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "1307:7:3",
                       "typeDescriptions": {
@@ -2118,9 +2089,7 @@
   "legacyAST": {
     "absolutePath": "/home/miker/workspace/bitnomos/IntelligibleSuite/packages/Intelligible-Contracts-Solidity/contracts/ReservedCounter.sol",
     "exportedSymbols": {
-      "ReservedCounter": [
-        353
-      ]
+      "ReservedCounter": [353]
     },
     "id": 354,
     "license": "MIT",
@@ -2128,12 +2097,7 @@
     "nodes": [
       {
         "id": 204,
-        "literals": [
-          "solidity",
-          "^",
-          "0.6",
-          ".0"
-        ],
+        "literals": ["solidity", "^", "0.6", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:23:3"
       },
@@ -2192,17 +2156,12 @@
             "src": "250:7:3"
           }
         ],
-        "contractDependencies": [
-          376
-        ],
+        "contractDependencies": [376],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
         "id": 353,
-        "linearizedBaseContracts": [
-          353,
-          376
-        ],
+        "linearizedBaseContracts": [353, 376],
         "name": "ReservedCounter",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -2610,10 +2569,7 @@
                       "id": 242,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "711:7:3",
                       "typeDescriptions": {
@@ -2647,9 +2603,7 @@
                     "src": "832:105:3",
                     "statements": [
                       {
-                        "assignments": [
-                          260
-                        ],
+                        "assignments": [260],
                         "declarations": [
                           {
                             "constant": false,
@@ -2855,9 +2809,7 @@
                   },
                   "id": 272,
                   "initializationExpression": {
-                    "assignments": [
-                      250
-                    ],
+                    "assignments": [250],
                     "declarations": [
                       {
                         "constant": false,
@@ -2948,9 +2900,7 @@
                   "src": "788:149:3"
                 },
                 {
-                  "assignments": [
-                    274
-                  ],
+                  "assignments": [274],
                   "declarations": [
                     {
                       "constant": false,
@@ -3033,9 +2983,7 @@
                   "src": "946:29:3"
                 },
                 {
-                  "assignments": [
-                    280
-                  ],
+                  "assignments": [280],
                   "declarations": [
                     {
                       "constant": false,
@@ -3584,10 +3532,7 @@
                       "id": 305,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "1175:7:3",
                       "typeDescriptions": {
@@ -3741,10 +3686,7 @@
                       "id": 317,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "1307:7:3",
                       "typeDescriptions": {
@@ -4136,8 +4078,8 @@
     "version": "0.6.11+commit.5ef660b1.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2021-01-27T11:58:41.383Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2021-02-16T10:15:09.270Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

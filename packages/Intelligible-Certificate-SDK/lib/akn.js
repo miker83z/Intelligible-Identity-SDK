@@ -1,155 +1,108 @@
 const { AKNWrapper, utils } = require('@intelligiblesuite/wrappers');
 
 class CertificateAKN extends AKNWrapper {
-  constructor(
-    certificateAknURI,
-    certifiableEntityInformation,
-    addressSmartContractWeb3,
-    tokenIdWeb3,
-    addressAlgo,
-    tokenIdAlgo,
-    certifiableEntityOwnerIdentityAknURI,
-    certificateProviderIdentityAknURI
-  ) {
+  constructor(certificateElements) {
     super();
 
-    if (certificateAknURI !== undefined) {
-      this.newCertificateAKNDocument(
-        certificateAknURI,
-        certifiableEntityInformation,
-        addressSmartContractWeb3,
-        tokenIdWeb3,
-        addressAlgo,
-        tokenIdAlgo,
-        certifiableEntityOwnerIdentityAknURI,
-        certificateProviderIdentityAknURI
-      );
-    }
+    this.newCertificateAKNDocument(certificateElements);
   }
 
   static aknUriFrom(name) {
     return `/akn/eu/intelligibleCertificate/document/${name}/decentralizedCertificate/nonFungible.akn`;
   }
 
-  newCertificateAKNDocument(
-    certificateAknURI,
-    certifiableEntityInformation,
-    addressSmartContractWeb3,
-    tokenIdWeb3,
-    addressAlgo,
-    tokenIdAlgo,
-    certifiableEntityOwnerIdentityAknURI,
-    certificateProviderIdentityAknURI
-  ) {
+  newCertificateAKNDocument(certificateElements) {
     const xml = JSON.parse(JSON.stringify(utils.templates.metaAndMainTemplate));
-
-    // global attr
-    //const hrefIdName = '#' + certifiableEntityInformation.name;
-    const hrefIdAuthor = '#certificateProvider';
-    const hrefIdOwner = '#certificateOwner';
     //meta
     ////Identification
     //////FRBRWork
-    xml.akomaNtoso.doc.meta.identification.FRBRWork.FRBRthis['@value'] =
-      '/akn/eu/intelligibleCertificate/document/' +
-      certifiableEntityInformation.name;
-    xml.akomaNtoso.doc.meta.identification.FRBRWork.FRBRdate[
-      '@date'
-    ] = new Date().toISOString().slice(0, 10);
-    xml.akomaNtoso.doc.meta.identification.FRBRWork.FRBRauthor[
-      '@href'
-    ] = hrefIdAuthor;
+    Object.keys(certificateElements.identification.FRBRWork).forEach((e) => {
+      if (e in xml.akomaNtoso.doc.meta.identification.FRBRWork) {
+        xml.akomaNtoso.doc.meta.identification.FRBRWork[e] = {
+          ...xml.akomaNtoso.doc.meta.identification.FRBRWork[e],
+          ...certificateElements.identification.FRBRWork[e],
+        };
+      } else {
+        xml.akomaNtoso.doc.meta.identification.FRBRWork[e] = {
+          ...certificateElements.identification.FRBRWork[e],
+        };
+      }
+    });
+    //////
     //////FRBRExpression
-    xml.akomaNtoso.doc.meta.identification.FRBRExpression.FRBRthis['@value'] =
-      '/akn/eu/intelligibleCertificate/document/' +
-      certifiableEntityInformation.name +
-      '/decentralizedCertificate';
-    xml.akomaNtoso.doc.meta.identification.FRBRExpression.FRBRdate[
-      '@date'
-    ] = new Date().toISOString().slice(0, 10);
-    xml.akomaNtoso.doc.meta.identification.FRBRExpression.FRBRauthor[
-      '@href'
-    ] = hrefIdAuthor;
+    Object.keys(certificateElements.identification.FRBRExpression).forEach(
+      (e) => {
+        if (e in xml.akomaNtoso.doc.meta.identification.FRBRExpression) {
+          xml.akomaNtoso.doc.meta.identification.FRBRExpression[e] = {
+            ...xml.akomaNtoso.doc.meta.identification.FRBRExpression[e],
+            ...certificateElements.identification.FRBRExpression[e],
+          };
+        } else {
+          xml.akomaNtoso.doc.meta.identification.FRBRExpression[e] = {
+            ...certificateElements.identification.FRBRExpression[e],
+          };
+        }
+      }
+    );
+    //////
     //////FRBRManifestation
-    xml.akomaNtoso.doc.meta.identification.FRBRManifestation.FRBRthis[
-      '@value'
-    ] = certificateAknURI;
-    xml.akomaNtoso.doc.meta.identification.FRBRManifestation.FRBRdate[
-      '@date'
-    ] = new Date().toISOString().slice(0, 10);
-    xml.akomaNtoso.doc.meta.identification.FRBRManifestation.FRBRauthor[
-      '@href'
-    ] = hrefIdAuthor;
+    Object.keys(certificateElements.identification.FRBRManifestation).forEach(
+      (e) => {
+        if (e in xml.akomaNtoso.doc.meta.identification.FRBRManifestation) {
+          xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e] = {
+            ...xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e],
+            ...certificateElements.identification.FRBRManifestation[e],
+          };
+        } else {
+          xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e] = {
+            ...certificateElements.identification.FRBRManifestation[e],
+          };
+        }
+      }
+    );
+    //////
+    ////
     ////Reference
-    xml.akomaNtoso.doc.meta.references['TLCPerson'] = [
-      {
-        '@eId': hrefIdAuthor.slice(1),
-        '@href': certificateProviderIdentityAknURI,
-        '@showAs': 'Author',
-      },
-      {
-        '@eId': hrefIdOwner.slice(1),
-        '@href': certifiableEntityOwnerIdentityAknURI,
-        '@showAs': 'EntityOwner',
-      },
-    ];
-
+    Object.keys(certificateElements.references).forEach((r) => {
+      if (
+        xml.akomaNtoso.doc.meta.references[
+          certificateElements.references[r].type
+        ] === undefined
+      )
+        xml.akomaNtoso.doc.meta.references[
+          certificateElements.references[r].type
+        ] = [];
+      console.log(certificateElements.references[r].type);
+      xml.akomaNtoso.doc.meta.references[
+        certificateElements.references[r].type
+      ].push({
+        '@eId': certificateElements.references[r]['@eId'],
+        '@href': certificateElements.references[r]['@href'],
+        '@showAs': certificateElements.references[r]['@showAs'],
+      });
+    });
+    ////
+    //
     //preface
-    xml.akomaNtoso.doc.preface.longTitle.p =
-      certifiableEntityInformation.name + ' Certificate';
-
+    xml.akomaNtoso.doc.preface.longTitle.p = certificateElements.prefaceTitle;
+    //
     //mainBody
-    xml.akomaNtoso.doc.mainBody['tblock'] = [
-      {
-        '@eId': 'tblock_1',
+    xml.akomaNtoso.doc.mainBody['tblock'] = [];
+    let iBlock = 0;
+    Object.keys(certificateElements.mainBody).forEach((b) => {
+      xml.akomaNtoso.doc.mainBody['tblock'].push({
+        '@eId': `tblock_${iBlock}`,
         heading: {
-          '@eId': 'tblock_1__heading',
-          '#': 'Certified Entity Information',
+          '@eId': `tblock_${iBlock}__heading`,
+          '#': certificateElements.mainBody[b].blockTitle,
         },
         p: {
-          '@eId': 'tblock_1__p_1',
-          name: certifiableEntityInformation.name,
-          uri: certifiableEntityInformation.uri,
-          documentDigest: certifiableEntityInformation.documentDigest,
+          '@eId': `tblock_${iBlock}__p_${iBlock++}`,
+          ...certificateElements.mainBody[b].p,
         },
-      },
-      {
-        '@eId': 'tblock_2',
-        heading: {
-          '@eId': 'tblock_2__heading',
-          '#': 'Ethereum Token Reference',
-        },
-        p: {
-          '@eId': 'tblock_2__p_1',
-          smartContractAddress: addressSmartContractWeb3,
-          tokenId: tokenIdWeb3,
-        },
-      },
-      {
-        '@eId': 'tblock_3',
-        heading: {
-          '@eId': 'tblock_3__heading',
-          '#': 'Algorand Token Reference',
-        },
-        p: {
-          '@eId': 'tblock_3__p_1',
-          addressAlgo,
-          tokenId: tokenIdAlgo,
-        },
-      },
-      {
-        '@eId': 'tblock_4',
-        heading: {
-          '@eId': 'tblock_4__heading',
-          '#': 'Identities',
-        },
-        p: {
-          '@eId': 'tblock_4__p_1',
-          certifiedEntityOwner: hrefIdOwner,
-          certificateProvider: hrefIdAuthor,
-        },
-      },
-    ];
+      });
+    });
+    //
 
     this.metaAndMain = xml;
   }

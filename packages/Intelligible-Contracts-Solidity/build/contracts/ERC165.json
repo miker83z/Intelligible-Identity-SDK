@@ -32,9 +32,7 @@
   "ast": {
     "absolutePath": "@openzeppelin/contracts/introspection/ERC165.sol",
     "exportedSymbols": {
-      "ERC165": [
-        433
-      ]
+      "ERC165": [433]
     },
     "id": 434,
     "license": "MIT",
@@ -42,15 +40,7 @@
     "nodes": [
       {
         "id": 378,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:5"
       },
@@ -87,9 +77,7 @@
             "src": "291:7:5"
           }
         ],
-        "contractDependencies": [
-          445
-        ],
+        "contractDependencies": [445],
         "contractKind": "contract",
         "documentation": {
           "id": 380,
@@ -99,10 +87,7 @@
         },
         "fullyImplemented": true,
         "id": 433,
-        "linearizedBaseContracts": [
-          433,
-          445
-        ],
+        "linearizedBaseContracts": [433, 445],
         "name": "ERC165",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -294,9 +279,7 @@
             "visibility": "internal"
           },
           {
-            "baseFunctions": [
-              444
-            ],
+            "baseFunctions": [444],
             "body": {
               "id": 411,
               "nodeType": "Block",
@@ -538,10 +521,7 @@
                       "id": 418,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "1574:7:5",
                       "typeDescriptions": {
@@ -718,9 +698,7 @@
   "legacyAST": {
     "absolutePath": "@openzeppelin/contracts/introspection/ERC165.sol",
     "exportedSymbols": {
-      "ERC165": [
-        433
-      ]
+      "ERC165": [433]
     },
     "id": 434,
     "license": "MIT",
@@ -728,15 +706,7 @@
     "nodes": [
       {
         "id": 378,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:5"
       },
@@ -773,9 +743,7 @@
             "src": "291:7:5"
           }
         ],
-        "contractDependencies": [
-          445
-        ],
+        "contractDependencies": [445],
         "contractKind": "contract",
         "documentation": {
           "id": 380,
@@ -785,10 +753,7 @@
         },
         "fullyImplemented": true,
         "id": 433,
-        "linearizedBaseContracts": [
-          433,
-          445
-        ],
+        "linearizedBaseContracts": [433, 445],
         "name": "ERC165",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -980,9 +945,7 @@
             "visibility": "internal"
           },
           {
-            "baseFunctions": [
-              444
-            ],
+            "baseFunctions": [444],
             "body": {
               "id": 411,
               "nodeType": "Block",
@@ -1224,10 +1187,7 @@
                       "id": 418,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "1574:7:5",
                       "typeDescriptions": {
@@ -1406,8 +1366,8 @@
     "version": "0.6.11+commit.5ef660b1.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2021-01-27T11:58:41.389Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2021-02-16T10:15:09.274Z",
   "devdoc": {
     "details": "Implementation of the {IERC165} interface. Contracts may inherit from this and call {_registerInterface} to declare their support of an interface.",
     "kind": "dev",

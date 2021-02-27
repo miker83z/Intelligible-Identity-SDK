@@ -1,5 +1,4 @@
 const web3lib = require('./lib/web3');
-const algolib = require('./lib/algo');
 const aknlib = require('./lib/akn');
 
 /**
@@ -13,14 +12,13 @@ class IntelligibleCertificate {
    */
   constructor() {
     this.web3 = {};
-    this.algo = {};
     this.akn = {};
     this.information = {};
   }
 
   /**
    * @description Creates a new web3 object by initializing the provider and the main
-   * address and then it reserves a tokenId that can be lather used to issue a token
+   * address and then it reserves a tokenId that can be later used to issue a token
    * @param {Object} web3Provider The web3 provider
    * @param {number|string} mainAddress The selected main address or its
    * position within the provider accounts list
@@ -61,119 +59,137 @@ class IntelligibleCertificate {
     await this.web3.newTokenFromReserved(uri);
   }
 
-  //TODO algo refactoring
-  async prepareNewCertificateAlgo(
-    baseServer,
-    port,
-    apiToken,
-    mainAddressMnemonic,
-    addressAlgo
-  ) {
-    console.log(
-      baseServer +
-        port +
-        apiToken +
-        mainAddressMnemonic +
-        addressAlgo +
-        'TODO algo'
-    ); //TODO
-  }
-
-  //TODO algo refactoring
-  async finalizeNewCertificateAlgo(uri) {
-    console.log(uri + 'TODO algo'); //TODO
-  }
-
   /**
    * @description Sets the information of a newly created intelligible certificate
    * @param {Object} information Certificate's information object
+   * @param {Object} references Certificate's references object
    */
-  setCertificateInformation(information) {
-    information.name = information.name.replace(/\s/g, '') + Date.now();
-    const certificateAknURI = aknlib.CertificateAKN.aknUriFrom(
-      information.name
-    );
-    this.information = { ...information, certificateAknURI };
+  setCertificateInformation(information, references) {
+    this.information = information;
+    this.references = references;
   }
 
   /**
    * @description Creates a new akn object fetching the information from the certificate
-   * information object (setCertificateInformation required), the web3 object (not required)
-   * and the algo object (not required). PROVIDER AND RECEIVER SIGNATURES ARE NOT INCLUDED.
+   * information object (setCertificateInformation required) and the web3 object (not required)
+   * PROVIDER AND RECEIVER SIGNATURES ARE NOT INCLUDED.
+   * @param {Object} [information] Certificate's information object
+   * @param {Object} [references] Certificate's references object
    */
-  newCertificateAKN() {
-    if (!this.information) {
+  newCertificateAKN(information, references) {
+    if (information !== undefined) {
+      this.information = information;
+    }
+    if (references !== undefined) {
+      this.references = references;
+    }
+    if (!this.information || !this.references) {
       throw new Error(
-        'certificate: You need to set personal information first'
+        'certificate: You need to set certificate information and references first'
       );
     }
-    let createdWeb3 =
-      this.web3 && this.web3.address === undefined && this.web3.tokenId;
-    let createdAlgo =
-      this.algo && this.algo.address === undefined && this.algo.tokenId;
+    let createdWeb3 = this.web3 && this.web3.tokenId;
+
+    const tmpAdditionalBody =
+      this.information.additionalBody !== undefined
+        ? this.information.additionalBody
+        : {};
+    const tmpFRBRWork =
+      this.information.FRBRWork !== undefined ? this.information.FRBRWork : {};
+    const tmpFRBRExpression =
+      this.information.FRBRExpression !== undefined
+        ? this.information.FRBRExpression
+        : {};
+    const tmpFRBRManifestation =
+      this.information.FRBRManifestation !== undefined
+        ? this.information.FRBRManifestation
+        : {};
+
+    const certificateElements = {
+      identification: {
+        FRBRWork: {
+          FRBRthis: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/!main`,
+          },
+          FRBRuri: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/`,
+          },
+          FRBRdate: { '@date': this.information.certificateDate },
+          FRBRauthor: {
+            '@href': this.references.certIssuerRepresentative['@eId'],
+          },
+          ...tmpFRBRWork,
+        },
+        FRBRExpression: {
+          FRBRthis: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/${this.information.certificateExpression}/!main`,
+          },
+          FRBRuri: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/${this.information.certificateExpression}/`,
+          },
+          FRBRdate: { '@date': this.information.certificateDate },
+          FRBRauthor: {
+            '@href': this.references.certIssuerRepresentative['@eId'],
+          },
+          ...tmpFRBRExpression,
+        },
+        FRBRManifestation: {
+          FRBRthis: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/${this.information.certificateExpression}/!main.xml`,
+          },
+          FRBRuri: {
+            '@value': `/akn/eu/doc/intelligibleCertificate/${this.references.certIssuer.name}/${this.information.certificateType}/${this.information.certifiedEntityType}/${this.references.certEntity.name}/${this.information.certificateExpression}.akn`,
+          },
+          FRBRdate: { '@date': this.information.certificateDate },
+          FRBRauthor: {
+            '@href': this.references.certIssuerRepresentative['@eId'],
+          },
+          ...tmpFRBRManifestation,
+        },
+      },
+      references: this.references,
+      prefaceTitle: `${this.information.certificateType} Certificate issued by ${this.references.certIssuer.name} to ${this.references.certReceiver.name} in reference to ${this.references.certEntity.name}`,
+      mainBody: {
+        information: {
+          blockTitle: 'Certified Entity Information',
+          p: {
+            certificateType: this.information.certificateType,
+            certifiedEntityType: this.information.certifiedEntityType,
+            certificateDate: this.information.certificateDate,
+            certificateExpression: this.information.certificateExpression,
+            certificateEntity: this.references.certEntity['@eId'],
+            certifiedEntityName: this.references.certEntity.name,
+            certifiedEntityRepresentativeDocumentHashDigest: this.references
+              .certEntity.documentHashDigest,
+          },
+        },
+        web3: {
+          blockTitle: 'Ethereum Token Reference',
+          p: {
+            smartContractAddress: createdWeb3
+              ? this.web3.contract.options.address
+              : 'addressSmartContractWeb3',
+            tokenId: createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
+          },
+        },
+        identities: {
+          blockTitle: 'Identities',
+          p: {
+            certificateIssuer: this.references.certIssuer['@eId'],
+            certificateIssuerRepresentative: this.references
+              .certIssuerRepresentative['@eId'],
+            certReceiver: this.references.certReceiver['@eId'],
+          },
+        },
+        ...tmpAdditionalBody,
+      },
+    };
 
     // AKN document
-    this.akn = new aknlib.CertificateAKN(
-      this.information.certificateAknURI,
-      this.information,
-      createdWeb3
-        ? this.web3.contract.options.address
-        : 'addressSmartContractWeb3',
-      createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
-      createdAlgo ? this.algo.address : 'addressAlgo',
-      createdAlgo ? this.algo.tokenId : 'tokenIdAlgo'
-    );
+    this.akn = new aknlib.CertificateAKN(certificateElements);
 
     //Signatures
     this.akn.addSignature('softwareSignature', 'softwareSignature'); // Software signature TODO
-  }
-
-  /**
-   * @description Creates a new Intelligible Certificate for all the objects involved (
-   * web3, algo, akn). It mainly aggregates the other methods found in this class.
-   * @param {Object} certificateInformation  Certificate's information object
-   * @param {Object} [web3Settings] An object containing the settings for creating a web3
-   * object. If undefined, the object won't be created.
-   * @param {Object} [algoSettings] An object containing the settings for creating a algo
-   * object. If undefined, the object won't be created.
-   */
-  async newCertificateStandard(
-    certificateInformation,
-    web3Settings,
-    algoSettings
-  ) {
-    const createWeb3 = !!web3Settings;
-    const createAlgo = !!algoSettings;
-
-    if (createWeb3) {
-      await this.prepareNewCertificateWeb3(
-        web3Settings.web3Provider,
-        web3Settings.mainAddress,
-        web3Settings.intelligibleCertArtifact,
-        web3Settings.networkId,
-        web3Settings.addressWeb3
-      );
-    }
-    if (createAlgo) {
-      await this.prepareNewCertificateAlgo(
-        algoSettings.baseServer,
-        algoSettings.port,
-        algoSettings.apiToken,
-        algoSettings.mainAddressMnemonic,
-        algoSettings.addressAlgo
-      );
-    }
-
-    this.setCertificateInformation(certificateInformation);
-
-    this.newCertificateAKN();
-
-    if (createWeb3) {
-      await this.finalizeNewCertificateWeb3(this.information.certificateAknURI);
-    }
-    if (createAlgo) {
-      await this.finalizeNewCertificateAlgo(this.information.certificateAknURI);
-    }
   }
 
   /**
@@ -203,25 +219,6 @@ class IntelligibleCertificate {
     return await this.web3.getTokenById(tokenId); //tokenURI
   }
 
-  //TODO algo refactoring
-  async fromAlgoTokenId(
-    baseServer,
-    port,
-    apiToken,
-    mainAddressMnemonic,
-    addressAlgo
-  ) {
-    console.log(
-      baseServer +
-        port +
-        apiToken +
-        mainAddressMnemonic +
-        addressAlgo +
-        'TODO algo'
-    ); //TODO
-    // return await this.algo.getTokenByAddress(addressAlgo); //tokenURI
-  }
-
   /**
    * @description Creates an akn instance from a string that represents the AKN document
    * @param {string} aknDocumentString The string that represents the XML document
@@ -249,7 +246,6 @@ class IntelligibleCertificate {
 
 module.exports = {
   CertificateWeb3: web3lib.CertificateWeb3,
-  CertificateAlgo: algolib.CertificateAlgo,
   CertificateAKN: aknlib.CertificateAKN,
   IntelligibleCertificate,
 };

@@ -354,9 +354,7 @@
   "ast": {
     "absolutePath": "@openzeppelin/contracts/token/ERC721/IERC721Enumerable.sol",
     "exportedSymbols": {
-      "IERC721Enumerable": [
-        1719
-      ]
+      "IERC721Enumerable": [1719]
     },
     "id": 1720,
     "license": "MIT",
@@ -364,15 +362,7 @@
     "nodes": [
       {
         "id": 1690,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".2",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".2", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:10"
       },
@@ -409,10 +399,7 @@
             "src": "259:7:10"
           }
         ],
-        "contractDependencies": [
-          445,
-          1688
-        ],
+        "contractDependencies": [445, 1688],
         "contractKind": "interface",
         "documentation": {
           "id": 1692,
@@ -422,11 +409,7 @@
         },
         "fullyImplemented": false,
         "id": 1719,
-        "linearizedBaseContracts": [
-          1719,
-          1688,
-          445
-        ],
+        "linearizedBaseContracts": [1719, 1688, 445],
         "name": "IERC721Enumerable",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -716,9 +699,7 @@
   "legacyAST": {
     "absolutePath": "@openzeppelin/contracts/token/ERC721/IERC721Enumerable.sol",
     "exportedSymbols": {
-      "IERC721Enumerable": [
-        1719
-      ]
+      "IERC721Enumerable": [1719]
     },
     "id": 1720,
     "license": "MIT",
@@ -726,15 +707,7 @@
     "nodes": [
       {
         "id": 1690,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".2",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".2", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:10"
       },
@@ -771,10 +744,7 @@
             "src": "259:7:10"
           }
         ],
-        "contractDependencies": [
-          445,
-          1688
-        ],
+        "contractDependencies": [445, 1688],
         "contractKind": "interface",
         "documentation": {
           "id": 1692,
@@ -784,11 +754,7 @@
         },
         "fullyImplemented": false,
         "id": 1719,
-        "linearizedBaseContracts": [
-          1719,
-          1688,
-          445
-        ],
+        "linearizedBaseContracts": [1719, 1688, 445],
         "name": "IERC721Enumerable",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -1080,8 +1046,8 @@
     "version": "0.6.11+commit.5ef660b1.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2021-01-27T11:58:41.418Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2021-02-16T10:15:09.295Z",
   "devdoc": {
     "details": "See https://eips.ethereum.org/EIPS/eip-721",
     "kind": "dev",

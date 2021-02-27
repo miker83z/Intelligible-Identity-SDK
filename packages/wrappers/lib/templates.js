@@ -8,7 +8,7 @@ const templates = {
         '@contains': 'originalVersion',
         meta: {
           identification: {
-            '@source': 'software',
+            '@source': '#issuerSoftware',
             FRBRWork: {
               FRBRthis: {
                 '@eId': 'frbrwork__frbrthis',
@@ -77,7 +77,7 @@ const templates = {
             },
           },
           references: {
-            '@source': 'software',
+            '@source': '#issuerSoftware',
           },
         },
         preface: {

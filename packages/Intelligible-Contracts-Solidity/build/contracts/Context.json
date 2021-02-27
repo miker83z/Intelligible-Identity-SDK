@@ -12,9 +12,7 @@
   "ast": {
     "absolutePath": "@openzeppelin/contracts/GSN/Context.sol",
     "exportedSymbols": {
-      "Context": [
-        376
-      ]
+      "Context": [376]
     },
     "id": 377,
     "license": "MIT",
@@ -22,15 +20,7 @@
     "nodes": [
       {
         "id": 355,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:4"
       },
@@ -42,9 +32,7 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 376,
-        "linearizedBaseContracts": [
-          376
-        ],
+        "linearizedBaseContracts": [376],
         "name": "Context",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -273,9 +261,7 @@
   "legacyAST": {
     "absolutePath": "@openzeppelin/contracts/GSN/Context.sol",
     "exportedSymbols": {
-      "Context": [
-        376
-      ]
+      "Context": [376]
     },
     "id": 377,
     "license": "MIT",
@@ -283,15 +269,7 @@
     "nodes": [
       {
         "id": 355,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:4"
       },
@@ -303,9 +281,7 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 376,
-        "linearizedBaseContracts": [
-          376
-        ],
+        "linearizedBaseContracts": [376],
         "name": "Context",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -536,8 +512,8 @@
     "version": "0.6.11+commit.5ef660b1.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2021-01-27T11:58:41.386Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2021-02-16T10:15:09.272Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

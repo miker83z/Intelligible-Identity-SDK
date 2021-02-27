@@ -54,9 +54,7 @@
   "ast": {
     "absolutePath": "/home/miker/workspace/bitnomos/IntelligibleSuite/packages/Intelligible-Contracts-Solidity/contracts/Migrations.sol",
     "exportedSymbols": {
-      "Migrations": [
-        202
-      ]
+      "Migrations": [202]
     },
     "id": 203,
     "license": "MIT",
@@ -64,15 +62,7 @@
     "nodes": [
       {
         "id": 171,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.4",
-          ".22",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.4", ".22", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:32:2"
       },
@@ -84,9 +74,7 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 202,
-        "linearizedBaseContracts": [
-          202
-        ],
+        "linearizedBaseContracts": [202],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -281,10 +269,7 @@
                       "id": 179,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "196:7:2",
                       "typeDescriptions": {
@@ -473,9 +458,7 @@
   "legacyAST": {
     "absolutePath": "/home/miker/workspace/bitnomos/IntelligibleSuite/packages/Intelligible-Contracts-Solidity/contracts/Migrations.sol",
     "exportedSymbols": {
-      "Migrations": [
-        202
-      ]
+      "Migrations": [202]
     },
     "id": 203,
     "license": "MIT",
@@ -483,15 +466,7 @@
     "nodes": [
       {
         "id": 171,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.4",
-          ".22",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.4", ".22", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "32:32:2"
       },
@@ -503,9 +478,7 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 202,
-        "linearizedBaseContracts": [
-          202
-        ],
+        "linearizedBaseContracts": [202],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -700,10 +673,7 @@
                       "id": 179,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        -18,
-                        -18
-                      ],
+                      "overloadedDeclarations": [-18, -18],
                       "referencedDeclaration": -18,
                       "src": "196:7:2",
                       "typeDescriptions": {
@@ -897,18 +867,18 @@
     "3": {
       "events": {},
       "links": {},
-      "address": "0x9f83C643c022D4127f60B2Ee34B05dd33bf63825",
-      "transactionHash": "0x2a90188ea4aa7022638042ec30ed2c918b466f756a6801b912b32d910ccc65c6"
+      "address": "0xC57911dec9E452EdFdbafFe3D1c41bdEdd0b0023",
+      "transactionHash": "0xe9e7e0d1c19bbf93cb9f4c9ac03491f00e75dffbe4b6ceb866780698659ce305"
     },
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x10ED9E3a2f4e4c431A306cCC73aE44E5CFD8adE0",
-      "transactionHash": "0xe300404179b3c0ac0fbab922dd82e3323f06277c9b18e0ed3005e6d21bcc51b2"
+      "address": "0x49235F8877C122743D3908216b3D25487508131D",
+      "transactionHash": "0xe68974cdb15a037410d33ef05b533b7cb7e3c286f03679fbb8b7a491293126f2"
     }
   },
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2021-01-27T11:58:47.402Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2021-02-16T10:31:04.120Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

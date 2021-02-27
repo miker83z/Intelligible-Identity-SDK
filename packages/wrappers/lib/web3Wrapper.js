@@ -138,29 +138,28 @@ class Web3Wrapper {
   /**
    * @description Creates a new intelligible identity token by calling an Ethereum
    * smart contract method.
-   * @param {string} address The Ethereum address to send the token to
    * @param {string} URI The URI to register in the token
    * @return {number} The token id within the smart contract
    */
-  async newToken(address, URI) {
+  async newToken(URI) {
     if (this.contract === undefined)
-      throw new Error('identity/web3: You need to provide a contract artifact');
+      throw new Error(
+        'wrapper/web3Wrapper: You need to provide a contract artifact'
+      );
     if (this.mainAddress === undefined)
       throw new Error(
-        'identity/web3: You need to provide a main address for operations'
+        'wrapper/web3Wrapper: You need to provide a main address for operations'
       );
-    if (address === undefined || !Web3Wrapper.checkIfAddress(address)) {
+    if (
+      this.address === undefined ||
+      !Web3Wrapper.checkIfAddress(this.address)
+    ) {
       throw new Error(
-        'identity/web3: Invalid Ethereum address to send the token to'
+        'wrapper/web3Wrapper: Invalid Ethereum address to send the token to'
       );
     }
     if (URI === undefined || !URI) {
-      throw new Error('identity/web3: You need to provide an identity URI');
-    }
-    if (this.address !== undefined) {
-      throw new Error(
-        'identity/web3: A token has already been instanciated for this object'
-      );
+      throw new Error('wrapper/web3Wrapper: You need to provide a URI');
     }
 
     let contractMethod;
@@ -177,16 +176,14 @@ class Web3Wrapper {
         );
     }
 
-    const res = contractMethod(address, URI).send({
+    const res = contractMethod(this.address, URI).send({
       from: this.mainAddress,
       gas: this.gas,
     });
-    const tokenId = res.events['Transfer'].returnValues['tokenId'];
 
-    this.address = address;
-    this.tokenId = tokenId;
+    this.tokenId = res.events['Transfer'].returnValues['tokenId'];
 
-    return tokenId;
+    return this.tokenId;
   }
 
   /**

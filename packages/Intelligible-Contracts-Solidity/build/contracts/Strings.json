@@ -12,9 +12,7 @@
   "ast": {
     "absolutePath": "@openzeppelin/contracts/utils/Strings.sol",
     "exportedSymbols": {
-      "Strings": [
-        3080
-      ]
+      "Strings": [3080]
     },
     "id": 3081,
     "license": "MIT",
@@ -22,15 +20,7 @@
     "nodes": [
       {
         "id": 2995,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:17"
       },
@@ -47,9 +37,7 @@
         },
         "fullyImplemented": true,
         "id": 3080,
-        "linearizedBaseContracts": [
-          3080
-        ],
+        "linearizedBaseContracts": [3080],
         "name": "Strings",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -147,9 +135,7 @@
                   }
                 },
                 {
-                  "assignments": [
-                    3012
-                  ],
+                  "assignments": [3012],
                   "declarations": [
                     {
                       "constant": false,
@@ -198,9 +184,7 @@
                   "src": "539:20:17"
                 },
                 {
-                  "assignments": [
-                    3016
-                  ],
+                  "assignments": [3016],
                   "declarations": [
                     {
                       "constant": false,
@@ -384,9 +368,7 @@
                   "src": "593:75:17"
                 },
                 {
-                  "assignments": [
-                    3031
-                  ],
+                  "assignments": [3031],
                   "declarations": [
                     {
                       "constant": false,
@@ -483,9 +465,7 @@
                   "src": "677:39:17"
                 },
                 {
-                  "assignments": [
-                    3038
-                  ],
+                  "assignments": [3038],
                   "declarations": [
                     {
                       "constant": false,
@@ -1156,9 +1136,7 @@
   "legacyAST": {
     "absolutePath": "@openzeppelin/contracts/utils/Strings.sol",
     "exportedSymbols": {
-      "Strings": [
-        3080
-      ]
+      "Strings": [3080]
     },
     "id": 3081,
     "license": "MIT",
@@ -1166,15 +1144,7 @@
     "nodes": [
       {
         "id": 2995,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.6",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.6", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "33:31:17"
       },
@@ -1191,9 +1161,7 @@
         },
         "fullyImplemented": true,
         "id": 3080,
-        "linearizedBaseContracts": [
-          3080
-        ],
+        "linearizedBaseContracts": [3080],
         "name": "Strings",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -1291,9 +1259,7 @@
                   }
                 },
                 {
-                  "assignments": [
-                    3012
-                  ],
+                  "assignments": [3012],
                   "declarations": [
                     {
                       "constant": false,
@@ -1342,9 +1308,7 @@
                   "src": "539:20:17"
                 },
                 {
-                  "assignments": [
-                    3016
-                  ],
+                  "assignments": [3016],
                   "declarations": [
                     {
                       "constant": false,
@@ -1528,9 +1492,7 @@
                   "src": "593:75:17"
                 },
                 {
-                  "assignments": [
-                    3031
-                  ],
+                  "assignments": [3031],
                   "declarations": [
                     {
                       "constant": false,
@@ -1627,9 +1589,7 @@
                   "src": "677:39:17"
                 },
                 {
-                  "assignments": [
-                    3038
-                  ],
+                  "assignments": [3038],
                   "declarations": [
                     {
                       "constant": false,
@@ -2302,8 +2262,8 @@
     "version": "0.6.11+commit.5ef660b1.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2021-01-27T11:58:41.445Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2021-02-16T10:15:09.318Z",
   "devdoc": {
     "details": "String operations.",
     "kind": "dev",

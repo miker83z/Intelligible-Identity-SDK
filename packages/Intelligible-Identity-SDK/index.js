@@ -60,37 +60,53 @@ class IntelligibleIdentity {
     await this.web3.newTokenFromReserved(uri);
   }
 
-  //TODO algo refactoring
+  /**
+   * @description Creates a new algo object by initializing the provider and the main
+   * address
+   * @param {string} baseServer The provider's base server url
+   * @param {string} port The provider's server port
+   * @param {string} apiToken The api token for provider communication
+   * @param {string} mainAddress The main address for sending txs
+   * @param {string} [addressAlgo] The address to send the identity token to
+   */
   async prepareNewIdentityAlgo(
     baseServer,
     port,
     apiToken,
-    mainAddressMnemonic,
+    mainAddress,
     addressAlgo
   ) {
     this.algo = new algolib.IdentityAlgo(
-      baseServer,
-      port,
-      apiToken,
-      mainAddressMnemonic,
-      false
+      {
+        baseServer,
+        port,
+        apiToken,
+      },
+      true
     );
+    this.algo.setMainAddress(mainAddress);
 
     if (addressAlgo === 'undefined') {
-      addressAlgo = this.algo.newAddress().addr;
+      addressAlgo = algolib.IdentityAlgo.newAddress().addr;
     }
-    const identityAknURI = 'temp todo';
-    const personalInformation = { name: 'temp', email: 'todo' };
-    await this.algo.newIdentityToken(
-      personalInformation,
-      addressAlgo,
-      identityAknURI
-    );
+    this.algo.address = addressAlgo;
   }
 
-  //TODO algo refactoring
-  async finalizeNewIdentityAlgo(uri) {
-    console.log(uri + 'TODO algo'); //TODO
+  /**
+   * @description Finalizes an algo object by issuing the token
+   * @param {string} assetConfig The object containing the asset information.
+   * It must contain at least one of assetURL or assetMetadataHash
+   */
+  async finalizeNewIdentityAlgo(assetConfig) {
+    if (
+      !this.algo.mainAddress ||
+      !this.algo.algodClient ||
+      !this.algo.address
+    ) {
+      throw new Error('identity: You need to prepare an algo object first');
+    }
+
+    await this.algo.newIdentityToken(assetConfig);
   }
 
   /**
@@ -179,7 +195,7 @@ class IntelligibleIdentity {
         algoSettings.baseServer,
         algoSettings.port,
         algoSettings.apiToken,
-        algoSettings.mainAddressMnemonic,
+        algoSettings.mainAddress,
         algoSettings.addressAlgo
       );
     }
@@ -192,7 +208,9 @@ class IntelligibleIdentity {
       await this.finalizeNewIdentityWeb3(this.information.identityAknURI);
     }
     if (createAlgo) {
-      await this.finalizeNewIdentityAlgo(this.information.identityAknURI);
+      await this.finalizeNewIdentityAlgo({
+        assetURL: this.information.identityAknURI.slice(0, 32), //TODO
+      });
     }
   }
 
