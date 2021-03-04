@@ -13,7 +13,6 @@
     "@intelligiblesuite/token-ethereum": "file:../Intelligible-Token-Ethereum"
   },
   "devDependencies": {
-    "@intelligiblesuite/identity": "file:../Intelligible-Identity-SDK",
-    "ethereumjs-util": "^7.0.7"
+    "@intelligiblesuite/identity": "file:../Intelligible-Identity-SDK"
   }
 }

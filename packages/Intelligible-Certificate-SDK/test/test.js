@@ -1,11 +1,5 @@
 /* eslint-disable no-undef */
 const assert = require('assert').strict;
-const {
-  ecrecover,
-  hashPersonalMessage,
-  fromRpcSig,
-  Address,
-} = require('ethereumjs-util');
 const { IntelligibleIdentity } = require('@intelligiblesuite/identity');
 const { IntelligibleCertificate } = require('./..');
 
