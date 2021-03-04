@@ -147,6 +147,11 @@ class IntelligibleCertificate {
    */
   fromStringAKN(aknDocumentString) {
     this.akn = CertificateAKN.fromString(aknDocumentString);
+    const {
+      information,
+      references,
+    } = this.akn.parseInformationAndReferences();
+    this.setCertificateInformation(information, references);
   }
 }
 

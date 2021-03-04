@@ -14,6 +14,7 @@ class IntelligibleIdentity {
     this.web3 = {};
     this.akn = {};
     this.information = {};
+    this.references = {};
   }
 
   /**
@@ -177,6 +178,11 @@ class IntelligibleIdentity {
     intelligibleIdArtifact
   ) {
     this.akn = IdentityAKN.fromString(aknDocumentString);
+    const {
+      information,
+      references,
+    } = this.akn.parseInformationAndReferences();
+    this.setIdentityInformation(information, references);
 
     if (web3Provider !== undefined) {
       const identityEthereumAccountAddressEle = this.akn.findValueByEId(

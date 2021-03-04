@@ -31,7 +31,7 @@ const certificateReferences = {
   certIssuerRole: {
     type: 'TLCRole',
     name: 'Issuer',
-    '@eId': '#issuerRole',
+    '@eId': '#certIssuerRole',
     '@href': '/akn/ontology/roles/intelligibleCertificate/issuer',
     '@showAs': 'IssuerRole',
   },
@@ -45,14 +45,14 @@ const certificateReferences = {
   certIssuerRepresentativeRole: {
     type: 'TLCRole',
     name: 'IssuerRepresentative',
-    '@eId': '#issuerRepresentativeRole',
+    '@eId': '#certIssuerRepresentativeRole',
     '@href': '/akn/ontology/roles/intelligibleCertificate/issuerRepresentative',
     '@showAs': 'IssuerRepresentativeRole',
   },
   certIssuerSoftware: {
     type: 'TLCObject',
     name: 'IntelligibleSuite@0.1.0',
-    '@eId': '#issuerSoftware',
+    '@eId': '#certIssuerSoftware',
     '@href': '/akn/eu/doc/object/software/IntelligibleSuite/ver@0.1.0.akn',
     '@showAs': 'IssuerSoftware',
   },
@@ -66,7 +66,7 @@ const certificateReferences = {
   certReceiverRole: {
     type: 'TLCRole',
     name: 'Receiver',
-    '@eId': '#receiverRole',
+    '@eId': '#certReceiverRole',
     '@href': '/akn/ontology/roles/intelligibleCertificate/receiver',
     '@showAs': 'ReceiverRole',
   },
@@ -104,7 +104,7 @@ const identityReferences1 = {
   idIssuerRole: {
     type: 'TLCRole',
     name: 'Issuer',
-    '@eId': '#issuerRole',
+    '@eId': '#idIssuerRole',
     '@href': '/akn/ontology/roles/intelligibleIdentity/issuer',
     '@showAs': 'IssuerRole',
   },
@@ -118,14 +118,14 @@ const identityReferences1 = {
   idIssuerRepresentativeRole: {
     type: 'TLCRole',
     name: 'IssuerRepresentative',
-    '@eId': '#issuerRepresentativeRole',
+    '@eId': '#idIssuerRepresentativeRole',
     '@href': '/akn/ontology/roles/intelligibleIdentity/issuerRepresentative',
     '@showAs': 'IssuerRepresentativeRole',
   },
   idIssuerSoftware: {
     type: 'TLCObject',
     name: 'IntelligibleSuite@0.1.0',
-    '@eId': '#issuerSoftware',
+    '@eId': '#idIssuerSoftware',
     '@href': '/akn/eu/doc/object/software/IntelligibleSuite/ver@0.1.0.akn',
     '@showAs': 'IssuerSoftware',
   },
@@ -139,7 +139,7 @@ const identityReferences1 = {
   idReceiverRole: {
     type: 'TLCRole',
     name: 'Receiver',
-    '@eId': '#receiverRole',
+    '@eId': '#idReceiverRole',
     '@href': '/akn/ontology/roles/intelligibleIdentity/receiver',
     '@showAs': 'ReceiverRole',
   },

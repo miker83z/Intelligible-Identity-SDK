@@ -115,7 +115,7 @@ class AKNDoc {
   static fromString(string) {
     const xml = convert(string, { format: 'object' });
     if (!('akomaNtoso' in xml)) return;
-    const temp = new AKNDoc();
+    const temp = new this();
 
     temp.metaAndMain = xml;
     if (xml.akomaNtoso.doc.conclusions !== 'undefined') {
