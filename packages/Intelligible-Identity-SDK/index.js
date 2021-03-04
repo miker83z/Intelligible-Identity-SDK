@@ -1,6 +1,5 @@
 const { IdentityWeb3 } = require('./lib/web3');
 const { IdentityAKN } = require('./lib/akn');
-const { ok } = require('assert');
 
 /**
  * @description Represents an Intelligible Identity and includes tha objects that compose it.
