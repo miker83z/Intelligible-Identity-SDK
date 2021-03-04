@@ -1,4 +1,12 @@
+/* eslint-disable no-undef */
+const assert = require('assert').strict;
 const { Web3Wrapper } = require('@intelligiblesuite/token-ethereum');
+const {
+  ecrecover,
+  hashPersonalMessage,
+  fromRpcSig,
+  Address,
+} = require('ethereumjs-util');
 
 /**
  * @description Provides the means to create and manage an intelligible identity
@@ -41,19 +49,62 @@ class IdentityWeb3 extends Web3Wrapper {
   }
 
   /**
-   * @description Returns the address that signed the payload through the web3
-   * function 'eth.personal.sign'
+   * @description Returns true if the address that signed the payload is equal to this.address,
+   * false otherwise
    * @param {string} payload The signad data
    * @param {string} signature The signature
+   * @param {boolean|undefined} isPersonal The discriminator for the verify sign. function
    * @return {string} The signatory address
    */
-  async verifySignedData(payload, signature) {
+  async verifySignedData(payload, signature, isPersonal) {
+    const extractedAddress = await this.getAddressFromSignature(
+      payload,
+      signature,
+      isPersonal
+    );
+
+    try {
+      assert.deepEqual(extractedAddress, Address.fromString(this.address));
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * @description Returns the address that signed the payload through the web3
+   * function 'eth.personal.sign' or 'ethereumjs-util' if it is not personal
+   * @param {string} payload The signad data
+   * @param {string} signature The signature
+   * @param {boolean|undefined} isPersonal The discriminator for the ecrecovery function
+   * @return {string} The signatory address
+   */
+  async getAddressFromSignature(payload, signature, isPersonal) {
     if (payload === undefined || !payload)
       throw new Error('identity/web3: You need to provide a valid payload');
     if (signature === undefined || !signature)
       throw new Error('identity/web3: You need to provide a valid signature');
 
-    return await this.web3.eth.personal.ecRecover(payload, signature);
+    if (isPersonal === undefined || typeof isPersonal !== 'boolean')
+      isPersonal = true;
+
+    if (isPersonal)
+      return await this.web3.eth.personal.ecRecover(payload, signature);
+    else {
+      /*
+      const digest = keccakFromString(
+        '\x19Ethereum Signed Message:\n' + signedPayload.length + signedPayload);
+      */
+      const digest = hashPersonalMessage(Buffer.from(payload, 'utf-8'));
+      const parsedSig = fromRpcSig(signature);
+      const extractedPublicKey = ecrecover(
+        digest,
+        parsedSig.v,
+        parsedSig.r,
+        parsedSig.s
+      );
+      return Address.fromPublicKey(extractedPublicKey);
+    }
   }
 
   /**

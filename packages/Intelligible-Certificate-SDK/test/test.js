@@ -11,7 +11,7 @@ const { IntelligibleCertificate } = require('./..');
 
 //Web3 Setup info////////////////////////
 const web3Provider = 'http://127.0.0.1:8545';
-const networkId = '5778';
+const networkId = '5777';
 //////////////////////////////////////
 
 //Certificate info//////////////////////
@@ -282,70 +282,53 @@ const simpleNewCertificate = async () => {
     certificateReferences.certReceiverRole['@eId'],
     certificateReferences.certReceiverRole.name,
     certificateReferences.certReceiver['@href'], //TODO
+    receiver.web3.mainAddress,
+    Date.now(),
     receiverSignature
   );
 
-  //await verifySignature(c.akn.finalize(), p.akn.finalize(), o.akn.finalize());
+  await verifySignature(
+    c.akn.finalize(),
+    issuerR.akn.finalize(),
+    receiver.akn.finalize()
+  );
 };
 
-const verifySignature = async (
-  aknCertificateDocumentString,
-  aknProviderIdentityDocumentString,
-  aknOwnerIdentityDocumentString
-) => {
+const verifySignature = async (certAkn, issuerAkn, receiverAkn) => {
   const c = new IntelligibleCertificate();
-  c.fromStringAKN(aknCertificateDocumentString);
+  c.fromStringAKN(certAkn);
   const signedPayload = c.akn.finalizeNoConclusions();
 
-  const p = new iid.IntelligibleIdentity();
-  p.fromStringAKN(aknProviderIdentityDocumentString);
-  const providerSignature = c.akn.conclusions.signatures.providerSignature['#'];
-  const providerAddress = p.akn.metaAndMain.akomaNtoso.doc.mainBody.tblock.find(
-    (t) => t['@eId'] == 'tblock_2'
-  ).p.addressWeb3;
-
-  const o = new iid.IntelligibleIdentity();
-  o.fromStringAKN(aknOwnerIdentityDocumentString);
-  const ownerSignature = c.akn.conclusions.signatures.ownerSignature['#'];
-  const ownerAddress = o.akn.metaAndMain.akomaNtoso.doc.mainBody.tblock.find(
-    (t) => t['@eId'] == 'tblock_2'
-  ).p.addressWeb3;
-
-  /*
-  const identityWeb3 = new iid.IdentityWeb3(web3Provider);
-  const extractedPublicKey = await identityWeb3.verifySignedData(
-    signedPayload,
-    providerSignature
+  const issuer = new IntelligibleIdentity();
+  issuer.fromStringAKN(issuerAkn, web3Provider);
+  const issuerSignature = c.akn.findValueByEId(
+    `conclusion_signature_${certificateReferences.certIssuerRepresentative[
+      '@eId'
+    ].slice(1)}_signature`
   );
-  */
-
-  /*
-  const digest = keccakFromString(
-    '\x19Ethereum Signed Message:\n' + signedPayload.length + signedPayload);
-  */
-  const digest = hashPersonalMessage(Buffer.from(signedPayload, 'utf-8'));
-  const parsedProvSig = fromRpcSig(providerSignature);
-  const extractedProvPublicKey = ecrecover(
-    digest,
-    parsedProvSig.v,
-    parsedProvSig.r,
-    parsedProvSig.s
-  );
-  assert.deepEqual(
-    Address.fromPublicKey(extractedProvPublicKey),
-    Address.fromString(providerAddress)
+  assert.equal(
+    await issuer.web3.verifySignedData(
+      signedPayload,
+      issuerSignature.node.textContent,
+      false
+    ),
+    true
   );
 
-  const parsedOwnSig = fromRpcSig(ownerSignature);
-  const extractedOwnPublicKey = ecrecover(
-    digest,
-    parsedOwnSig.v,
-    parsedOwnSig.r,
-    parsedOwnSig.s
+  const receiver = new IntelligibleIdentity();
+  receiver.fromStringAKN(receiverAkn, web3Provider);
+  const receiverSignature = c.akn.findValueByEId(
+    `conclusion_signature_${certificateReferences.certReceiver['@eId'].slice(
+      1
+    )}_signature`
   );
-  assert.deepEqual(
-    Address.fromPublicKey(extractedOwnPublicKey),
-    Address.fromString(ownerAddress)
+  assert.equal(
+    await receiver.web3.verifySignedData(
+      signedPayload,
+      receiverSignature.node.textContent,
+      false
+    ),
+    true
   );
 
   console.log('Signatures verified!');

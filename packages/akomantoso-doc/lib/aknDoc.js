@@ -12,7 +12,6 @@ class AKNDoc {
   constructor() {
     this.metaAndMain = {};
     this.conclusions = {};
-    this.signaturesNum = 0;
 
     this.create = create;
   }
@@ -144,33 +143,38 @@ class AKNDoc {
     signature
   ) {
     if (Object.keys(this.conclusions).length == 0)
-      this.conclusions = { ...utils.templates.conclTemplate.conclusions };
+      this.conclusions = JSON.parse(
+        JSON.stringify(utils.templates.conclTemplate.conclusions)
+      );
 
     this.conclusions.signature.push({
       person: {
-        '@eId': `conclusion_signature_${++this.signaturesNum}_pers`,
+        '@eId': `conclusion_signature_${eId.slice(1)}_pers`,
         '@refersTo': eId,
         '#': name,
       },
       role: {
-        '@eId': `conclusion_signature_${this.signaturesNum}_pers_role`,
+        '@eId': `conclusion_signature_${eId.slice(1)}_pers_role`,
         '@refersTo': roleEId,
         '#': roleName,
       },
       publicKey: {
-        '@eId': `conclusion_signature_${this.signaturesNum}_pk`,
+        '@eId': `conclusion_signature_${eId.slice(1)}_pk`,
         ref: {
-          '@eId': `conclusion_signature_${this.signaturesNum}_pk_ref`,
+          '@eId': `conclusion_signature_${eId.slice(1)}_pk_ref`,
           '@href': publicKeyHref,
           '#': publicKey,
         },
       },
       timestamp: {
-        '@eId': `conclusion_signature_${this.signaturesNum}_timestamp`,
+        '@eId': `conclusion_signature_${eId.slice(1)}_timestamp`,
         '@date': timestamp,
         '#': timestamp,
       },
-      digitalSignature: signature,
+      digitalSignature: {
+        '@eId': `conclusion_signature_${eId.slice(1)}_signature`,
+        '#': signature,
+      },
     });
   }
 
@@ -182,16 +186,46 @@ class AKNDoc {
    */
   addSwSignature(eId, name, signature) {
     if (Object.keys(this.conclusions).length == 0)
-      this.conclusions = { ...utils.templates.conclTemplate.conclusions };
+      this.conclusions = JSON.parse(
+        JSON.stringify(utils.templates.conclTemplate.conclusions)
+      );
 
     this.conclusions.signature.push({
       object: {
-        '@eId': `conclusion_signature_${++this.signaturesNum}_sw`,
+        '@eId': `conclusion_signature_${eId.slice(1)}_sw`,
         '@refersTo': eId,
         '#': name,
       },
-      digitalSignature: signature,
+      digitalSignature: {
+        '@eId': `conclusion_signature_${eId.slice(1)}_sw_signature`,
+        '#': signature,
+      },
     });
+  }
+
+  /**
+   * @description Returns the value of a node with eid attribute equal to eId
+   * @return {string} The value or undefined
+   */
+  findValueByEId(eId) {
+    if (Object.keys(this.metaAndMain).length === 0) return;
+    const xml = JSON.parse(JSON.stringify(this.metaAndMain));
+    if (Object.keys(this.conclusions).length !== 0)
+      xml.akomaNtoso.doc.conclusions = { ...this.conclusions };
+
+    return this.create(xml).find(
+      (n) => {
+        var found = false;
+        if (n.node.attributes !== undefined) {
+          n.node.attributes.forEach((kl) => {
+            if (kl.nodeName === 'eId') if (kl.nodeValue === eId) found = true;
+          });
+          return found;
+        }
+      },
+      false,
+      true
+    );
   }
 
   /**
@@ -215,7 +249,7 @@ class AKNDoc {
    */
   finalize() {
     if (Object.keys(this.metaAndMain).length === 0) return;
-    const xml = { ...this.metaAndMain };
+    const xml = JSON.parse(JSON.stringify(this.metaAndMain));
     if (Object.keys(this.conclusions).length !== 0)
       xml.akomaNtoso.doc.conclusions = { ...this.conclusions };
 

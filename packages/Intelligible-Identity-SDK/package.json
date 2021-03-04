@@ -18,6 +18,7 @@
   "homepage": "https://github.com/BitNomos/Intelligible-Identity-SDK#readme",
   "dependencies": {
     "@intelligiblesuite/akomantoso-doc": "file:../akomantoso-doc",
-    "@intelligiblesuite/token-ethereum": "file:../Intelligible-Token-Ethereum"
+    "@intelligiblesuite/token-ethereum": "file:../Intelligible-Token-Ethereum",
+    "ethereumjs-util": "^7.0.8"
   }
 }

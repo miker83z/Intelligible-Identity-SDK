@@ -1,5 +1,6 @@
 const { IdentityWeb3 } = require('./lib/web3');
 const { IdentityAKN } = require('./lib/akn');
+const { ok } = require('assert');
 
 /**
  * @description Represents an Intelligible Identity and includes tha objects that compose it.
@@ -92,7 +93,10 @@ class IntelligibleIdentity {
     let createdWeb3 = !!Object.keys(this.web3).length && !!this.web3.tokenId;
 
     const web3Information = {
-      accountAddress: createdWeb3 ? this.web3.address : 'addressWeb3',
+      accountAddress: {
+        '@eId': 'identityEthereumAccountAddress',
+        '#': createdWeb3 ? this.web3.address : 'addressWeb3',
+      },
       smartContractAddress: createdWeb3
         ? this.web3.contract.options.address
         : 'addressSmartContractWeb3',
@@ -167,23 +171,29 @@ class IntelligibleIdentity {
    * @description Creates an akn instance from a string that represents the AKN document
    * @param {string} aknDocumentString The string that represents the XML document
    */
-  fromStringAKN(aknDocumentString) {
+  async fromStringAKN(
+    aknDocumentString,
+    web3Provider,
+    networkId,
+    intelligibleIdArtifact
+  ) {
     this.akn = IdentityAKN.fromString(aknDocumentString);
 
-    const {
-      name,
-      email,
-    } = this.akn.metaAndMain.akomaNtoso.doc.mainBody.tblock.find(
-      (t) => t['@eId'] == 'tblock_1'
-    ).p;
+    if (web3Provider !== undefined) {
+      const identityEthereumAccountAddressEle = this.akn.findValueByEId(
+        'identityEthereumAccountAddress'
+      );
 
-    const identityAknURI = this.akn.metaAndMain.akomaNtoso.doc.meta
-      .identification.FRBRManifestation.FRBRthis['@value'];
+      if (identityEthereumAccountAddressEle !== undefined) {
+        this.web3 = new IdentityWeb3(
+          web3Provider,
+          networkId,
+          intelligibleIdArtifact
+        );
 
-    this.information = { name, email, identityAknURI };
-
-    //TODO verify Signatures (certificate tests)
-    //if (createdWeb3) { }
+        this.web3.address = identityEthereumAccountAddressEle.node.textContent;
+      }
+    }
   }
 }
 

@@ -147,22 +147,6 @@ class IntelligibleCertificate {
    */
   fromStringAKN(aknDocumentString) {
     this.akn = CertificateAKN.fromString(aknDocumentString);
-
-    const {
-      name,
-      uri,
-      documentDigest,
-    } = this.akn.metaAndMain.akomaNtoso.doc.mainBody.tblock.find(
-      (t) => t['@eId'] == 'tblock_1'
-    ).p;
-
-    const certificateAknURI = this.akn.metaAndMain.akomaNtoso.doc.meta
-      .identification.FRBRManifestation.FRBRthis['@value'];
-
-    this.information = { name, uri, documentDigest, certificateAknURI };
-
-    //TODO verify Signatures (certificate tests)
-    //if (createdWeb3) { }
   }
 }
 
