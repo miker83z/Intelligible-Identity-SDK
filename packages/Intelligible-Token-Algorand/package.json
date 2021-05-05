@@ -1,5 +1,5 @@
 {
-  "name": "@intelligiblesuite/token-algorand",
+  "name": "@intelligiblesuite/intelligible-token-algorand",
   "version": "0.1.0",
   "description": "Algorand wrapper for the Intelligible Suite",
   "main": "index.js",

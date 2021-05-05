@@ -1,10 +1,10 @@
 const { IdentityWeb3 } = require('./lib/web3');
-const { IdentityAKN } = require('./lib/akn');
+const { IdentityMeta } = require('./lib/meta');
 
 /**
  * @description Represents an Intelligible Identity and includes tha objects that compose it.
  * This allows to create a new Intelligible Identity by issuing the identity tokens, to handle
- * the AKN document and to reconstruct an identity from text.
+ * the metadata document and to reconstruct an identity from text.
  */
 class IntelligibleIdentity {
   /**
@@ -12,7 +12,7 @@ class IntelligibleIdentity {
    */
   constructor() {
     this.web3 = {};
-    this.akn = {};
+    this.meta = {};
     this.information = {};
     this.references = {};
   }
@@ -70,7 +70,7 @@ class IntelligibleIdentity {
   }
 
   /**
-   * @description Creates a new akn object fetching the information from the personal
+   * @description Creates a new meta object fetching the information from the personal
    * information object (setIdentityInformation required), the web3 object (not required)
    * and the algo object (not required)
    * @param {boolean} [optionalNoPersonalSign] The option for signing with eth.personal.sign
@@ -78,7 +78,7 @@ class IntelligibleIdentity {
    * @param {Object} [information] Identity's personal information object
    * @param {Object} [references] Identity's references object
    */
-  async newIdentityAKN(optionalNoPersonalSign, information, references) {
+  async newIdentityMeta(optionalNoPersonalSign, information, references) {
     if (information !== undefined) {
       this.information = information;
     }
@@ -103,15 +103,15 @@ class IntelligibleIdentity {
       tokenId: createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
     };
 
-    // AKN document
-    this.akn = new IdentityAKN(
+    // Meta document
+    this.meta = new IdentityMeta(
       this.information,
       this.references,
       web3Information
     );
 
     //Signatures
-    this.akn.addSwSignature(
+    this.meta.addSwSignature(
       this.references.idIssuerSoftware['@eId'],
       this.references.idIssuerSoftware.name,
       'softwareSignature' // Software signature TODO
@@ -119,10 +119,10 @@ class IntelligibleIdentity {
 
     if (createdWeb3) {
       const signature = await this.web3.signData(
-        this.akn.finalizeNoConclusions(),
+        this.meta.finalizeNoConclusions(),
         optionalNoPersonalSign
       );
-      this.akn.addSignature(
+      this.meta.addSignature(
         this.references.idIssuerRepresentative['@eId'],
         this.references.idIssuerRepresentative.name,
         this.references.idIssuerRepresentativeRole['@eId'],
@@ -137,7 +137,7 @@ class IntelligibleIdentity {
 
   /**
    * @description Creates a web3 instance from an Ethereum address by searching for the last Identity
-   * token issued to this. It returns the token URI used to derive/obtain the akn document.
+   * token issued to this. It returns the token URI used to derive/obtain the meta document.
    * @param {Object} web3Provider The web3 provider
    * @param {number|string} mainAddress The selected main address or its
    * position within the provider accounts list
@@ -168,24 +168,24 @@ class IntelligibleIdentity {
   }
 
   /**
-   * @description Creates an akn instance from a string that represents the AKN document
-   * @param {string} aknDocumentString The string that represents the XML document
+   * @description Creates an meta instance from a string that represents the Meta document
+   * @param {string} metaDocumentString The string that represents the XML document
    */
-  async fromStringAKN(
-    aknDocumentString,
+  async fromStringMeta(
+    metaDocumentString,
     web3Provider,
     networkId,
     intelligibleIdArtifact
   ) {
-    this.akn = IdentityAKN.fromString(aknDocumentString);
+    this.meta = IdentityMeta.fromString(metaDocumentString);
     const {
       information,
       references,
-    } = this.akn.parseInformationAndReferences();
+    } = this.meta.parseInformationAndReferences();
     this.setIdentityInformation(information, references);
 
     if (web3Provider !== undefined) {
-      const identityEthereumAccountAddressEle = this.akn.findValueByEId(
+      const identityEthereumAccountAddressEle = this.meta.findValueByEId(
         'identityEthereumAccountAddress'
       );
 
@@ -204,6 +204,6 @@ class IntelligibleIdentity {
 
 module.exports = {
   IdentityWeb3,
-  IdentityAKN,
+  IdentityMeta,
   IntelligibleIdentity,
 };

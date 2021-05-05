@@ -2,12 +2,12 @@ const { create, convert } = require('xmlbuilder2');
 const utils = require('./templates');
 
 /**
- * @description Wraps an Akoma Ntoso (AKN) document into a class. Allows to export an
- * AKN document to a string and to import a new one from a string,
+ * @description Wraps an XML document into a class. Allows to export an
+ * XML document to a string and to import a new one from a string,
  */
-class AKNDoc {
+class MetaDoc {
   /**
-   * @description Creates an instance of AKNDoc.
+   * @description Creates an instance of MetaDoc.
    */
   constructor() {
     this.metaAndMain = {};
@@ -17,22 +17,22 @@ class AKNDoc {
   }
 
   /**
-   * @description Creates a new ANK document and stores it in this.metaAndMain
+   * @description Creates a new XML document and stores it in this.metaAndMain
    * @param {Object} docElements An object used to create the document.
    */
-  newAKNDocument(docElements) {
+  newMetaDocument(docElements) {
     const xml = JSON.parse(JSON.stringify(utils.templates.metaAndMainTemplate));
     //meta
     ////Identification
     //////FRBRWork
     Object.keys(docElements.identification.FRBRWork).forEach((e) => {
-      if (e in xml.akomaNtoso.doc.meta.identification.FRBRWork) {
-        xml.akomaNtoso.doc.meta.identification.FRBRWork[e] = {
-          ...xml.akomaNtoso.doc.meta.identification.FRBRWork[e],
+      if (e in xml.metaDoc.doc.meta.identification.FRBRWork) {
+        xml.metaDoc.doc.meta.identification.FRBRWork[e] = {
+          ...xml.metaDoc.doc.meta.identification.FRBRWork[e],
           ...docElements.identification.FRBRWork[e],
         };
       } else {
-        xml.akomaNtoso.doc.meta.identification.FRBRWork[e] = {
+        xml.metaDoc.doc.meta.identification.FRBRWork[e] = {
           ...docElements.identification.FRBRWork[e],
         };
       }
@@ -40,13 +40,13 @@ class AKNDoc {
     //////
     //////FRBRExpression
     Object.keys(docElements.identification.FRBRExpression).forEach((e) => {
-      if (e in xml.akomaNtoso.doc.meta.identification.FRBRExpression) {
-        xml.akomaNtoso.doc.meta.identification.FRBRExpression[e] = {
-          ...xml.akomaNtoso.doc.meta.identification.FRBRExpression[e],
+      if (e in xml.metaDoc.doc.meta.identification.FRBRExpression) {
+        xml.metaDoc.doc.meta.identification.FRBRExpression[e] = {
+          ...xml.metaDoc.doc.meta.identification.FRBRExpression[e],
           ...docElements.identification.FRBRExpression[e],
         };
       } else {
-        xml.akomaNtoso.doc.meta.identification.FRBRExpression[e] = {
+        xml.metaDoc.doc.meta.identification.FRBRExpression[e] = {
           ...docElements.identification.FRBRExpression[e],
         };
       }
@@ -54,13 +54,13 @@ class AKNDoc {
     //////
     //////FRBRManifestation
     Object.keys(docElements.identification.FRBRManifestation).forEach((e) => {
-      if (e in xml.akomaNtoso.doc.meta.identification.FRBRManifestation) {
-        xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e] = {
-          ...xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e],
+      if (e in xml.metaDoc.doc.meta.identification.FRBRManifestation) {
+        xml.metaDoc.doc.meta.identification.FRBRManifestation[e] = {
+          ...xml.metaDoc.doc.meta.identification.FRBRManifestation[e],
           ...docElements.identification.FRBRManifestation[e],
         };
       } else {
-        xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e] = {
+        xml.metaDoc.doc.meta.identification.FRBRManifestation[e] = {
           ...docElements.identification.FRBRManifestation[e],
         };
       }
@@ -70,11 +70,11 @@ class AKNDoc {
     ////Reference
     Object.keys(docElements.references).forEach((r) => {
       if (
-        xml.akomaNtoso.doc.meta.references[docElements.references[r].type] ===
+        xml.metaDoc.doc.meta.references[docElements.references[r].type] ===
         undefined
       )
-        xml.akomaNtoso.doc.meta.references[docElements.references[r].type] = [];
-      xml.akomaNtoso.doc.meta.references[docElements.references[r].type].push({
+        xml.metaDoc.doc.meta.references[docElements.references[r].type] = [];
+      xml.metaDoc.doc.meta.references[docElements.references[r].type].push({
         '@eId': docElements.references[r]['@eId'],
         '@href': docElements.references[r]['@href'],
         '@showAs': docElements.references[r]['@showAs'],
@@ -83,13 +83,13 @@ class AKNDoc {
     ////
     //
     //preface
-    xml.akomaNtoso.doc.preface.longTitle.p = docElements.prefaceTitle;
+    xml.metaDoc.doc.preface.longTitle.p = docElements.prefaceTitle;
     //
     //mainBody
-    xml.akomaNtoso.doc.mainBody['tblock'] = [];
+    xml.metaDoc.doc.mainBody['tblock'] = [];
     let iBlock = 1;
     Object.keys(docElements.mainBody).forEach((b) => {
-      xml.akomaNtoso.doc.mainBody['tblock'].push({
+      xml.metaDoc.doc.mainBody['tblock'].push({
         '@eId': `tblock_${iBlock}`,
         heading: {
           '@eId': `tblock_${iBlock}__heading`,
@@ -107,27 +107,27 @@ class AKNDoc {
   }
 
   /**
-   * @description Creates an instance of AKNDoc from a string.
+   * @description Creates an instance of MetaDoc from a string.
    * @static
-   * @param {string} string The string representing a valid AKN document.
+   * @param {string} string The string representing a valid XML document.
    * @return {string}
    */
   static fromString(string) {
     const xml = convert(string, { format: 'object' });
-    if (!('akomaNtoso' in xml)) return;
+    if (!('metaDoc' in xml)) return;
     const temp = new this();
 
     temp.metaAndMain = xml;
-    if (xml.akomaNtoso.doc.conclusions !== 'undefined') {
-      temp.conclusions = xml.akomaNtoso.doc.conclusions;
-      delete temp.metaAndMain.akomaNtoso.doc.conclusions;
+    if (xml.metaDoc.doc.conclusions !== 'undefined') {
+      temp.conclusions = xml.metaDoc.doc.conclusions;
+      delete temp.metaAndMain.metaDoc.doc.conclusions;
     }
 
     return temp;
   }
 
   /**
-   * @description Adds a signature to the AKN document.
+   * @description Adds a signature to the XML document.
    * @param {string} eId The eId of the signatory
    * @param {string} name The name of the signatory
    * @param {string} signature The signature to add
@@ -179,7 +179,7 @@ class AKNDoc {
   }
 
   /**
-   * @description Adds a software signature to the AKN document.
+   * @description Adds a software signature to the XML document.
    * @param {string} eId The eId of the software
    * @param {string} name The name of the software
    * @param {string} signature The signature to add
@@ -211,7 +211,7 @@ class AKNDoc {
     if (Object.keys(this.metaAndMain).length === 0) return;
     const xml = JSON.parse(JSON.stringify(this.metaAndMain));
     if (Object.keys(this.conclusions).length !== 0)
-      xml.akomaNtoso.doc.conclusions = { ...this.conclusions };
+      xml.metaDoc.doc.conclusions = { ...this.conclusions };
 
     return this.create(xml).find(
       (n) => {
@@ -229,7 +229,7 @@ class AKNDoc {
   }
 
   /**
-   * @description Finalizes the AKN document by returning the string that
+   * @description Finalizes the XML document by returning the string that
    * represents the XML document, omitting the conclusions part.
    * (Usually used for the signature payload).
    * @return {string} The XML document string representation
@@ -243,7 +243,7 @@ class AKNDoc {
   }
 
   /**
-   * @description Finalizes the AKN document by returning the string that
+   * @description Finalizes the XML document by returning the string that
    * represents the XML document
    * @return {string} The XML document string representation
    */
@@ -251,11 +251,11 @@ class AKNDoc {
     if (Object.keys(this.metaAndMain).length === 0) return;
     const xml = JSON.parse(JSON.stringify(this.metaAndMain));
     if (Object.keys(this.conclusions).length !== 0)
-      xml.akomaNtoso.doc.conclusions = { ...this.conclusions };
+      xml.metaDoc.doc.conclusions = { ...this.conclusions };
 
     const final = this.create(xml);
     return final.end({ prettyPrint: true });
   }
 }
 
-module.exports = { AKNDoc };
+module.exports = { MetaDoc };

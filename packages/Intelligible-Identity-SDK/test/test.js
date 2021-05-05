@@ -2,7 +2,7 @@ const { IntelligibleIdentity } = require('./..');
 
 // Setup info////////////////////////
 const web3Provider = 'http://127.0.0.1:8545';
-const networkId = '5778';
+const networkId = '5777';
 //////////////////////////////////////
 
 //Identity info//////////////////////
@@ -76,7 +76,7 @@ const simpleNewIdentity = async () => {
   const a = new IntelligibleIdentity();
   await a.prepareNewIdentityWeb3(web3Provider, 0, undefined, networkId);
   a.setIdentityInformation(information, identityReferences);
-  a.newIdentityAKN(false);
+  a.newIdentityMeta(false);
   await a.finalizeNewIdentityWeb3('identityHash');
 
   return a;
@@ -86,9 +86,9 @@ const fromAddress = async () => {
   const a = await simpleNewIdentity();
   const b = new IntelligibleIdentity();
   await b.fromWeb3Address(web3Provider, 0, a.web3.address, networkId);
-  b.fromStringAKN(a.akn.finalize());
+  b.fromStringMeta(a.meta.finalize());
 
-  console.log(b.akn.finalize());
+  console.log(b.meta.finalize());
 };
 
 //simpleNewIdentity();

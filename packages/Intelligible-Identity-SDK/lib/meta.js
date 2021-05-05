@@ -1,6 +1,18 @@
-const { AKNDoc } = require('@intelligiblesuite/akomantoso-doc');
+const { MetaDoc } = require('@intelligiblesuite/metadata-doc');
 
-class IdentityAKN extends AKNDoc {
+/**
+ * @description Provides the means to create and manage an intelligible identity
+ * metadata document.
+ * @extends {MetaDoc}
+ */
+class IdentityMeta extends MetaDoc {
+  /**
+   * @description Creates an instance of IdentityMeta. If the information object is not passed as a parameter,
+   * the instance will be created empty and a string can be inserted for later parsing.
+   * @param {Object} [information] The information regarding the identity (e.g. type, name, etc.)
+   * @param {Object} [references] The references to other persons, organizations, objects
+   * @param {Object} [web3Information] The the information regarding the Ethereum representation (token)
+   */
   constructor(information, references, web3Information) {
     super();
 
@@ -92,9 +104,9 @@ class IdentityAKN extends AKNDoc {
           identities: {
             blockTitle: 'Identities',
             p: {
-              mod: [
+              block: [
                 {
-                  '@eId': 'identities_mod_id_issuer',
+                  '@eId': 'identities_block_id_issuer',
                   [references.idIssuer.type.slice(3).toLowerCase()]: {
                     '@eId': 'identities_id_issuer',
                     '@refersTo': references.idIssuer['@eId'],
@@ -107,7 +119,7 @@ class IdentityAKN extends AKNDoc {
                   },
                 },
                 {
-                  '@eId': 'identities_mod_id_issuer_repr',
+                  '@eId': 'identities_block_id_issuer_repr',
                   [references.idIssuerRepresentative.type
                     .slice(3)
                     .toLowerCase()]: {
@@ -122,7 +134,7 @@ class IdentityAKN extends AKNDoc {
                   },
                 },
                 {
-                  '@eId': 'identities_mod_id_issuer_repr',
+                  '@eId': 'identities_block_id_issuer_repr',
                   [references.idReceiver.type.slice(3).toLowerCase()]: {
                     '@eId': 'identities_id_issuer_repr',
                     '@refersTo': references.idReceiver['@eId'],
@@ -141,10 +153,14 @@ class IdentityAKN extends AKNDoc {
         },
       };
 
-      this.newAKNDocument(identityElements);
+      this.newMetaDocument(identityElements);
     }
   }
 
+  /**
+   * @description Parses the document string after it has been created from a string
+   * @return {Object} An object containing the information object and references object
+   */
   parseInformationAndReferences() {
     if (Object.keys(this.metaAndMain).length === 0) return;
     var information = {},
@@ -159,24 +175,24 @@ class IdentityAKN extends AKNDoc {
       email: informationInfo[informationInfo.identityType].email,
       FRBRWork: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRWork
+          this.metaAndMain.metaDoc.doc.meta.identification.FRBRWork
         )
       ),
       FRBRExpression: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRExpression
+          this.metaAndMain.metaDoc.doc.meta.identification.FRBRExpression
         )
       ),
       FRBRManifestation: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRManifestation
+          this.metaAndMain.metaDoc.doc.meta.identification.FRBRManifestation
         )
       ),
       additionalBody: {},
     };
 
     const identitiesInfo = this.findValueByEId('tblock_3__p_3').toObject().p
-      .mod;
+      .block;
     identitiesInfo.forEach((id) => {
       Object.values(id).forEach((v) => {
         if (typeof v === 'object' && v['@refersTo'] !== undefined) {
@@ -198,4 +214,4 @@ class IdentityAKN extends AKNDoc {
   }
 }
 
-module.exports = { IdentityAKN };
+module.exports = { IdentityMeta };

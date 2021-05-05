@@ -1,6 +1,6 @@
 {
   "name": "@intelligiblesuite/contracts-solidity",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Solidity Smart Contracts for the Intelligible Suite",
   "main": "truffle-config.js",
   "directories": {
@@ -12,7 +12,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@openzeppelin/contracts": "^3.3.0",
+    "@openzeppelin/contracts": "^3.3.0"
+  },
+  "devDependencies": {
     "@truffle/hdwallet-provider": "^1.2.0"
   }
 }

@@ -225,7 +225,7 @@ const simpleNewIdentity = async (
     networkId
   );
   a.setIdentityInformation(information, identityReferences);
-  a.newIdentityAKN(false);
+  a.newIdentityMeta(false);
   await a.finalizeNewIdentityWeb3('identityHash');
 
   return a;
@@ -247,13 +247,13 @@ const simpleNewCertificate = async () => {
     networkId
   );
   c.setCertificateInformation(certificateInformation, certificateReferences);
-  c.newCertificateAKN();
+  c.newCertificateMeta();
 
   const issuerSignature = await issuerR.web3.signData(
-    c.akn.finalizeNoConclusions(),
+    c.meta.finalizeNoConclusions(),
     false
   );
-  c.akn.addSignature(
+  c.meta.addSignature(
     certificateReferences.certIssuerRepresentative['@eId'],
     certificateReferences.certIssuerRepresentative.name,
     certificateReferences.certIssuerRepresentativeRole['@eId'],
@@ -267,10 +267,10 @@ const simpleNewCertificate = async () => {
 
   // receiver signature
   const receiverSignature = await receiver.web3.signData(
-    c.akn.finalizeNoConclusions(),
+    c.meta.finalizeNoConclusions(),
     false
   );
-  c.akn.addSignature(
+  c.meta.addSignature(
     certificateReferences.certReceiver['@eId'],
     certificateReferences.certReceiver.name,
     certificateReferences.certReceiverRole['@eId'],
@@ -282,20 +282,20 @@ const simpleNewCertificate = async () => {
   );
 
   await verifySignature(
-    c.akn.finalize(),
-    issuerR.akn.finalize(),
-    receiver.akn.finalize()
+    c.meta.finalize(),
+    issuerR.meta.finalize(),
+    receiver.meta.finalize()
   );
 };
 
-const verifySignature = async (certAkn, issuerAkn, receiverAkn) => {
+const verifySignature = async (certMeta, issuerMeta, receiverMeta) => {
   const c = new IntelligibleCertificate();
-  c.fromStringAKN(certAkn);
-  const signedPayload = c.akn.finalizeNoConclusions();
+  c.fromStringMeta(certMeta);
+  const signedPayload = c.meta.finalizeNoConclusions();
 
   const issuer = new IntelligibleIdentity();
-  issuer.fromStringAKN(issuerAkn, web3Provider);
-  const issuerSignature = c.akn.findValueByEId(
+  issuer.fromStringMeta(issuerMeta, web3Provider);
+  const issuerSignature = c.meta.findValueByEId(
     `conclusion_signature_${certificateReferences.certIssuerRepresentative[
       '@eId'
     ].slice(1)}_signature`
@@ -310,8 +310,8 @@ const verifySignature = async (certAkn, issuerAkn, receiverAkn) => {
   );
 
   const receiver = new IntelligibleIdentity();
-  receiver.fromStringAKN(receiverAkn, web3Provider);
-  const receiverSignature = c.akn.findValueByEId(
+  receiver.fromStringMeta(receiverMeta, web3Provider);
+  const receiverSignature = c.meta.findValueByEId(
     `conclusion_signature_${certificateReferences.certReceiver['@eId'].slice(
       1
     )}_signature`

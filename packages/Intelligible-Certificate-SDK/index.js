@@ -1,10 +1,12 @@
-const { Web3Wrapper } = require('@intelligiblesuite/token-ethereum');
-const { CertificateAKN } = require('./lib/akn');
+const {
+  Web3Wrapper,
+} = require('@intelligiblesuite/intelligible-token-ethereum');
+const { CertificateMeta } = require('./lib/meta');
 
 /**
  * @description Represents an Intelligible Certificate and includes tha objects that compose it.
  * This allows to create a new Intelligible Certificate by issuing the Certificate tokens, to handle
- * the AKN document and to reconstruct an Certificate from text.
+ * the metadata document and to reconstruct an Certificate from text.
  */
 class IntelligibleCertificate {
   /**
@@ -12,7 +14,7 @@ class IntelligibleCertificate {
    */
   constructor() {
     this.web3 = {};
-    this.akn = {};
+    this.meta = {};
     this.information = {};
   }
 
@@ -71,13 +73,13 @@ class IntelligibleCertificate {
   }
 
   /**
-   * @description Creates a new akn object fetching the information from the certificate
+   * @description Creates a new meta object fetching the information from the certificate
    * information object (setCertificateInformation required) and the web3 object (not required)
    * PROVIDER AND RECEIVER SIGNATURES ARE NOT INCLUDED.
    * @param {Object} [information] Certificate's information object
    * @param {Object} [references] Certificate's references object
    */
-  newCertificateAKN(information, references) {
+  newCertificateMeta(information, references) {
     if (information !== undefined) {
       this.information = information;
     }
@@ -98,15 +100,15 @@ class IntelligibleCertificate {
       tokenId: createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
     };
 
-    // AKN document
-    this.akn = new CertificateAKN(
+    // Meta document
+    this.meta = new CertificateMeta(
       this.information,
       this.references,
       web3Information
     );
 
     //Signatures
-    this.akn.addSwSignature(
+    this.meta.addSwSignature(
       this.references.certIssuerSoftware['@eId'],
       this.references.certIssuerSoftware.name,
       'softwareSignature' // Software signature TODO
@@ -115,7 +117,7 @@ class IntelligibleCertificate {
 
   /**
    * @description Creates a web3 instance from a token id. It returns the token URI used to derive/obtain
-   * the akn document.
+   * the meta document.
    * @param {Object} web3Provider The web3 provider
    * @param {number|string} mainAddress The selected main address or its
    * position within the provider accounts list
@@ -142,20 +144,20 @@ class IntelligibleCertificate {
   }
 
   /**
-   * @description Creates an akn instance from a string that represents the AKN document
-   * @param {string} aknDocumentString The string that represents the XML document
+   * @description Creates an meta instance from a string that represents the Meta document
+   * @param {string} metaDocumentString The string that represents the XML document
    */
-  fromStringAKN(aknDocumentString) {
-    this.akn = CertificateAKN.fromString(aknDocumentString);
+  fromStringMeta(metaDocumentString) {
+    this.meta = CertificateMeta.fromString(metaDocumentString);
     const {
       information,
       references,
-    } = this.akn.parseInformationAndReferences();
+    } = this.meta.parseInformationAndReferences();
     this.setCertificateInformation(information, references);
   }
 }
 
 module.exports = {
-  CertificateAKN,
+  CertificateMeta,
   IntelligibleCertificate,
 };

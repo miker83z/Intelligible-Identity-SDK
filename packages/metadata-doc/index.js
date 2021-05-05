@@ -1,7 +1,7 @@
-const akn = require('./lib/aknDoc');
+const meta = require('./lib/metaDoc');
 const utils = require('./lib/templates');
 
 module.exports = {
-  AKNDoc: akn.AKNDoc,
+  MetaDoc: meta.MetaDoc,
   utils,
 };

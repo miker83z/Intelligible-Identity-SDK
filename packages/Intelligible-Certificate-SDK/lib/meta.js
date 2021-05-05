@@ -1,6 +1,18 @@
-const { AKNDoc } = require('@intelligiblesuite/akomantoso-doc');
+const { MetaDoc } = require('@intelligiblesuite/metadata-doc');
 
-class CertificateAKN extends AKNDoc {
+/**
+ * @description Provides the means to create and manage an intelligible certificate
+ * metadata document.
+ * @extends {MetaDoc}
+ */
+class CertificateMeta extends MetaDoc {
+  /**
+   * @description Creates an instance of CertificateMeta. If the information object is not passed as a parameter,
+   * the instance will be created empty and a string can be inserted for later parsing.
+   * @param {Object} [information] The information regarding the certificate (e.g. type, name, etc.)
+   * @param {Object} [references] The references to other persons, organizations, objects
+   * @param {Object} [web3Information] The the information regarding the Ethereum representation (token)
+   */
   constructor(information, references, web3Information) {
     super();
 
@@ -93,9 +105,9 @@ class CertificateAKN extends AKNDoc {
           identities: {
             blockTitle: 'Identities',
             p: {
-              mod: [
+              block: [
                 {
-                  '@eId': 'identities_mod_cert_issuer',
+                  '@eId': 'identities_block_cert_issuer',
                   organization: {
                     '@eId': 'identities_cert_issuer',
                     '@refersTo': references.certIssuer['@eId'],
@@ -108,7 +120,7 @@ class CertificateAKN extends AKNDoc {
                   },
                 },
                 {
-                  '@eId': 'identities_mod_cert_issuer_repr',
+                  '@eId': 'identities_block_cert_issuer_repr',
                   person: {
                     '@eId': 'identities_cert_issuer_repr',
                     '@refersTo': references.certIssuerRepresentative['@eId'],
@@ -122,7 +134,7 @@ class CertificateAKN extends AKNDoc {
                   },
                 },
                 {
-                  '@eId': 'identities_mod_cert_receiver',
+                  '@eId': 'identities_block_cert_receiver',
                   person: {
                     '@eId': 'identities_cert_receiver',
                     '@refersTo': references.certReceiver['@eId'],
@@ -141,10 +153,14 @@ class CertificateAKN extends AKNDoc {
         },
       };
 
-      this.newAKNDocument(certificateElements);
+      this.newMetaDocument(certificateElements);
     }
   }
 
+  /**
+   * @description Parses the document string after it has been created from a string
+   * @return {Object} An object containing the information object and references object
+   */
   parseInformationAndReferences() {
     if (Object.keys(this.metaAndMain).length === 0) return;
     var information = {},
@@ -158,17 +174,17 @@ class CertificateAKN extends AKNDoc {
       certificateDate: informationInfo.docDate['#'],
       FRBRWork: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRWork
+          this.metaAndMain.metaDoc.doc.meta.identification.FRBRWork
         )
       ),
       FRBRExpression: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRExpression
+          this.metaAndMain.metaDoc.doc.meta.identification.FRBRExpression
         )
       ),
       FRBRManifestation: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRManifestation
+          this.metaAndMain.metaDoc.doc.meta.identification.FRBRManifestation
         )
       ),
       additionalBody: {},
@@ -191,7 +207,7 @@ class CertificateAKN extends AKNDoc {
     });
 
     const identitiesInfo = this.findValueByEId('tblock_3__p_3').toObject().p
-      .mod;
+      .block;
     identitiesInfo.forEach((id) => {
       Object.values(id).forEach((v) => {
         if (typeof v === 'object' && v['@refersTo'] !== undefined) {
@@ -213,4 +229,4 @@ class CertificateAKN extends AKNDoc {
   }
 }
 
-module.exports = { CertificateAKN };
+module.exports = { CertificateMeta };

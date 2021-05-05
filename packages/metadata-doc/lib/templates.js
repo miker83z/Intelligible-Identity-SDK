@@ -1,8 +1,6 @@
 const templates = {
   metaAndMainTemplate: {
-    akomaNtoso: {
-      '@xsi:schemaLocation':
-        'http://docs.oasis-open.org/legaldocml/ns/akn/3.0../schemas/akomantoso30.xsd',
+    metaDoc: {
       doc: {
         '@name': 'certificate',
         '@contains': 'originalVersion',

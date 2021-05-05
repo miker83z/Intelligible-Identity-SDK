@@ -1,7 +1,7 @@
 {
-  "name": "@intelligiblesuite/akomantoso-doc",
-  "version": "0.1.0",
-  "description": "Library for creating and parsong an Akoma Ntoso document",
+  "name": "@intelligiblesuite/metadata-doc",
+  "version": "1.0.0",
+  "description": "Library for creating and parsong an XML metadata document",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

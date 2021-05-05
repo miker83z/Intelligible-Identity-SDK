@@ -1,6 +1,6 @@
 {
   "name": "@intelligiblesuite/identity",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Intelligible Identity - The creation of identities through the Intelligible paradigm",
   "main": "index.js",
   "scripts": {
@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/BitNomos/Intelligible-Identity-SDK#readme",
   "dependencies": {
-    "@intelligiblesuite/akomantoso-doc": "file:../akomantoso-doc",
-    "@intelligiblesuite/token-ethereum": "file:../Intelligible-Token-Ethereum",
+    "@intelligiblesuite/intelligible-token-ethereum": "file:../Intelligible-Token-Ethereum",
+    "@intelligiblesuite/metadata-doc": "file:../metadata-doc",
     "ethereumjs-util": "^7.0.8"
   }
 }

@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 const assert = require('assert').strict;
-const { Web3Wrapper } = require('@intelligiblesuite/token-ethereum');
+const {
+  Web3Wrapper,
+} = require('@intelligiblesuite/intelligible-token-ethereum');
 const {
   ecrecover,
   hashPersonalMessage,
@@ -15,7 +17,7 @@ const {
  */
 class IdentityWeb3 extends Web3Wrapper {
   /**
-   * @description Creates an instance of CertificateWeb3. An instance only requires a
+   * @description Creates an instance of IdentityWeb3. An instance only requires a
    * provider: in such case, methods not related to the smart contract will work.
    * @param {Object} provider The web3 provider
    * @param {number} [networkId] The id of the network where the provider operates
