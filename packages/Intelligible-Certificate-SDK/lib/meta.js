@@ -36,10 +36,10 @@ class CertificateMeta extends MetaDoc {
         identification: {
           FRBRWork: {
             FRBRthis: {
-              '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/!main`,
+              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/!main`,
             },
             FRBRuri: {
-              '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/`,
+              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/`,
             },
             FRBRdate: { '@date': information.certificateDate },
             FRBRauthor: {
@@ -49,10 +49,10 @@ class CertificateMeta extends MetaDoc {
           },
           FRBRExpression: {
             FRBRthis: {
-              '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/!main`,
+              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/!main`,
             },
             FRBRuri: {
-              '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/`,
+              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/`,
             },
             FRBRdate: { '@date': information.certificateDate },
             FRBRauthor: {
@@ -62,10 +62,10 @@ class CertificateMeta extends MetaDoc {
           },
           FRBRManifestation: {
             FRBRthis: {
-              '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/!main.xml`,
+              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/!main.xml`,
             },
             FRBRuri: {
-              '@value': `/akn/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}.akn`,
+              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}.meta`,
             },
             FRBRdate: { '@date': information.certificateDate },
             FRBRauthor: {

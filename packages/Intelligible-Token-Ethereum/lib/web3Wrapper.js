@@ -249,10 +249,15 @@ class Web3Wrapper {
         'wrapper/web3Wrapper: You need to provide a main address for operations'
       );
 
+    const ownerAddress = await this.contract.methods
+      .ownerOf(tokenId)
+      .call({ from: this.mainAddress });
+
     const tokenURI = await this.contract.methods
       .tokenURI(tokenId)
       .call({ from: this.mainAddress });
 
+    this.address = ownerAddress;
     this.tokenId = tokenId;
 
     return tokenURI;

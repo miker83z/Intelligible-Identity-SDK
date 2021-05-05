@@ -10,7 +10,7 @@ const templates = {
             FRBRWork: {
               FRBRthis: {
                 '@eId': 'frbrwork__frbrthis',
-                '@value': '/akn/eu/intelligibleIdentity/person/MilesDavis',
+                '@value': '/meta/eu/intelligibleIdentity/person/MilesDavis',
               },
               FRBRuri: { '@eId': 'frbrwork__frbruri', '@value': '' },
               FRBRdate: {
@@ -38,7 +38,7 @@ const templates = {
               FRBRthis: {
                 '@eId': 'frbrexpression__frbrthis',
                 '@value':
-                  '/akn/eu/intelligibleIdentity/person/MilesDavis/decentralizedIdentity',
+                  '/meta/eu/intelligibleIdentity/person/MilesDavis/decentralizedIdentity',
               },
               FRBRuri: { '@eId': 'frbrexpression__frbruri', '@value': '' },
               FRBRdate: {
@@ -59,7 +59,7 @@ const templates = {
               FRBRthis: {
                 '@eId': 'frbrmanifestation__frbrthis',
                 '@value':
-                  '/akn/eu/intelligibleIdentity/person/MilesDavis/decentralizedIdentity/nonFungible.akn',
+                  '/meta/eu/intelligibleIdentity/person/MilesDavis/decentralizedIdentity/nonFungible.meta',
               },
               FRBRuri: { '@eId': 'frbrmanifestation__frbruri', '@value': '' },
               FRBRdate: {

@@ -36,10 +36,10 @@ class IdentityMeta extends MetaDoc {
         identification: {
           FRBRWork: {
             FRBRthis: {
-              '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/!main`,
+              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/!main`,
             },
             FRBRuri: {
-              '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/`,
+              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/`,
             },
             FRBRdate: { '@date': information.identityDate },
             FRBRauthor: {
@@ -49,10 +49,10 @@ class IdentityMeta extends MetaDoc {
           },
           FRBRExpression: {
             FRBRthis: {
-              '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/!main`,
+              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/!main`,
             },
             FRBRuri: {
-              '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/`,
+              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/`,
             },
             FRBRdate: { '@date': information.identityDate },
             FRBRauthor: {
@@ -62,10 +62,10 @@ class IdentityMeta extends MetaDoc {
           },
           FRBRManifestation: {
             FRBRthis: {
-              '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/!main.xml`,
+              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/!main.xml`,
             },
             FRBRuri: {
-              '@value': `/akn/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}.akn`,
+              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}.meta`,
             },
             FRBRdate: { '@date': information.identityDate },
             FRBRauthor: {
