@@ -68,16 +68,38 @@ class MetaDoc {
     //////
     ////
     ////Reference
+    if (
+      !(
+        Object.keys(docElements.references).includes('iid') &&
+        Object.keys(docElements.references).includes('iidDIDDoc') &&
+        Object.keys(docElements.references).includes('iidIssuer')
+      )
+    ) {
+      throw new Error('Needs iid && iidDIDDoc && iidIssuer');
+    }
     Object.keys(docElements.references).forEach((r) => {
+      if (docElements.references[r].href === undefined)
+        throw new Error('Needs href');
+      if (docElements.references[r].type === undefined)
+        docElements.references[r].type = 'TLCReference';
       if (
         xml.metaDoc.doc.meta.references[docElements.references[r].type] ===
         undefined
       )
         xml.metaDoc.doc.meta.references[docElements.references[r].type] = [];
+      const eid =
+        docElements.references[r]['@eId'] === undefined
+          ? '#' + r
+          : docElements.references[r]['@eId'];
+      const showAs =
+        docElements.references[r]['@showAs'] === undefined
+          ? r
+          : docElements.references[r]['@showAs'];
+
       xml.metaDoc.doc.meta.references[docElements.references[r].type].push({
-        '@eId': docElements.references[r]['@eId'],
-        '@href': docElements.references[r]['@href'],
-        '@showAs': docElements.references[r]['@showAs'],
+        '@eId': eid,
+        '@href': docElements.references[r].href,
+        '@showAs': showAs,
       });
     });
     ////
@@ -129,51 +151,38 @@ class MetaDoc {
   /**
    * @description Adds a signature to the XML document.
    * @param {string} eId The eId of the signatory
-   * @param {string} name The name of the signatory
+   * @param {string} did The did of the signatory
+   * @param {string} timestamp The timestamp to add
    * @param {string} signature The signature to add
    */
-  addSignature(
-    eId,
-    name,
-    roleEId,
-    roleName,
-    publicKeyHref,
-    publicKey,
-    timestamp,
-    signature
-  ) {
+  addSignature(eId, did, timestamp, signature) {
     if (Object.keys(this.conclusions).length == 0)
       this.conclusions = JSON.parse(
         JSON.stringify(utils.templates.conclTemplate.conclusions)
       );
 
     this.conclusions.signature.push({
-      person: {
-        '@eId': `conclusion_signature_${eId.slice(1)}_pers`,
-        '@refersTo': eId,
-        '#': name,
+      iidSignatory: {
+        '#': {
+          entity: {
+            '@eId': `signature_${eId.slice(1)}_iidSignatory`,
+            '@refersTo': eId,
+            '#': did,
+          },
+        },
       },
-      role: {
-        '@eId': `conclusion_signature_${eId.slice(1)}_pers_role`,
-        '@refersTo': roleEId,
-        '#': roleName,
-      },
-      publicKey: {
-        '@eId': `conclusion_signature_${eId.slice(1)}_pk`,
-        ref: {
-          '@eId': `conclusion_signature_${eId.slice(1)}_pk_ref`,
-          '@href': publicKeyHref,
-          '#': publicKey,
+      digitalSignature: {
+        '#': {
+          entity: {
+            '@eId': `signature_${eId.slice(1)}_digitalSignature`,
+            '#': signature,
+          },
         },
       },
       timestamp: {
-        '@eId': `conclusion_signature_${eId.slice(1)}_timestamp`,
+        '@eId': `signature_${eId.slice(1)}_timestamp`,
         '@date': timestamp,
         '#': timestamp,
-      },
-      digitalSignature: {
-        '@eId': `conclusion_signature_${eId.slice(1)}_signature`,
-        '#': signature,
       },
     });
   }

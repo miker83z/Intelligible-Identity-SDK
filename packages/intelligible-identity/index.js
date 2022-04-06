@@ -112,8 +112,8 @@ class IntelligibleIdentity {
 
     //Signatures
     this.meta.addSwSignature(
-      this.references.idIssuerSoftware['@eId'],
-      this.references.idIssuerSoftware.name,
+      '#iidIssuerSoftware',
+      this.references.iidIssuerSoftware.entity,
       'softwareSignature' // Software signature TODO
     );
 
@@ -123,12 +123,8 @@ class IntelligibleIdentity {
         optionalNoPersonalSign
       );
       this.meta.addSignature(
-        this.references.idIssuerRepresentative['@eId'],
-        this.references.idIssuerRepresentative.name,
-        this.references.idIssuerRepresentativeRole['@eId'],
-        this.references.idIssuerRepresentativeRole.name,
-        this.references.idIssuerRepresentative['@href'], //TODO
-        this.web3.mainAddress,
+        '#iidIssuer',
+        this.references.iidIssuer.entity,
         Date.now(),
         signature
       );
@@ -178,10 +174,8 @@ class IntelligibleIdentity {
     intelligibleIdArtifact
   ) {
     this.meta = IdentityMeta.fromString(metaDocumentString);
-    const {
-      information,
-      references,
-    } = this.meta.parseInformationAndReferences();
+    const { information, references } =
+      this.meta.parseInformationAndReferences();
     this.setIdentityInformation(information, references);
 
     if (web3Provider !== undefined) {

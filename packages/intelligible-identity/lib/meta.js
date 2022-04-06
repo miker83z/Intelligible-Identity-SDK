@@ -32,123 +32,81 @@ class IdentityMeta extends MetaDoc {
           ? information.FRBRManifestation
           : {};
 
+      if (
+        !(
+          Object.keys(references).includes('iid') &&
+          Object.keys(references).includes('iidDIDDoc') &&
+          Object.keys(references).includes('iidIssuer')
+        )
+      ) {
+        throw new Error('Needs iid && iidDIDDoc && iidIssuer');
+      }
+      const informationBlock = {
+        blockTitle: 'Identity Information',
+        p: {},
+      };
+      Object.keys(references).forEach((r) => {
+        if (references[r]['@eId'] === undefined)
+          references[r]['@eId'] = '#' + r;
+        if (references[r]['@showAs'] === undefined)
+          references[r]['@showAs'] = r;
+        informationBlock.p[r] = {
+          '#': {
+            entity: {
+              '@eId': 'ii_block_' + r,
+              '@refersTo': references[r]['@eId'],
+              '#': references[r].entity,
+            },
+          },
+        };
+      });
+
       const identityElements = {
         identification: {
           FRBRWork: {
             FRBRthis: {
-              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/!main`,
+              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/!main`,
             },
             FRBRuri: {
-              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/`,
+              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}`,
             },
             FRBRdate: { '@date': information.identityDate },
             FRBRauthor: {
-              '@href': references.idIssuerRepresentative['@eId'],
+              '@href': references.iidIssuer['@eId'],
             },
             ...tmpFRBRWork,
           },
           FRBRExpression: {
             FRBRthis: {
-              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/!main`,
+              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/eng@!main`,
             },
             FRBRuri: {
-              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/`,
+              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/eng@`,
             },
             FRBRdate: { '@date': information.identityDate },
             FRBRauthor: {
-              '@href': references.idIssuerRepresentative['@eId'],
+              '@href': references.iidIssuer['@eId'],
             },
             ...tmpFRBRExpression,
           },
           FRBRManifestation: {
             FRBRthis: {
-              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}/!main.xml`,
+              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/eng@/!main.xml`,
             },
             FRBRuri: {
-              '@value': `/meta/eu/doc/intelligibleIdentity/${information.identityType}/${references.idReceiver.name}/${references.idIssuer.name}/${information.identityExpression}.meta`,
+              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/eng@.akn`,
             },
             FRBRdate: { '@date': information.identityDate },
             FRBRauthor: {
-              '@href': references.idIssuerRepresentative['@eId'],
+              '@href': references.iidIssuer['@eId'],
             },
             ...tmpFRBRManifestation,
           },
         },
         references: references,
-        prefaceTitle: `Identity of type ${information.identityType} issued by ${references.idIssuer.name} to ${references.idReceiver.name}`,
+        prefaceTitle: `Identity issued by ${references.iidIssuer.entity} for ${references.iid.entity}`,
         mainBody: {
-          information: {
-            blockTitle: 'Identity Information',
-            p: {
-              identityType: information.identityType,
-              identityExpression: information.identityExpression,
-              docDate: {
-                '@eId': 'id_info_id_date',
-                '@date': information.identityDate,
-                '#': information.identityDate,
-              },
-              [information.identityType]: {
-                '@eId': 'id_info_id_info',
-                '@refersTo': references.idReceiver['@eId'],
-                '#': {
-                  name: information.name,
-                  email: information.email,
-                },
-              },
-            },
-          },
-          web3: {
-            blockTitle: 'Ethereum Address',
-            p: web3Information,
-          },
-          identities: {
-            blockTitle: 'Identities',
-            p: {
-              block: [
-                {
-                  '@eId': 'identities_block_id_issuer',
-                  [references.idIssuer.type.slice(3).toLowerCase()]: {
-                    '@eId': 'identities_id_issuer',
-                    '@refersTo': references.idIssuer['@eId'],
-                    '#': references.idIssuer.name,
-                  },
-                  role: {
-                    '@eId': 'identities_id_issuer_role',
-                    '@refersTo': references.idIssuerRole['@eId'],
-                    '#': references.idIssuerRole.name,
-                  },
-                },
-                {
-                  '@eId': 'identities_block_id_issuer_repr',
-                  [references.idIssuerRepresentative.type
-                    .slice(3)
-                    .toLowerCase()]: {
-                    '@eId': 'identities_id_issuer_repr',
-                    '@refersTo': references.idIssuerRepresentative['@eId'],
-                    '#': references.idIssuerRepresentative.name,
-                  },
-                  role: {
-                    '@eId': 'identities_id_issuer_repr_role',
-                    '@refersTo': references.idIssuerRepresentativeRole['@eId'],
-                    '#': references.idIssuerRepresentativeRole.name,
-                  },
-                },
-                {
-                  '@eId': 'identities_block_id_issuer_repr',
-                  [references.idReceiver.type.slice(3).toLowerCase()]: {
-                    '@eId': 'identities_id_issuer_repr',
-                    '@refersTo': references.idReceiver['@eId'],
-                    '#': references.idReceiver.name,
-                  },
-                  role: {
-                    '@eId': 'identities_id_issuer_repr_role',
-                    '@refersTo': references.idReceiverRole['@eId'],
-                    '#': references.idReceiverRole.name,
-                  },
-                },
-              ],
-            },
-          },
+          information: informationBlock,
           ...tmpAdditionalBody,
         },
       };
@@ -168,11 +126,10 @@ class IdentityMeta extends MetaDoc {
 
     const informationInfo = this.findValueByEId('tblock_1__p_1').toObject().p;
     information = {
-      identityType: informationInfo.identityType,
-      identityExpression: informationInfo.identityExpression,
-      identityDate: informationInfo.docDate['#'],
-      name: informationInfo[informationInfo.identityType].name,
-      email: informationInfo[informationInfo.identityType].email,
+      identityDate:
+        this.metaAndMain.metaDoc.doc.meta.identification.FRBRManifestation
+          .FRBRdate['@date'],
+      did: informationInfo.iid.entity['#'],
       FRBRWork: JSON.parse(
         JSON.stringify(
           this.metaAndMain.metaDoc.doc.meta.identification.FRBRWork
@@ -191,24 +148,40 @@ class IdentityMeta extends MetaDoc {
       additionalBody: {},
     };
 
-    const identitiesInfo =
-      this.findValueByEId('tblock_3__p_3').toObject().p.block;
-    identitiesInfo.forEach((id) => {
-      Object.values(id).forEach((v) => {
-        if (typeof v === 'object' && v['@refersTo'] !== undefined) {
-          const ref = this.findValueByEId(v['@refersTo']).toObject();
-          const receiverType = Object.keys(ref)[0];
+    //const identitiesInfo =
+    //  this.findValueByEId('tblock_3__p_3').toObject().p.block;
+    Object.keys(informationInfo).forEach((key) => {
+      const v = informationInfo[key];
+      if (
+        typeof v === 'object' &&
+        v.entity !== undefined &&
+        v.entity['@refersTo'] !== undefined
+      ) {
+        const ref = this.findValueByEId(v.entity['@refersTo']).toObject();
+        const receiverType = Object.keys(ref)[0];
+        references[key] = {
+          type: receiverType,
+          entity: v.entity['#'],
+          '@eId': v.entity['@refersTo'],
+          href: ref[receiverType]['@href'],
+          '@showAs': ref[receiverType]['@showAs'],
+        };
+      }
+    });
 
-          references[v['@refersTo'].slice(1)] = {
-            type: receiverType,
-            name: v['#'],
-            '@eId': v['@refersTo'],
-            '@href': ref[receiverType]['@href'],
-            '@showAs': ref[receiverType]['@showAs'],
+    const othersBody =
+      this.findValueByEId('mainBody').toObject().mainBody.tblock;
+
+    if (Array.isArray(othersBody)) {
+      othersBody.forEach((block) => {
+        if (block['@eId'] !== 'tblock_1') {
+          information.additionalBody[block['@eId']] = {
+            blockTitle: block.heading['#'],
+            p: block.p,
           };
         }
       });
-    });
+    }
 
     return { information, references };
   }
