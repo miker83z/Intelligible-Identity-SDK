@@ -1,6 +1,6 @@
 {
-  "name": "@intelligiblesuite/intelligible-token-ethereum",
-  "version": "1.0.0",
+  "name": "intelligible-nft-web3",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "ethereumjs-util": "^7.0.8",
-    "web3": "^1.3.4"
+    "web3": "^1.7.1"
   }
 }

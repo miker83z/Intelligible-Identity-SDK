@@ -1,0 +1,24 @@
+{
+  "name": "intelligible-identity",
+  "version": "1.0.1",
+  "description": "Intelligible Identity - The creation of identities through the Intelligible paradigm",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miker83z/Intelligible-Identity-SDK.git"
+  },
+  "author": "Mirko Zichichi <mikerz83@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/miker83z/Intelligible-Identity-SDK/issues"
+  },
+  "homepage": "https://github.com/miker83z/Intelligible-Identity-SDK#readme",
+  "dependencies": {
+    "intelligible-nft-web3": "file:../intelligible-nft-web3",
+    "intelligible-metadata-doc": "file:../intelligible-metadata-doc",
+    "ethereumjs-util": "^7.0.8"
+  }
+}

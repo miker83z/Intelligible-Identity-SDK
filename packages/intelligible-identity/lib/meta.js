@@ -1,4 +1,4 @@
-const { MetaDoc } = require('@intelligiblesuite/metadata-doc');
+const { MetaDoc } = require('intelligible-metadata-doc');
 
 /**
  * @description Provides the means to create and manage an intelligible identity
@@ -191,8 +191,8 @@ class IdentityMeta extends MetaDoc {
       additionalBody: {},
     };
 
-    const identitiesInfo = this.findValueByEId('tblock_3__p_3').toObject().p
-      .block;
+    const identitiesInfo =
+      this.findValueByEId('tblock_3__p_3').toObject().p.block;
     identitiesInfo.forEach((id) => {
       Object.values(id).forEach((v) => {
         if (typeof v === 'object' && v['@refersTo'] !== undefined) {

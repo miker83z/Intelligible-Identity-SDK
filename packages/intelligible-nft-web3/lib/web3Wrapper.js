@@ -1,6 +1,6 @@
 const Web3 = require('web3');
-const id = require('../Solidity-Contracts/build/contracts/IntelligibleIdentity.json');
-const cert = require('../Solidity-Contracts/build/contracts/IntelligibleCertificate.json');
+const id = require('../contracts-dev/build/contracts/IntelligibleIdentity.json');
+const cert = require('../contracts-dev/build/contracts/IntelligibleCertificate.json');
 const dict = {
   identity: id,
   certificate: cert,

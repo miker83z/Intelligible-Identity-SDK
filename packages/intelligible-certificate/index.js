@@ -1,6 +1,4 @@
-const {
-  Web3Wrapper,
-} = require('@intelligiblesuite/intelligible-token-ethereum');
+const { Web3Wrapper } = require('intelligible-nft-web3');
 const { CertificateMeta } = require('./lib/meta');
 
 /**
@@ -149,10 +147,8 @@ class IntelligibleCertificate {
    */
   fromStringMeta(metaDocumentString) {
     this.meta = CertificateMeta.fromString(metaDocumentString);
-    const {
-      information,
-      references,
-    } = this.meta.parseInformationAndReferences();
+    const { information, references } =
+      this.meta.parseInformationAndReferences();
     this.setCertificateInformation(information, references);
   }
 }

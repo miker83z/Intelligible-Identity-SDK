@@ -1,6 +1,6 @@
 {
-  "name": "@intelligiblesuite/metadata-doc",
-  "version": "1.0.0",
+  "name": "intelligible-metadata-doc",
+  "version": "1.0.1",
   "description": "Library for creating and parsong an XML metadata document",
   "main": "index.js",
   "scripts": {

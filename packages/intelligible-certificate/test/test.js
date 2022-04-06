@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 const assert = require('assert').strict;
-const { IntelligibleIdentity } = require('@intelligiblesuite/identity');
+const { IntelligibleIdentity } = require('intelligible-identity');
 const { IntelligibleCertificate } = require('./..');
 
 //Web3 Setup info////////////////////////

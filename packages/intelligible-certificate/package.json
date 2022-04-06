@@ -1,6 +1,6 @@
 {
-  "name": "@intelligiblesuite/certificates",
-  "version": "1.0.0",
+  "name": "intelligible-certificate",
+  "version": "1.0.1",
   "description": "Intelligible Certificate - The creation of certificates through the Intelligible paradigm",
   "main": "index.js",
   "scripts": {
@@ -9,10 +9,10 @@
   "author": "Mirko Zichichi <mikerz83@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@intelligiblesuite/intelligible-token-ethereum": "file:../Intelligible-Token-Ethereum",
-    "@intelligiblesuite/metadata-doc": "file:../metadata-doc"
+    "intelligible-nft-web3": "file:../intelligible-nft-web3",
+    "intelligible-metadata-doc": "file:../intelligible-metadata-doc"
   },
   "devDependencies": {
-    "@intelligiblesuite/identity": "file:../Intelligible-Identity-SDK"
+    "intelligible-identity": "file:../intelligible-identity"
   }
 }
