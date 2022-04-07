@@ -1,6 +1,10 @@
 const templates = {
   metaAndMainTemplate: {
-    metaDoc: {
+    akomaNtoso: {
+      '@xmlns': 'http://docs.oasis-open.org/legaldocml/ns/akn/3.0/CSD06',
+      '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+      '@xsi:schemaLocation':
+        'http://akomantoso.googlecode.com/svn/release/trunk/schema/akomantoso30.xsd',
       doc: {
         '@name': 'certificate',
         '@contains': 'originalVersion',
@@ -22,6 +26,16 @@ const templates = {
                 '@eId': 'frbrwork__frbrauthor_1',
                 '@href': '#miles',
                 '@as': '#author',
+              },
+              componentInfo: {
+                componentData: [
+                  {
+                    '@eId': 'wmain',
+                    '@href': '#emain',
+                    '@name': 'main',
+                    '@showAs': 'Main document',
+                  },
+                ],
               },
               FRBRcountry: { '@eId': 'frbrwork__frbrcountry', '@value': 'eu' },
               /*
@@ -50,6 +64,16 @@ const templates = {
                 '@eId': 'frbrexpression__frbrauthor_1',
                 '@href': '#miles',
               },
+              componentInfo: {
+                componentData: [
+                  {
+                    '@eId': 'emain',
+                    '@href': '#mmain',
+                    '@name': 'main',
+                    '@showAs': 'Main document',
+                  },
+                ],
+              },
               FRBRlanguage: {
                 '@eId': 'frbrexpression__frbrlanguage_1',
                 '@language': 'eng',
@@ -71,6 +95,16 @@ const templates = {
                 '@eId': 'frbrmanifestation__frbrauthor_1',
                 '@href': '#miles',
                 '@as': '#author',
+              },
+              componentInfo: {
+                componentData: [
+                  {
+                    '@eId': 'mmain',
+                    '@href': 'main.xml',
+                    '@name': 'main',
+                    '@showAs': 'Main document',
+                  },
+                ],
               },
             },
           },

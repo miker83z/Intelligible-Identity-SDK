@@ -23,14 +23,31 @@ class CertificateMeta extends MetaDoc {
           : {};
       const tmpFRBRWork =
         information.FRBRWork !== undefined ? information.FRBRWork : {};
+      if (tmpFRBRWork.componentInfo === undefined)
+        tmpFRBRWork.componentInfo = {
+          componentData: [{}],
+        };
+      const tmpFRBRWorkcomponentData = tmpFRBRWork.componentInfo.componentData;
       const tmpFRBRExpression =
         information.FRBRExpression !== undefined
           ? information.FRBRExpression
           : {};
+      if (tmpFRBRExpression.componentInfo === undefined)
+        tmpFRBRExpression.componentInfo = {
+          componentData: [{}],
+        };
+      const tmpFRBRExpressioncomponentData =
+        tmpFRBRExpression.componentInfo.componentData;
       const tmpFRBRManifestation =
         information.FRBRManifestation !== undefined
           ? information.FRBRManifestation
           : {};
+      if (tmpFRBRManifestation.componentInfo === undefined)
+        tmpFRBRManifestation.componentInfo = {
+          componentData: [{}],
+        };
+      const tmpFRBRManifestationcomponentData =
+        tmpFRBRManifestation.componentInfo.componentData;
 
       if (
         !(
@@ -68,42 +85,93 @@ class CertificateMeta extends MetaDoc {
         identification: {
           FRBRWork: {
             FRBRthis: {
-              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/!main`,
+              '@value': `/akn/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/main`,
             },
             FRBRuri: {
-              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}`,
+              '@value': `/akn/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}`,
             },
             FRBRdate: { '@date': information.certificateDate },
             FRBRauthor: {
               '@href': references.icertIssuer['@eId'],
             },
             ...tmpFRBRWork,
+            componentInfo: {
+              componentData: [
+                ...tmpFRBRWorkcomponentData,
+                {
+                  '@eId': 'wmain',
+                  '@href': '#emain',
+                  '@name': 'main',
+                  '@showAs': 'Main document',
+                },
+                {
+                  '@eId': 'wvcdoc',
+                  '@href': '#evcdoc',
+                  '@name': 'vcdoc',
+                  '@showAs': 'VC Document',
+                },
+              ],
+            },
           },
           FRBRExpression: {
             FRBRthis: {
-              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@!main`,
+              '@value': `/akn/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@!main`,
             },
             FRBRuri: {
-              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@`,
+              '@value': `/akn/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@`,
             },
             FRBRdate: { '@date': information.certificateDate },
             FRBRauthor: {
               '@href': references.icertIssuer['@eId'],
             },
             ...tmpFRBRExpression,
+            componentInfo: {
+              componentData: [
+                ...tmpFRBRExpressioncomponentData,
+                {
+                  '@eId': 'emain',
+                  '@href': '#mmain',
+                  '@name': 'main',
+                  '@showAs': 'Main document',
+                },
+                {
+                  '@eId': 'evcdoc',
+                  '@href': '#wvcdoc',
+                  '@name': 'vcdoc',
+                  '@showAs': 'VC Document',
+                },
+              ],
+            },
           },
           FRBRManifestation: {
             FRBRthis: {
-              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@/!main.xml`,
+              '@value': `/akn/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@/main.xml`,
             },
             FRBRuri: {
-              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@.akn`,
+              '@value': `/akn/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@.akn`,
             },
             FRBRdate: { '@date': information.certificateDate },
             FRBRauthor: {
               '@href': references.icertIssuer['@eId'],
             },
             ...tmpFRBRManifestation,
+            componentInfo: {
+              componentData: [
+                ...tmpFRBRManifestationcomponentData,
+                {
+                  '@eId': 'mmain',
+                  '@href': 'main.xml',
+                  '@name': 'main',
+                  '@showAs': 'Main document',
+                },
+                {
+                  '@eId': 'mvcdoc',
+                  '@href': 'vcdoc.json',
+                  '@name': 'vcdoc',
+                  '@showAs': 'VC Document',
+                },
+              ],
+            },
           },
         },
         references: references,
@@ -130,23 +198,23 @@ class CertificateMeta extends MetaDoc {
     const informationInfo = this.findValueByEId('tblock_1__p_1').toObject().p;
     information = {
       certificateDate:
-        this.metaAndMain.metaDoc.doc.meta.identification.FRBRManifestation
+        this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRManifestation
           .FRBRdate['@date'],
       didReceiver: informationInfo.icertReceiver.entity['#'],
       icertId: informationInfo.icert.entity['#'].split(':').slice(-1)[0],
       FRBRWork: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.metaDoc.doc.meta.identification.FRBRWork
+          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRWork
         )
       ),
       FRBRExpression: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.metaDoc.doc.meta.identification.FRBRExpression
+          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRExpression
         )
       ),
       FRBRManifestation: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.metaDoc.doc.meta.identification.FRBRManifestation
+          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRManifestation
         )
       ),
       additionalBody: {},

@@ -10,7 +10,7 @@ const networkId = '5777';
 
 //Certificate info//////////////////////
 const didIssuer = `DID:NFT:oadnaoisndoiansoi`;
-const hrefIssuer = `/ank/eu/doc/2020-03-10/${didIssuer}/eng@.akn`;
+const hrefIssuer = `/akn/eu/doc/2020-03-10/${didIssuer}/eng@.akn`;
 const todayDate = new Date().toISOString().slice(0, 10);
 const certificateInformation = {
   certificateDate: todayDate,
@@ -18,21 +18,38 @@ const certificateInformation = {
   icertId: `GDPRcomplianceX`,
   FRBRWork: {},
   FRBRExpression: {},
-  FRBRManifestation: {},
+  FRBRManifestation: {
+    componentInfo: {
+      componentData: [
+        {
+          '@eId': 'msoftware',
+          '@href': 'IntelligibleCertificate1.0.1.hashdigest.json',
+          '@name': 'IntelligibleCertificate1.0.1',
+          '@showAs': 'IntelligibleCertificate 1.0.1 Software',
+        },
+        {
+          '@eId': 'msmartcontract',
+          '@href': 'IntelligibleCertificate.sol',
+          '@name': 'IntelligibleCertificate',
+          '@showAs': 'IntelligibleCertificate Smart Contract',
+        },
+      ],
+    },
+  },
   additionalBody: {},
 };
 const certificateReferences = {
   icert: {
     entity: `${certificateInformation.didReceiver}:${certificateInformation.icertId}`,
-    href: `/ank/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/eng@.akn`,
+    href: `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/eng@.akn`,
   },
   icertVCDoc: {
-    entity: 'IPFS:Qm3n6aosdosidno',
-    href: `/ank/eu/doc/${certificateInformation.certificateDate}/IPFS:Qm3n6aosdosidno/eng@.akn`,
+    entity: 'vcdoc.json',
+    href: `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/vcdoc.json`,
   },
   icertReceiver: {
     entity: `${certificateInformation.didReceiver}`,
-    href: `/ank/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}/eng@.akn`,
+    href: `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}/eng@.akn`,
   },
   icertIssuer: {
     entity: `${didIssuer}`,
@@ -40,17 +57,17 @@ const certificateReferences = {
   },
   gdpr: {
     entity: 'EU 2016/679',
-    href: `/ank/eu/doc/2016-05-04/2016_6791/IPFS:Qm6n5ayhgfsidns/eng@.akn`,
+    href: `/akn/eu/doc/2016-05-04/2016_6791/eng@.akn`,
   },
   icertIssuerSoftware: {
     type: 'TLCObject',
-    entity: 'IntelligibleCertificate@1.0.1',
-    href: `/ank/eu/doc/${certificateInformation.certificateDate}/IPFS:Qm9n6ayhgfsidns/eng@.akn`,
+    entity: 'IntelligibleCertificate1.0.1.hashdigest.json',
+    href: `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/IntelligibleCertificate1.0.1.hashdigest.json`,
   },
   nftSmartContract: {
     type: 'TLCObject',
     entity: 'IntelligibleCertificate.sol',
-    href: `/ank/eu/doc/${certificateInformation.certificateDate}/IPFS:Qm2nayhgf7sidns/eng@.akn`,
+    href: `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/IntelligibleCertificate.sol`,
   },
 };
 //////////////////////////////////////
@@ -63,7 +80,24 @@ const information1 = {
   did: didIssuer,
   FRBRWork: {},
   FRBRExpression: {},
-  FRBRManifestation: {},
+  FRBRManifestation: {
+    componentInfo: {
+      componentData: [
+        {
+          '@eId': 'msoftware',
+          '@href': 'IntelligibleIdentity1.0.1.hashdigest.json',
+          '@name': 'IntelligibleIdentity1.0.1',
+          '@showAs': 'IntelligibleIdentity 1.0.1 Software',
+        },
+        {
+          '@eId': 'msmartcontract',
+          '@href': 'IntelligibleIdentity.sol',
+          '@name': 'IntelligibleIdentity',
+          '@showAs': 'IntelligibleIdentity Smart Contract',
+        },
+      ],
+    },
+  },
   additionalBody: {},
 };
 const identityReferences1 = {
@@ -72,8 +106,8 @@ const identityReferences1 = {
     href: hrefIssuer,
   },
   iidDIDDoc: {
-    entity: 'IPFS:Qm3n7aosdosidno',
-    href: `/ank/eu/doc/${information1.identityDate}/IPFS:Qm3n7aosdosidno/eng@.akn`,
+    entity: 'diddoc.json',
+    href: `/akn/eu/doc/${information1.identityDate}/${information1.did}/eng@/diddoc.json`,
   },
   iidIssuer: {
     entity: `${information1.did}`,
@@ -81,17 +115,17 @@ const identityReferences1 = {
   },
   eidas: {
     entity: 'EU COM/2021/281 final',
-    href: `/ank/eu/doc/2021-03-06/2021_281/IPFS:Qm6n7ayhgfsidns/eng@.akn`,
+    href: `/akn/eu/doc/2021-03-06/2021_281/eng@.akn`,
   },
   iidIssuerSoftware: {
     type: 'TLCObject',
-    entity: 'IntelligibleIdentity@1.0.1',
-    href: `/ank/eu/doc/${information1.identityDate}/IPFS:Qm4n6ayhgfsidns/eng@.akn`,
+    entity: 'IntelligibleIdentity1.0.1.hashdigest.json',
+    href: `/akn/eu/doc/${information1.identityDate}/${information1.did}/eng@/IntelligibleIdentity1.0.1.hashdigest.json`,
   },
   nftSmartContract: {
     type: 'TLCObject',
     entity: 'IntelligibleIdentity.sol',
-    href: `/ank/eu/doc/${information1.identityDate}/IPFS:Qm2nayhgf4sidns/eng@.akn`,
+    href: `/akn/eu/doc/${information1.identityDate}/${information1.did}/eng@/IntelligibleIdentity.sol`,
   },
 };
 //////////////////////////////////////
@@ -104,35 +138,52 @@ const information2 = {
   did: `DID:NFT:oadnaoilndgiansoi`,
   FRBRWork: {},
   FRBRExpression: {},
-  FRBRManifestation: {},
+  FRBRManifestation: {
+    componentInfo: {
+      componentData: [
+        {
+          '@eId': 'msoftware',
+          '@href': 'IntelligibleIdentity1.0.1.hashdigest.json',
+          '@name': 'IntelligibleIdentity1.0.1',
+          '@showAs': 'IntelligibleIdentity 1.0.1 Software',
+        },
+        {
+          '@eId': 'msmartcontract',
+          '@href': 'IntelligibleIdentity.sol',
+          '@name': 'IntelligibleIdentity',
+          '@showAs': 'IntelligibleIdentity Smart Contract',
+        },
+      ],
+    },
+  },
   additionalBody: {},
 };
 const identityReferences2 = {
   iid: {
     entity: `${information2.did}`,
-    href: `/ank/eu/doc/${information2.identityDate}/${information2.did}/eng@.akn`,
+    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@.akn`,
   },
   iidDIDDoc: {
-    entity: 'IPFS:Qm3n7aosdosidno',
-    href: `/ank/eu/doc/${information2.identityDate}/IPFS:Qm3n7aosdosidno/eng@.akn`,
+    entity: 'diddoc.json',
+    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@/diddoc.json`,
   },
   iidIssuer: {
     entity: `${information2.did}`,
-    href: `/ank/eu/doc/${information2.identityDate}/${information2.did}/eng@.akn`,
+    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@.akn`,
   },
   eidas: {
     entity: 'EU COM/2021/281 final',
-    href: `/ank/eu/doc/2021-03-06/2021_281/IPFS:Qm6n7ayhgfsidns/eng@.akn`,
+    href: `/akn/eu/doc/2021-03-06/2021_281/eng@.akn`,
   },
   iidIssuerSoftware: {
     type: 'TLCObject',
-    entity: 'IntelligibleIdentity@1.0.1',
-    href: `/ank/eu/doc/${information2.identityDate}/IPFS:Qm4n6ayhgfsidns/eng@.akn`,
+    entity: 'IntelligibleIdentity1.0.1.hashdigest.json',
+    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@/IntelligibleIdentity1.0.1.hashdigest.json`,
   },
   nftSmartContract: {
     type: 'TLCObject',
     entity: 'IntelligibleIdentity.sol',
-    href: `/ank/eu/doc/${information2.identityDate}/IPFS:Qm2nayhgf4sidns/eng@.akn`,
+    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@/IntelligibleIdentity.sol`,
   },
 };
 //////////////////////////////////////

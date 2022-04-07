@@ -14,35 +14,52 @@ const information = {
   did: `DID:NFT:oadnaoisndoiansoi`,
   FRBRWork: {},
   FRBRExpression: {},
-  FRBRManifestation: {},
+  FRBRManifestation: {
+    componentInfo: {
+      componentData: [
+        {
+          '@eId': 'msoftware',
+          '@href': 'IntelligibleIdentity1.0.1.hashdigest.json',
+          '@name': 'IntelligibleIdentity1.0.1',
+          '@showAs': 'IntelligibleIdentity 1.0.1 Software',
+        },
+        {
+          '@eId': 'msmartcontract',
+          '@href': 'IntelligibleIdentity.sol',
+          '@name': 'IntelligibleIdentity',
+          '@showAs': 'IntelligibleIdentity Smart Contract',
+        },
+      ],
+    },
+  },
   additionalBody: {},
 };
 const identityReferences = {
   iid: {
     entity: `${information.did}`,
-    href: `/ank/eu/doc/${information.identityDate}/${information.did}/eng@.akn`,
+    href: `/akn/eu/doc/${information.identityDate}/${information.did}/eng@.akn`,
   },
   iidDIDDoc: {
-    entity: 'IPFS:Qm3n7aosdosidno',
-    href: `/ank/eu/doc/${information.identityDate}/IPFS:Qm3n7aosdosidno/eng@.akn`,
+    entity: 'diddoc.json',
+    href: `/akn/eu/doc/${information.identityDate}/${information.did}/eng@/diddoc.json`,
   },
   iidIssuer: {
     entity: `${information.did}`,
-    href: `/ank/eu/doc/${information.identityDate}/${information.did}/eng@.akn`,
+    href: `/akn/eu/doc/${information.identityDate}/${information.did}/eng@.akn`,
   },
   eidas: {
     entity: 'EU COM/2021/281 final',
-    href: `/ank/eu/doc/2021-03-06/2021_281/IPFS:Qm6n7ayhgfsidns/eng@.akn`,
+    href: `/akn/eu/doc/2021-03-06/2021_281/eng@.akn`,
   },
   iidIssuerSoftware: {
     type: 'TLCObject',
-    entity: 'IntelligibleIdentity@1.0.1',
-    href: `/ank/eu/doc/${information.identityDate}/IPFS:Qm4n6ayhgfsidns/eng@.akn`,
+    entity: 'IntelligibleIdentity1.0.1.hashdigest.json',
+    href: `/akn/eu/doc/${information.identityDate}/${information.did}/eng@/IntelligibleIdentity1.0.1.hashdigest.json`,
   },
   nftSmartContract: {
     type: 'TLCObject',
     entity: 'IntelligibleIdentity.sol',
-    href: `/ank/eu/doc/${information.identityDate}/IPFS:Qm2nayhgf4sidns/eng@.akn`,
+    href: `/akn/eu/doc/${information.identityDate}/${information.did}/eng@/IntelligibleIdentity.sol`,
   },
 };
 //////////////////////////////////////

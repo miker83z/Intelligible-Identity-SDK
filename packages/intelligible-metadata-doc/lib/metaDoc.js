@@ -26,13 +26,13 @@ class MetaDoc {
     ////Identification
     //////FRBRWork
     Object.keys(docElements.identification.FRBRWork).forEach((e) => {
-      if (e in xml.metaDoc.doc.meta.identification.FRBRWork) {
-        xml.metaDoc.doc.meta.identification.FRBRWork[e] = {
-          ...xml.metaDoc.doc.meta.identification.FRBRWork[e],
+      if (e in xml.akomaNtoso.doc.meta.identification.FRBRWork) {
+        xml.akomaNtoso.doc.meta.identification.FRBRWork[e] = {
+          ...xml.akomaNtoso.doc.meta.identification.FRBRWork[e],
           ...docElements.identification.FRBRWork[e],
         };
       } else {
-        xml.metaDoc.doc.meta.identification.FRBRWork[e] = {
+        xml.akomaNtoso.doc.meta.identification.FRBRWork[e] = {
           ...docElements.identification.FRBRWork[e],
         };
       }
@@ -40,13 +40,13 @@ class MetaDoc {
     //////
     //////FRBRExpression
     Object.keys(docElements.identification.FRBRExpression).forEach((e) => {
-      if (e in xml.metaDoc.doc.meta.identification.FRBRExpression) {
-        xml.metaDoc.doc.meta.identification.FRBRExpression[e] = {
-          ...xml.metaDoc.doc.meta.identification.FRBRExpression[e],
+      if (e in xml.akomaNtoso.doc.meta.identification.FRBRExpression) {
+        xml.akomaNtoso.doc.meta.identification.FRBRExpression[e] = {
+          ...xml.akomaNtoso.doc.meta.identification.FRBRExpression[e],
           ...docElements.identification.FRBRExpression[e],
         };
       } else {
-        xml.metaDoc.doc.meta.identification.FRBRExpression[e] = {
+        xml.akomaNtoso.doc.meta.identification.FRBRExpression[e] = {
           ...docElements.identification.FRBRExpression[e],
         };
       }
@@ -54,13 +54,13 @@ class MetaDoc {
     //////
     //////FRBRManifestation
     Object.keys(docElements.identification.FRBRManifestation).forEach((e) => {
-      if (e in xml.metaDoc.doc.meta.identification.FRBRManifestation) {
-        xml.metaDoc.doc.meta.identification.FRBRManifestation[e] = {
-          ...xml.metaDoc.doc.meta.identification.FRBRManifestation[e],
+      if (e in xml.akomaNtoso.doc.meta.identification.FRBRManifestation) {
+        xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e] = {
+          ...xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e],
           ...docElements.identification.FRBRManifestation[e],
         };
       } else {
-        xml.metaDoc.doc.meta.identification.FRBRManifestation[e] = {
+        xml.akomaNtoso.doc.meta.identification.FRBRManifestation[e] = {
           ...docElements.identification.FRBRManifestation[e],
         };
       }
@@ -74,10 +74,10 @@ class MetaDoc {
       if (docElements.references[r].type === undefined)
         docElements.references[r].type = 'TLCReference';
       if (
-        xml.metaDoc.doc.meta.references[docElements.references[r].type] ===
+        xml.akomaNtoso.doc.meta.references[docElements.references[r].type] ===
         undefined
       )
-        xml.metaDoc.doc.meta.references[docElements.references[r].type] = [];
+        xml.akomaNtoso.doc.meta.references[docElements.references[r].type] = [];
       const eid =
         docElements.references[r]['@eId'] === undefined
           ? '#' + r
@@ -87,7 +87,7 @@ class MetaDoc {
           ? r
           : docElements.references[r]['@showAs'];
 
-      xml.metaDoc.doc.meta.references[docElements.references[r].type].push({
+      xml.akomaNtoso.doc.meta.references[docElements.references[r].type].push({
         '@eId': eid,
         '@href': docElements.references[r].href,
         '@showAs': showAs,
@@ -96,13 +96,13 @@ class MetaDoc {
     ////
     //
     //preface
-    xml.metaDoc.doc.preface.longTitle.p = docElements.prefaceTitle;
+    xml.akomaNtoso.doc.preface.longTitle.p = docElements.prefaceTitle;
     //
     //mainBody
-    xml.metaDoc.doc.mainBody['tblock'] = [];
+    xml.akomaNtoso.doc.mainBody['tblock'] = [];
     let iBlock = 1;
     Object.keys(docElements.mainBody).forEach((b) => {
-      xml.metaDoc.doc.mainBody['tblock'].push({
+      xml.akomaNtoso.doc.mainBody['tblock'].push({
         '@eId': `tblock_${iBlock}`,
         heading: {
           '@eId': `tblock_${iBlock}__heading`,
@@ -127,13 +127,13 @@ class MetaDoc {
    */
   static fromString(string) {
     const xml = convert(string, { format: 'object' });
-    if (!('metaDoc' in xml)) return;
+    if (!('akomaNtoso' in xml)) return;
     const temp = new this();
 
     temp.metaAndMain = xml;
-    if (xml.metaDoc.doc.conclusions !== 'undefined') {
-      temp.conclusions = xml.metaDoc.doc.conclusions;
-      delete temp.metaAndMain.metaDoc.doc.conclusions;
+    if (xml.akomaNtoso.doc.conclusions !== 'undefined') {
+      temp.conclusions = xml.akomaNtoso.doc.conclusions;
+      delete temp.metaAndMain.akomaNtoso.doc.conclusions;
     }
 
     return temp;
@@ -211,7 +211,7 @@ class MetaDoc {
     if (Object.keys(this.metaAndMain).length === 0) return;
     const xml = JSON.parse(JSON.stringify(this.metaAndMain));
     if (Object.keys(this.conclusions).length !== 0)
-      xml.metaDoc.doc.conclusions = { ...this.conclusions };
+      xml.akomaNtoso.doc.conclusions = { ...this.conclusions };
 
     return this.create(xml).find(
       (n) => {
@@ -251,7 +251,7 @@ class MetaDoc {
     if (Object.keys(this.metaAndMain).length === 0) return;
     const xml = JSON.parse(JSON.stringify(this.metaAndMain));
     if (Object.keys(this.conclusions).length !== 0)
-      xml.metaDoc.doc.conclusions = { ...this.conclusions };
+      xml.akomaNtoso.doc.conclusions = { ...this.conclusions };
 
     const final = this.create(xml);
     return final.end({ prettyPrint: true });

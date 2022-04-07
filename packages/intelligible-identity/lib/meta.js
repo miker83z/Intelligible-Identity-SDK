@@ -23,14 +23,31 @@ class IdentityMeta extends MetaDoc {
           : {};
       const tmpFRBRWork =
         information.FRBRWork !== undefined ? information.FRBRWork : {};
+      if (tmpFRBRWork.componentInfo === undefined)
+        tmpFRBRWork.componentInfo = {
+          componentData: [{}],
+        };
+      const tmpFRBRWorkcomponentData = tmpFRBRWork.componentInfo.componentData;
       const tmpFRBRExpression =
         information.FRBRExpression !== undefined
           ? information.FRBRExpression
           : {};
+      if (tmpFRBRExpression.componentInfo === undefined)
+        tmpFRBRExpression.componentInfo = {
+          componentData: [{}],
+        };
+      const tmpFRBRExpressioncomponentData =
+        tmpFRBRExpression.componentInfo.componentData;
       const tmpFRBRManifestation =
         information.FRBRManifestation !== undefined
           ? information.FRBRManifestation
           : {};
+      if (tmpFRBRManifestation.componentInfo === undefined)
+        tmpFRBRManifestation.componentInfo = {
+          componentData: [{}],
+        };
+      const tmpFRBRManifestationcomponentData =
+        tmpFRBRManifestation.componentInfo.componentData;
 
       if (
         !(
@@ -65,42 +82,93 @@ class IdentityMeta extends MetaDoc {
         identification: {
           FRBRWork: {
             FRBRthis: {
-              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/!main`,
+              '@value': `/akn/eu/doc/${information.identityDate}/${information.did}/main`,
             },
             FRBRuri: {
-              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}`,
+              '@value': `/akn/eu/doc/${information.identityDate}/${information.did}`,
             },
             FRBRdate: { '@date': information.identityDate },
             FRBRauthor: {
               '@href': references.iidIssuer['@eId'],
             },
             ...tmpFRBRWork,
+            componentInfo: {
+              componentData: [
+                ...tmpFRBRWorkcomponentData,
+                {
+                  '@eId': 'wmain',
+                  '@href': '#emain',
+                  '@name': 'main',
+                  '@showAs': 'Main document',
+                },
+                {
+                  '@eId': 'wdiddoc',
+                  '@href': '#ediddoc',
+                  '@name': 'diddoc',
+                  '@showAs': 'DID Document',
+                },
+              ],
+            },
           },
           FRBRExpression: {
             FRBRthis: {
-              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/eng@!main`,
+              '@value': `/akn/eu/doc/${information.identityDate}/${information.did}/eng@!main`,
             },
             FRBRuri: {
-              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/eng@`,
+              '@value': `/akn/eu/doc/${information.identityDate}/${information.did}/eng@`,
             },
             FRBRdate: { '@date': information.identityDate },
             FRBRauthor: {
               '@href': references.iidIssuer['@eId'],
             },
             ...tmpFRBRExpression,
+            componentInfo: {
+              componentData: [
+                ...tmpFRBRExpressioncomponentData,
+                {
+                  '@eId': 'emain',
+                  '@href': '#mmain',
+                  '@name': 'main',
+                  '@showAs': 'Main document',
+                },
+                {
+                  '@eId': 'ediddoc',
+                  '@href': '#wdiddoc',
+                  '@name': 'diddoc',
+                  '@showAs': 'DID Document',
+                },
+              ],
+            },
           },
           FRBRManifestation: {
             FRBRthis: {
-              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/eng@/!main.xml`,
+              '@value': `/akn/eu/doc/${information.identityDate}/${information.did}/eng@/main.xml`,
             },
             FRBRuri: {
-              '@value': `/ank/eu/doc/${information.identityDate}/${information.did}/eng@.akn`,
+              '@value': `/akn/eu/doc/${information.identityDate}/${information.did}/eng@.akn`,
             },
             FRBRdate: { '@date': information.identityDate },
             FRBRauthor: {
               '@href': references.iidIssuer['@eId'],
             },
             ...tmpFRBRManifestation,
+            componentInfo: {
+              componentData: [
+                ...tmpFRBRManifestationcomponentData,
+                {
+                  '@eId': 'mmain',
+                  '@href': 'main.xml',
+                  '@name': 'main',
+                  '@showAs': 'Main document',
+                },
+                {
+                  '@eId': 'mdiddoc',
+                  '@href': 'diddoc.json',
+                  '@name': 'diddoc',
+                  '@showAs': 'DID Document',
+                },
+              ],
+            },
           },
         },
         references: references,
@@ -127,22 +195,22 @@ class IdentityMeta extends MetaDoc {
     const informationInfo = this.findValueByEId('tblock_1__p_1').toObject().p;
     information = {
       identityDate:
-        this.metaAndMain.metaDoc.doc.meta.identification.FRBRManifestation
+        this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRManifestation
           .FRBRdate['@date'],
       did: informationInfo.iid.entity['#'],
       FRBRWork: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.metaDoc.doc.meta.identification.FRBRWork
+          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRWork
         )
       ),
       FRBRExpression: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.metaDoc.doc.meta.identification.FRBRExpression
+          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRExpression
         )
       ),
       FRBRManifestation: JSON.parse(
         JSON.stringify(
-          this.metaAndMain.metaDoc.doc.meta.identification.FRBRManifestation
+          this.metaAndMain.akomaNtoso.doc.meta.identification.FRBRManifestation
         )
       ),
       additionalBody: {},
