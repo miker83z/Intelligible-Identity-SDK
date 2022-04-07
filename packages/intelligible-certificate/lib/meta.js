@@ -32,123 +32,84 @@ class CertificateMeta extends MetaDoc {
           ? information.FRBRManifestation
           : {};
 
+      if (
+        !(
+          Object.keys(references).includes('icert') &&
+          Object.keys(references).includes('icertVCDoc') &&
+          Object.keys(references).includes('icertReceiver') &&
+          Object.keys(references).includes('icertIssuer')
+        )
+      ) {
+        throw new Error(
+          'Needs icert && icertVCDoc && icertReceiver && icertIssuer'
+        );
+      }
+      const informationBlock = {
+        blockTitle: 'Certificate Information',
+        p: {},
+      };
+      Object.keys(references).forEach((r) => {
+        if (references[r]['@eId'] === undefined)
+          references[r]['@eId'] = '#' + r;
+        if (references[r]['@showAs'] === undefined)
+          references[r]['@showAs'] = r;
+        informationBlock.p[r] = {
+          '#': {
+            entity: {
+              '@eId': 'ci_block_' + r,
+              '@refersTo': references[r]['@eId'],
+              '#': references[r].entity,
+            },
+          },
+        };
+      });
+
       const certificateElements = {
         identification: {
           FRBRWork: {
             FRBRthis: {
-              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/!main`,
+              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/!main`,
             },
             FRBRuri: {
-              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/`,
+              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}`,
             },
             FRBRdate: { '@date': information.certificateDate },
             FRBRauthor: {
-              '@href': references.certIssuerRepresentative['@eId'],
+              '@href': references.icertIssuer['@eId'],
             },
             ...tmpFRBRWork,
           },
           FRBRExpression: {
             FRBRthis: {
-              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/!main`,
+              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@!main`,
             },
             FRBRuri: {
-              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/`,
+              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@`,
             },
             FRBRdate: { '@date': information.certificateDate },
             FRBRauthor: {
-              '@href': references.certIssuerRepresentative['@eId'],
+              '@href': references.icertIssuer['@eId'],
             },
             ...tmpFRBRExpression,
           },
           FRBRManifestation: {
             FRBRthis: {
-              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}/!main.xml`,
+              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@/!main.xml`,
             },
             FRBRuri: {
-              '@value': `/meta/eu/doc/intelligibleCertificate/${references.certIssuer.name}/${information.certificateType}/${information.certifiedEntityType}/${references.certEntity.name}/${information.certificateExpression}.meta`,
+              '@value': `/ank/eu/doc/${information.certificateDate}/${information.didReceiver}:${information.icertId}/eng@.akn`,
             },
             FRBRdate: { '@date': information.certificateDate },
             FRBRauthor: {
-              '@href': references.certIssuerRepresentative['@eId'],
+              '@href': references.icertIssuer['@eId'],
             },
             ...tmpFRBRManifestation,
           },
         },
         references: references,
-        prefaceTitle: `${information.certificateType} Certificate issued by ${references.certIssuer.name} to ${references.certReceiver.name} in reference to ${references.certEntity.name}`,
+        prefaceTitle: `Certificate issued by ${references.icertIssuer.entity} for ${references.icert.entity} to ${references.icertReceiver.entity}`,
         mainBody: {
-          information: {
-            blockTitle: 'Certified Entity Information',
-            p: {
-              certificateType: information.certificateType,
-              certifiedEntityType: information.certifiedEntityType,
-              certificateExpression: information.certificateExpression,
-              docDate: {
-                '@eId': 'cert_ent_info_cert_date',
-                '@date': information.certificateDate,
-                '#': information.certificateDate,
-              },
-              certificateEntity: {
-                object: {
-                  '@eId': 'cert_ent_info_cert_entity',
-                  '@refersTo': references.certEntity['@eId'],
-                  '#': references.certEntity.name,
-                },
-                documentHashDigest: references.certEntity.documentHashDigest,
-              },
-            },
-          },
-          web3: {
-            blockTitle: 'Ethereum Token Reference',
-            p: web3Information,
-          },
-          identities: {
-            blockTitle: 'Identities',
-            p: {
-              block: [
-                {
-                  '@eId': 'identities_block_cert_issuer',
-                  organization: {
-                    '@eId': 'identities_cert_issuer',
-                    '@refersTo': references.certIssuer['@eId'],
-                    '#': references.certIssuer.name,
-                  },
-                  role: {
-                    '@eId': 'identities_cert_issuer_role',
-                    '@refersTo': references.certIssuerRole['@eId'],
-                    '#': references.certIssuerRole.name,
-                  },
-                },
-                {
-                  '@eId': 'identities_block_cert_issuer_repr',
-                  person: {
-                    '@eId': 'identities_cert_issuer_repr',
-                    '@refersTo': references.certIssuerRepresentative['@eId'],
-                    '#': references.certIssuerRepresentative.name,
-                  },
-                  role: {
-                    '@eId': 'identities_cert_issuer_repr_role',
-                    '@refersTo':
-                      references.certIssuerRepresentativeRole['@eId'],
-                    '#': references.certIssuerRepresentativeRole.name,
-                  },
-                },
-                {
-                  '@eId': 'identities_block_cert_receiver',
-                  person: {
-                    '@eId': 'identities_cert_receiver',
-                    '@refersTo': references.certReceiver['@eId'],
-                    '#': references.certReceiver.name,
-                  },
-                  role: {
-                    '@eId': 'identities_cert_receiver_role',
-                    '@refersTo': references.certReceiverRole['@eId'],
-                    '#': references.certReceiverRole.name,
-                  },
-                },
-              ],
-            },
-          },
+          information: informationBlock,
           ...tmpAdditionalBody,
         },
       };
@@ -168,10 +129,11 @@ class CertificateMeta extends MetaDoc {
 
     const informationInfo = this.findValueByEId('tblock_1__p_1').toObject().p;
     information = {
-      certificateType: informationInfo.certificateType,
-      certifiedEntityType: informationInfo.certifiedEntityType,
-      certificateExpression: informationInfo.certificateExpression,
-      certificateDate: informationInfo.docDate['#'],
+      certificateDate:
+        this.metaAndMain.metaDoc.doc.meta.identification.FRBRManifestation
+          .FRBRdate['@date'],
+      didReceiver: informationInfo.icertReceiver.entity['#'],
+      icertId: informationInfo.icert.entity['#'].split(':').slice(-1)[0],
       FRBRWork: JSON.parse(
         JSON.stringify(
           this.metaAndMain.metaDoc.doc.meta.identification.FRBRWork
@@ -189,41 +151,39 @@ class CertificateMeta extends MetaDoc {
       ),
       additionalBody: {},
     };
-    Object.values(informationInfo.certificateEntity).forEach((v) => {
-      if (typeof v === 'object' && v['@refersTo'] !== undefined) {
-        const ref = this.findValueByEId(v['@refersTo']).toObject();
-        const receiverType = Object.keys(ref)[0];
 
-        references[v['@refersTo'].slice(1)] = {
+    Object.keys(informationInfo).forEach((key) => {
+      const v = informationInfo[key];
+      if (
+        typeof v === 'object' &&
+        v.entity !== undefined &&
+        v.entity['@refersTo'] !== undefined
+      ) {
+        const ref = this.findValueByEId(v.entity['@refersTo']).toObject();
+        const receiverType = Object.keys(ref)[0];
+        references[key] = {
           type: receiverType,
-          name: v['#'],
-          documentHashDigest:
-            informationInfo.certificateEntity.documentHashDigest,
-          '@eId': v['@refersTo'],
-          '@href': ref[receiverType]['@href'],
+          entity: v.entity['#'],
+          '@eId': v.entity['@refersTo'],
+          href: ref[receiverType]['@href'],
           '@showAs': ref[receiverType]['@showAs'],
         };
       }
     });
 
-    const identitiesInfo =
-      this.findValueByEId('tblock_3__p_3').toObject().p.block;
-    identitiesInfo.forEach((id) => {
-      Object.values(id).forEach((v) => {
-        if (typeof v === 'object' && v['@refersTo'] !== undefined) {
-          const ref = this.findValueByEId(v['@refersTo']).toObject();
-          const receiverType = Object.keys(ref)[0];
+    const othersBody =
+      this.findValueByEId('mainBody').toObject().mainBody.tblock;
 
-          references[v['@refersTo'].slice(1)] = {
-            type: receiverType,
-            name: v['#'],
-            '@eId': v['@refersTo'],
-            '@href': ref[receiverType]['@href'],
-            '@showAs': ref[receiverType]['@showAs'],
+    if (Array.isArray(othersBody)) {
+      othersBody.forEach((block) => {
+        if (block['@eId'] !== 'tblock_1') {
+          information.additionalBody[block['@eId']] = {
+            blockTitle: block.heading['#'],
+            p: block.p,
           };
         }
       });
-    });
+    }
 
     return { information, references };
   }

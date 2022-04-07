@@ -148,8 +148,6 @@ class IdentityMeta extends MetaDoc {
       additionalBody: {},
     };
 
-    //const identitiesInfo =
-    //  this.findValueByEId('tblock_3__p_3').toObject().p.block;
     Object.keys(informationInfo).forEach((key) => {
       const v = informationInfo[key];
       if (

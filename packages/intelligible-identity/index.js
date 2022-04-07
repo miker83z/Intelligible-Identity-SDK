@@ -170,6 +170,7 @@ class IntelligibleIdentity {
   async fromStringMeta(
     metaDocumentString,
     web3Provider,
+    web3address,
     networkId,
     intelligibleIdArtifact
   ) {
@@ -179,19 +180,15 @@ class IntelligibleIdentity {
     this.setIdentityInformation(information, references);
 
     if (web3Provider !== undefined) {
-      const identityEthereumAccountAddressEle = this.meta.findValueByEId(
-        'identityEthereumAccountAddress'
-      );
-
-      if (identityEthereumAccountAddressEle !== undefined) {
-        this.web3 = new IdentityWeb3(
-          web3Provider,
-          networkId,
-          intelligibleIdArtifact
-        );
-
-        this.web3.address = identityEthereumAccountAddressEle.node.textContent;
+      if (web3address === undefined) {
+        throw new Error('identity: You need to set the web3 address');
       }
+      this.web3 = new IdentityWeb3(
+        web3Provider,
+        networkId,
+        intelligibleIdArtifact
+      );
+      this.web3.address = web3address;
     }
   }
 }

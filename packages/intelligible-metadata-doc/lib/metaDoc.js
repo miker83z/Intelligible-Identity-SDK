@@ -68,15 +68,6 @@ class MetaDoc {
     //////
     ////
     ////Reference
-    if (
-      !(
-        Object.keys(docElements.references).includes('iid') &&
-        Object.keys(docElements.references).includes('iidDIDDoc') &&
-        Object.keys(docElements.references).includes('iidIssuer')
-      )
-    ) {
-      throw new Error('Needs iid && iidDIDDoc && iidIssuer');
-    }
     Object.keys(docElements.references).forEach((r) => {
       if (docElements.references[r].href === undefined)
         throw new Error('Needs href');

@@ -107,8 +107,8 @@ class IntelligibleCertificate {
 
     //Signatures
     this.meta.addSwSignature(
-      this.references.certIssuerSoftware['@eId'],
-      this.references.certIssuerSoftware.name,
+      '#icertIssuerSoftware',
+      this.references.icertIssuerSoftware.entity,
       'softwareSignature' // Software signature TODO
     );
   }

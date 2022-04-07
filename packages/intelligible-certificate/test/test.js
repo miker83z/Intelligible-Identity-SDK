@@ -9,205 +9,130 @@ const networkId = '5777';
 //////////////////////////////////////
 
 //Certificate info//////////////////////
+const didIssuer = `DID:NFT:oadnaoisndoiansoi`;
+const hrefIssuer = `/ank/eu/doc/2020-03-10/${didIssuer}/eng@.akn`;
 const todayDate = new Date().toISOString().slice(0, 10);
 const certificateInformation = {
-  certificateType: 'GDPRCompliance',
-  certifiedEntityType: 'software',
   certificateDate: todayDate,
-  certificateExpression: `en@${todayDate}`,
+  didReceiver: `DID:NFT:oadnaoisndoiansoi`,
+  icertId: `GDPRcomplianceX`,
   FRBRWork: {},
   FRBRExpression: {},
   FRBRManifestation: {},
   additionalBody: {},
 };
 const certificateReferences = {
-  certIssuer: {
-    type: 'TLCOrganization',
-    name: 'CompanyX',
-    '@eId': '#certIssuer',
-    '@href': '/meta/eu/doc/intelligibleIdentity/organization/CompanyX/',
-    '@showAs': 'Issuer',
+  icert: {
+    entity: `${certificateInformation.didReceiver}:${certificateInformation.icertId}`,
+    href: `/ank/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/eng@.akn`,
   },
-  certIssuerRole: {
-    type: 'TLCRole',
-    name: 'Issuer',
-    '@eId': '#certIssuerRole',
-    '@href': '/meta/ontology/roles/intelligibleCertificate/issuer',
-    '@showAs': 'IssuerRole',
+  icertVCDoc: {
+    entity: 'IPFS:Qm3n6aosdosidno',
+    href: `/ank/eu/doc/${certificateInformation.certificateDate}/IPFS:Qm3n6aosdosidno/eng@.akn`,
   },
-  certIssuerRepresentative: {
-    type: 'TLCPerson',
-    name: 'PersonX',
-    '@eId': '#certIssuerRepresentative',
-    '@href': '/meta/eu/doc/intelligibleIdentity/person/PersonX/',
-    '@showAs': 'Author',
+  icertReceiver: {
+    entity: `${certificateInformation.didReceiver}`,
+    href: `/ank/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}/eng@.akn`,
   },
-  certIssuerRepresentativeRole: {
-    type: 'TLCRole',
-    name: 'IssuerRepresentative',
-    '@eId': '#certIssuerRepresentativeRole',
-    '@href':
-      '/meta/ontology/roles/intelligibleCertificate/issuerRepresentative',
-    '@showAs': 'IssuerRepresentativeRole',
+  icertIssuer: {
+    entity: `${didIssuer}`,
+    href: `${hrefIssuer}`,
   },
-  certIssuerSoftware: {
+  gdpr: {
+    entity: 'EU 2016/679',
+    href: `/ank/eu/doc/2016-05-04/2016_6791/IPFS:Qm6n5ayhgfsidns/eng@.akn`,
+  },
+  icertIssuerSoftware: {
     type: 'TLCObject',
-    name: 'IntelligibleSuite@0.1.0',
-    '@eId': '#certIssuerSoftware',
-    '@href': '/meta/eu/doc/object/software/IntelligibleSuite/ver@0.1.0.meta',
-    '@showAs': 'IssuerSoftware',
+    entity: 'IntelligibleCertificate@1.0.1',
+    href: `/ank/eu/doc/${certificateInformation.certificateDate}/IPFS:Qm9n6ayhgfsidns/eng@.akn`,
   },
-  certReceiver: {
-    type: 'TLCPerson',
-    name: 'PersonY',
-    '@eId': '#certReceiver',
-    '@href': '/meta/eu/doc/intelligibleIdentity/person/PersonY/',
-    '@showAs': 'Receiver',
-  },
-  certReceiverRole: {
-    type: 'TLCRole',
-    name: 'Receiver',
-    '@eId': '#certReceiverRole',
-    '@href': '/meta/ontology/roles/intelligibleCertificate/receiver',
-    '@showAs': 'ReceiverRole',
-  },
-  certEntity: {
+  nftSmartContract: {
     type: 'TLCObject',
-    name: 'softwareX',
-    documentHashDigest: 'bO8GOuyG8g76FI7f65DtfYHG67a7fe67',
-    '@eId': '#certEntity',
-    '@href': '/some/uri/softwareX',
-    '@showAs': 'CertifiedEntity',
+    entity: 'IntelligibleCertificate.sol',
+    href: `/ank/eu/doc/${certificateInformation.certificateDate}/IPFS:Qm2nayhgf7sidns/eng@.akn`,
   },
 };
 //////////////////////////////////////
 
 //Identity1 info//////////////////////
 const information1 = {
-  identityType: 'person',
+  //identityType: 'person',
   identityDate: todayDate,
-  identityExpression: `DID@${todayDate}`,
-  name: 'Person X',
-  email: 'person@x.com',
+  //identityExpression: `DID@${todayDate}`,
+  did: didIssuer,
   FRBRWork: {},
   FRBRExpression: {},
   FRBRManifestation: {},
   additionalBody: {},
 };
 const identityReferences1 = {
-  idIssuer: {
-    type: 'TLCPerson',
-    name: 'PersonX',
-    '@eId': '#idIssuer',
-    '@href': '/meta/eu/doc/intelligibleIdentity/person/PersonX/',
-    '@showAs': 'Issuer',
+  iid: {
+    entity: `${information1.did}`,
+    href: hrefIssuer,
   },
-  idIssuerRole: {
-    type: 'TLCRole',
-    name: 'Issuer',
-    '@eId': '#idIssuerRole',
-    '@href': '/meta/ontology/roles/intelligibleIdentity/issuer',
-    '@showAs': 'IssuerRole',
+  iidDIDDoc: {
+    entity: 'IPFS:Qm3n7aosdosidno',
+    href: `/ank/eu/doc/${information1.identityDate}/IPFS:Qm3n7aosdosidno/eng@.akn`,
   },
-  idIssuerRepresentative: {
-    type: 'TLCPerson',
-    name: 'PersonX',
-    '@eId': '#idIssuerRepresentative',
-    '@href': '/meta/eu/doc/intelligibleIdentity/person/PersonX/',
-    '@showAs': 'Author',
+  iidIssuer: {
+    entity: `${information1.did}`,
+    href: hrefIssuer,
   },
-  idIssuerRepresentativeRole: {
-    type: 'TLCRole',
-    name: 'IssuerRepresentative',
-    '@eId': '#idIssuerRepresentativeRole',
-    '@href': '/meta/ontology/roles/intelligibleIdentity/issuerRepresentative',
-    '@showAs': 'IssuerRepresentativeRole',
+  eidas: {
+    entity: 'EU COM/2021/281 final',
+    href: `/ank/eu/doc/2021-03-06/2021_281/IPFS:Qm6n7ayhgfsidns/eng@.akn`,
   },
-  idIssuerSoftware: {
+  iidIssuerSoftware: {
     type: 'TLCObject',
-    name: 'IntelligibleSuite@0.1.0',
-    '@eId': '#idIssuerSoftware',
-    '@href': '/meta/eu/doc/object/software/IntelligibleSuite/ver@0.1.0.meta',
-    '@showAs': 'IssuerSoftware',
+    entity: 'IntelligibleIdentity@1.0.1',
+    href: `/ank/eu/doc/${information1.identityDate}/IPFS:Qm4n6ayhgfsidns/eng@.akn`,
   },
-  idReceiver: {
-    type: 'TLCPerson',
-    name: 'PersonX',
-    '@eId': '#idReceiver',
-    '@href': '/meta/eu/doc/intelligibleIdentity/person/PersonX/',
-    '@showAs': 'Receiver',
-  },
-  idReceiverRole: {
-    type: 'TLCRole',
-    name: 'Receiver',
-    '@eId': '#idReceiverRole',
-    '@href': '/meta/ontology/roles/intelligibleIdentity/receiver',
-    '@showAs': 'ReceiverRole',
+  nftSmartContract: {
+    type: 'TLCObject',
+    entity: 'IntelligibleIdentity.sol',
+    href: `/ank/eu/doc/${information1.identityDate}/IPFS:Qm2nayhgf4sidns/eng@.akn`,
   },
 };
 //////////////////////////////////////
 
-//Identity1 info//////////////////////
+//Identity2 info//////////////////////
 const information2 = {
-  identityType: 'person',
+  //identityType: 'person',
   identityDate: todayDate,
-  identityExpression: `DID@${todayDate}`,
-  name: 'Person Y',
-  email: 'person@y.com',
+  //identityExpression: `DID@${todayDate}`,
+  did: `DID:NFT:oadnaoilndgiansoi`,
   FRBRWork: {},
   FRBRExpression: {},
   FRBRManifestation: {},
   additionalBody: {},
 };
 const identityReferences2 = {
-  idIssuer: {
-    type: 'TLCPerson',
-    name: 'PersonY',
-    '@eId': '#idIssuer',
-    '@href': '/meta/eu/doc/intelligibleIdentity/person/PersonY/',
-    '@showAs': 'Issuer',
+  iid: {
+    entity: `${information2.did}`,
+    href: `/ank/eu/doc/${information2.identityDate}/${information2.did}/eng@.akn`,
   },
-  idIssuerRole: {
-    type: 'TLCRole',
-    name: 'Issuer',
-    '@eId': '#issuerRole',
-    '@href': '/meta/ontology/roles/intelligibleIdentity/issuer',
-    '@showAs': 'IssuerRole',
+  iidDIDDoc: {
+    entity: 'IPFS:Qm3n7aosdosidno',
+    href: `/ank/eu/doc/${information2.identityDate}/IPFS:Qm3n7aosdosidno/eng@.akn`,
   },
-  idIssuerRepresentative: {
-    type: 'TLCPerson',
-    name: 'PersonY',
-    '@eId': '#idIssuerRepresentative',
-    '@href': '/meta/eu/doc/intelligibleIdentity/person/PersonY/',
-    '@showAs': 'Author',
+  iidIssuer: {
+    entity: `${information2.did}`,
+    href: `/ank/eu/doc/${information2.identityDate}/${information2.did}/eng@.akn`,
   },
-  idIssuerRepresentativeRole: {
-    type: 'TLCRole',
-    name: 'IssuerRepresentative',
-    '@eId': '#issuerRepresentativeRole',
-    '@href': '/meta/ontology/roles/intelligibleIdentity/issuerRepresentative',
-    '@showAs': 'IssuerRepresentativeRole',
+  eidas: {
+    entity: 'EU COM/2021/281 final',
+    href: `/ank/eu/doc/2021-03-06/2021_281/IPFS:Qm6n7ayhgfsidns/eng@.akn`,
   },
-  idIssuerSoftware: {
+  iidIssuerSoftware: {
     type: 'TLCObject',
-    name: 'IntelligibleSuite@0.1.0',
-    '@eId': '#issuerSoftware',
-    '@href': '/meta/eu/doc/object/software/IntelligibleSuite/ver@0.1.0.meta',
-    '@showAs': 'IssuerSoftware',
+    entity: 'IntelligibleIdentity@1.0.1',
+    href: `/ank/eu/doc/${information2.identityDate}/IPFS:Qm4n6ayhgfsidns/eng@.akn`,
   },
-  idReceiver: {
-    type: 'TLCPerson',
-    name: 'PersonY',
-    '@eId': '#idReceiver',
-    '@href': '/meta/eu/doc/intelligibleIdentity/person/PersonY/',
-    '@showAs': 'Receiver',
-  },
-  idReceiverRole: {
-    type: 'TLCRole',
-    name: 'Receiver',
-    '@eId': '#receiverRole',
-    '@href': '/meta/ontology/roles/intelligibleIdentity/receiver',
-    '@showAs': 'ReceiverRole',
+  nftSmartContract: {
+    type: 'TLCObject',
+    entity: 'IntelligibleIdentity.sol',
+    href: `/ank/eu/doc/${information2.identityDate}/IPFS:Qm2nayhgf4sidns/eng@.akn`,
   },
 };
 //////////////////////////////////////
@@ -255,12 +180,8 @@ const simpleNewCertificate = async () => {
     false
   );
   c.meta.addSignature(
-    certificateReferences.certIssuerRepresentative['@eId'],
-    certificateReferences.certIssuerRepresentative.name,
-    certificateReferences.certIssuerRepresentativeRole['@eId'],
-    certificateReferences.certIssuerRepresentativeRole.name,
-    certificateReferences.certIssuerRepresentative['@href'], //TODO
-    issuerR.web3.mainAddress,
+    '#icertIssuer',
+    certificateReferences.icertIssuer.entity,
     Date.now(),
     issuerSignature
   );
@@ -272,12 +193,8 @@ const simpleNewCertificate = async () => {
     false
   );
   c.meta.addSignature(
-    certificateReferences.certReceiver['@eId'],
-    certificateReferences.certReceiver.name,
-    certificateReferences.certReceiverRole['@eId'],
-    certificateReferences.certReceiverRole.name,
-    certificateReferences.certReceiver['@href'], //TODO
-    receiver.web3.mainAddress,
+    '#icertReceiver',
+    certificateReferences.icertReceiver.entity,
     Date.now(),
     receiverSignature
   );
@@ -285,21 +202,27 @@ const simpleNewCertificate = async () => {
   await verifySignature(
     c.meta.finalize(),
     issuerR.meta.finalize(),
-    receiver.meta.finalize()
+    issuerR.web3.address, //TODO get from DIDDoc
+    receiver.meta.finalize(),
+    receiver.web3.address
   );
 };
 
-const verifySignature = async (certMeta, issuerMeta, receiverMeta) => {
+const verifySignature = async (
+  certMeta,
+  issuerMeta,
+  issuerWeb3Address,
+  receiverMeta,
+  receiverWeb3Address
+) => {
   const c = new IntelligibleCertificate();
   c.fromStringMeta(certMeta);
   const signedPayload = c.meta.finalizeNoConclusions();
 
   const issuer = new IntelligibleIdentity();
-  issuer.fromStringMeta(issuerMeta, web3Provider);
+  issuer.fromStringMeta(issuerMeta, web3Provider, issuerWeb3Address);
   const issuerSignature = c.meta.findValueByEId(
-    `conclusion_signature_${certificateReferences.certIssuerRepresentative[
-      '@eId'
-    ].slice(1)}_signature`
+    'signature_icertIssuer_digitalSignature'
   );
   assert.equal(
     await issuer.web3.verifySignedData(
@@ -311,11 +234,9 @@ const verifySignature = async (certMeta, issuerMeta, receiverMeta) => {
   );
 
   const receiver = new IntelligibleIdentity();
-  receiver.fromStringMeta(receiverMeta, web3Provider);
+  receiver.fromStringMeta(receiverMeta, web3Provider, receiverWeb3Address);
   const receiverSignature = c.meta.findValueByEId(
-    `conclusion_signature_${certificateReferences.certReceiver['@eId'].slice(
-      1
-    )}_signature`
+    'signature_icertReceiver_digitalSignature'
   );
   assert.equal(
     await receiver.web3.verifySignedData(
