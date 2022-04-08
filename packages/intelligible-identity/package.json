@@ -20,7 +20,7 @@
     "ethereumjs-util": "^7.0.8",
     "intelligible-akn-doc": "file:../intelligible-akn-doc",
     "intelligible-nft-web3": "file:../intelligible-nft-web3",
-    "intelligible-storage-ipfs": "file:../intelligible-storage-ipfs",
-    "xmlbuilder2": "^3.0.2"
+    "intelligible-nostdsign-doc": "file:../intelligible-nostdsign-doc",
+    "intelligible-storage-ipfs": "file:../intelligible-storage-ipfs"
   }
 }

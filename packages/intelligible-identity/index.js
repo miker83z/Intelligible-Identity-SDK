@@ -1,6 +1,6 @@
 const { IdentityWeb3 } = require('./lib/web3');
 const { IdentityMeta } = require('./lib/meta');
-const { NoStandardSignatureDoc } = require('./lib/signature');
+const { NoStandardSignatureDoc } = require('intelligible-nostdsign-doc');
 
 /**
  * @description Represents an Intelligible Identity and includes tha objects that compose it.
@@ -74,7 +74,7 @@ class IntelligibleIdentity {
 
   /**
    * @description Creates a new meta object fetching the information from the personal
-   * information object (setIdentityInformation required), the web3 object (not required)
+   * information object
    * @param {Object} [information] Identity's personal information object
    * @param {Object} [references] Identity's references object
    */
@@ -95,7 +95,7 @@ class IntelligibleIdentity {
    * Identity's meta object (hash digest).
    * @param {boolean} [optionalNoPersonalSign] The option for signing with eth.personal.sign
    * (if true) or eth.sign (if false)
-   * @param {string} [hashDigest] Identity's meta object hash
+   * @param {string} hashDigest Identity's meta object hash
    */
   async signIdentity(optionalNoPersonalSign, hashDigest) {
     if (hashDigest !== undefined) {
@@ -154,6 +154,34 @@ class IntelligibleIdentity {
   }
 
   /**
+   * @description Creates a web3 instance from a token id. It returns the token URI used to derive/obtain
+   * the meta document.
+   * @param {Object} web3Provider The web3 provider
+   * @param {number|string} mainAddress The selected main address or its
+   * position within the provider accounts list
+   * @param {string} tokenId The token id
+   * @param {number} [networkId] The id of the network where the provider operates
+   * @param {Object} [intelligibleIdArtifact] The json object containing the contract abi
+   * @return {string} The token URI
+   */
+  async fromWeb3TokenId(
+    web3Provider,
+    mainAddress,
+    tokenId,
+    networkId,
+    intelligibleIdArtifact
+  ) {
+    this.web3 = new Web3Wrapper(
+      web3Provider,
+      'identity',
+      networkId,
+      intelligibleIdArtifact
+    );
+    await this.web3.setMainAddress(mainAddress);
+    return await this.web3.getTokenById(tokenId); //tokenURI
+  }
+
+  /**
    * @description Creates an meta instance from a string that represents the Meta document
    * @param {string} aknDocumentString The string that represents the XML document
    */
@@ -180,6 +208,14 @@ class IntelligibleIdentity {
       );
       this.web3.address = web3address;
     }
+  }
+
+  /**
+   * @description Creates a signature instance from a string that represents the signature document
+   * @param {string} signatureDocumentString The string that represents the signature XML document
+   */
+  async fromStringSignature(signatureDocumentString) {
+    this.signature = NoStandardSignatureDoc.fromString(signatureDocumentString);
   }
 }
 

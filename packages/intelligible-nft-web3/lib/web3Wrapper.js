@@ -142,6 +142,8 @@ class Web3Wrapper {
         );
     }
 
+    this.uri = URI;
+
     await contractMethod(this.address, URI, this.tokenId).send({
       from: this.mainAddress,
       gas: this.gas,
@@ -188,6 +190,8 @@ class Web3Wrapper {
           'wrapper/web3Wrapper: A valid use case must be provided'
         );
     }
+
+    this.uri = URI;
 
     const res = contractMethod(this.address, URI).send({
       from: this.mainAddress,

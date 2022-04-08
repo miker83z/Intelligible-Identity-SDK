@@ -5,6 +5,11 @@ const fs = require('fs');
 // Setup info////////////////////////
 const web3Provider = 'http://127.0.0.1:8545';
 const networkId = '5777';
+const ipfsProvider = {
+  host: '127.0.0.1',
+  port: '5001',
+  protocol: 'http',
+};
 //////////////////////////////////////
 
 //Identity info//////////////////////
@@ -104,11 +109,7 @@ const setupFilesForAKN = async (ipfs, directory) => {
 // Test starts
 const simpleNewIdentity = async () => {
   // Setup
-  const ipfs = new IPFSWrapper({
-    host: '127.0.0.1',
-    port: '5001',
-    protocol: 'http',
-  });
+  const ipfs = new IPFSWrapper(ipfsProvider);
   const a = new IntelligibleIdentity();
   // Reserve NFT id
   await a.prepareNewIdentityWeb3(web3Provider, 0, undefined, networkId);
@@ -134,11 +135,7 @@ const simpleNewIdentity = async () => {
 };
 
 const fromAddress = async () => {
-  const ipfs = new IPFSWrapper({
-    host: '127.0.0.1',
-    port: '5001',
-    protocol: 'http',
-  });
+  const ipfs = new IPFSWrapper(ipfsProvider);
   // Create new Identity
   const a = await simpleNewIdentity();
   // Obtain the identity from the web3 address
@@ -153,6 +150,11 @@ const fromAddress = async () => {
   // Gets the identity document from IPFS
   const resGet = await ipfs.getIPFSFile(nftCid);
   b.fromStringMeta(resGet);
+  // Get the signature document and save it
+  const signCid = nftCid.split('/').slice(0, -1).join('/') + '/signature.xml';
+  const signGet = await ipfs.getIPFSFile(signCid);
+  b.fromStringSignature(signGet);
+
   console.log(b.meta.finalize());
 };
 

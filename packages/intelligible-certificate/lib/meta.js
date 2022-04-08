@@ -11,9 +11,8 @@ class CertificateMeta extends AKNDoc {
    * the instance will be created empty and a string can be inserted for later parsing.
    * @param {Object} [information] The information regarding the certificate (e.g. type, name, etc.)
    * @param {Object} [references] The references to other persons, organizations, objects
-   * @param {Object} [web3Information] The the information regarding the Ethereum representation (token)
    */
-  constructor(information, references, web3Information) {
+  constructor(information, references) {
     super();
 
     if (information !== undefined) {

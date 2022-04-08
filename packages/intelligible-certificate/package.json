@@ -4,13 +4,15 @@
   "description": "Intelligible Certificate - The creation of certificates through the Intelligible paradigm",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "cd test && node test.js"
   },
   "author": "Mirko Zichichi <mikerz83@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "intelligible-akn-doc": "file:../intelligible-akn-doc",
     "intelligible-nft-web3": "file:../intelligible-nft-web3",
-    "intelligible-metadata-doc": "file:../intelligible-metadata-doc"
+    "intelligible-nostdsign-doc": "file:../intelligible-nostdsign-doc",
+    "intelligible-storage-ipfs": "file:../intelligible-storage-ipfs"
   },
   "devDependencies": {
     "intelligible-identity": "file:../intelligible-identity"

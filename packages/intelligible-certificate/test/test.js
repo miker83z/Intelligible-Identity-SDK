@@ -1,11 +1,18 @@
 /* eslint-disable no-undef */
-const assert = require('assert').strict;
-const { IntelligibleIdentity } = require('intelligible-identity');
 const { IntelligibleCertificate } = require('./..');
+const { IntelligibleIdentity } = require('intelligible-identity');
+const { IPFSWrapper } = require('intelligible-storage-ipfs');
+const fs = require('fs');
+const assert = require('assert').strict;
 
 //Web3 Setup info////////////////////////
 const web3Provider = 'http://127.0.0.1:8545';
 const networkId = '5777';
+const ipfsProvider = {
+  host: '127.0.0.1',
+  port: '5001',
+  protocol: 'http',
+};
 //////////////////////////////////////
 
 //Certificate info//////////////////////
@@ -38,14 +45,15 @@ const certificateInformation = {
   },
   additionalBody: {},
 };
+const path = `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/eng@/`;
 const certificateReferences = {
   icert: {
     entity: `${certificateInformation.didReceiver}:${certificateInformation.icertId}`,
-    href: `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/eng@.akn`,
+    href: `${path.slice(0, -1)}@.akn`,
   },
   icertVCDoc: {
     entity: 'vcdoc.json',
-    href: `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/vcdoc.json`,
+    href: `${path}vcdoc.json`,
   },
   icertReceiver: {
     entity: `${certificateInformation.didReceiver}`,
@@ -62,21 +70,19 @@ const certificateReferences = {
   icertIssuerSoftware: {
     type: 'TLCObject',
     entity: 'IntelligibleCertificate1.0.1.hashdigest.json',
-    href: `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/IntelligibleCertificate1.0.1.hashdigest.json`,
+    href: `${path}IntelligibleCertificate1.0.1.hashdigest.json`,
   },
   nftSmartContract: {
     type: 'TLCObject',
     entity: 'IntelligibleCertificate.sol',
-    href: `/akn/eu/doc/${certificateInformation.certificateDate}/${certificateInformation.didReceiver}:${certificateInformation.icertId}/IntelligibleCertificate.sol`,
+    href: `${path}IntelligibleCertificate.sol`,
   },
 };
 //////////////////////////////////////
 
 //Identity1 info//////////////////////
 const information1 = {
-  //identityType: 'person',
   identityDate: todayDate,
-  //identityExpression: `DID@${todayDate}`,
   did: didIssuer,
   FRBRWork: {},
   FRBRExpression: {},
@@ -100,6 +106,7 @@ const information1 = {
   },
   additionalBody: {},
 };
+const path1 = `${hrefIssuer.slice(0, -4)}/`;
 const identityReferences1 = {
   iid: {
     entity: `${information1.did}`,
@@ -107,7 +114,7 @@ const identityReferences1 = {
   },
   iidDIDDoc: {
     entity: 'diddoc.json',
-    href: `/akn/eu/doc/${information1.identityDate}/${information1.did}/eng@/diddoc.json`,
+    href: `${path1}diddoc.json`,
   },
   iidIssuer: {
     entity: `${information1.did}`,
@@ -120,21 +127,19 @@ const identityReferences1 = {
   iidIssuerSoftware: {
     type: 'TLCObject',
     entity: 'IntelligibleIdentity1.0.1.hashdigest.json',
-    href: `/akn/eu/doc/${information1.identityDate}/${information1.did}/eng@/IntelligibleIdentity1.0.1.hashdigest.json`,
+    href: `${path1}IntelligibleIdentity1.0.1.hashdigest.json`,
   },
   nftSmartContract: {
     type: 'TLCObject',
     entity: 'IntelligibleIdentity.sol',
-    href: `/akn/eu/doc/${information1.identityDate}/${information1.did}/eng@/IntelligibleIdentity.sol`,
+    href: `${path1}IntelligibleIdentity.sol`,
   },
 };
 //////////////////////////////////////
 
 //Identity2 info//////////////////////
 const information2 = {
-  //identityType: 'person',
   identityDate: todayDate,
-  //identityExpression: `DID@${todayDate}`,
   did: `DID:NFT:oadnaoilndgiansoi`,
   FRBRWork: {},
   FRBRExpression: {},
@@ -158,18 +163,19 @@ const information2 = {
   },
   additionalBody: {},
 };
+const path2 = `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@/`;
 const identityReferences2 = {
   iid: {
     entity: `${information2.did}`,
-    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@.akn`,
+    href: `${path2.slice(0, -1)}.akn`,
   },
   iidDIDDoc: {
     entity: 'diddoc.json',
-    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@/diddoc.json`,
+    href: `${path2}diddoc.json`,
   },
   iidIssuer: {
     entity: `${information2.did}`,
-    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@.akn`,
+    href: `${path2.slice(0, -1)}.akn`,
   },
   eidas: {
     entity: 'EU COM/2021/281 final',
@@ -178,129 +184,262 @@ const identityReferences2 = {
   iidIssuerSoftware: {
     type: 'TLCObject',
     entity: 'IntelligibleIdentity1.0.1.hashdigest.json',
-    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@/IntelligibleIdentity1.0.1.hashdigest.json`,
+    href: `${path2}IntelligibleIdentity1.0.1.hashdigest.json`,
   },
   nftSmartContract: {
     type: 'TLCObject',
     entity: 'IntelligibleIdentity.sol',
-    href: `/akn/eu/doc/${information2.identityDate}/${information2.did}/eng@/IntelligibleIdentity.sol`,
+    href: `${path2}IntelligibleIdentity.sol`,
   },
 };
 //////////////////////////////////////
 
+const getFileCID = async (ipfs, directory, fileName) => {
+  const file = {
+    path: fileName,
+    content: fs.readFileSync(`${directory}${fileName}`, {
+      encoding: 'utf8',
+      flag: 'r',
+    }),
+  };
+  const cidRes = await ipfs.getCIDs(path, [file]);
+  const cid = cidRes.slice(-1)[0].cid.toString();
+  return { file, cid };
+};
+
+const setupFilesForAKN = async (ipfs, directory, identityReferences) => {
+  const files = [];
+  for (let i = 0; i < Object.keys(identityReferences).length; i++) {
+    const key = Object.keys(identityReferences)[i];
+    if (
+      key === 'iidDIDDoc' ||
+      key === 'iidIssuerSoftware' ||
+      key === 'nftSmartContract'
+    ) {
+      const res = await getFileCID(
+        ipfs,
+        directory,
+        identityReferences[key].entity
+      );
+      identityReferences[
+        key
+      ].href = `${res.cid}${identityReferences[key].href}`;
+      files.push(res.file);
+    }
+  }
+  return files;
+};
+
+const setupFilesForAKNCert = async (ipfs, directory, certificateReferences) => {
+  const files = [];
+  for (let i = 0; i < Object.keys(certificateReferences).length; i++) {
+    const key = Object.keys(certificateReferences)[i];
+    if (
+      key === 'icertVCDoc' ||
+      key === 'icertIssuerSoftware' ||
+      key === 'nftSmartContract'
+    ) {
+      const res = await getFileCID(
+        ipfs,
+        directory,
+        certificateReferences[key].entity
+      );
+      certificateReferences[
+        key
+      ].href = `${res.cid}${certificateReferences[key].href}`;
+      files.push(res.file);
+    }
+  }
+  return files;
+};
+
 // Test starts
 const simpleNewIdentity = async (
+  ipfs,
   information,
   identityReferences,
-  mainAddress
+  mainAddress,
+  directory
 ) => {
+  // Setup
   const a = new IntelligibleIdentity();
+  // Reserve NFT id
   await a.prepareNewIdentityWeb3(
     web3Provider,
     mainAddress,
     undefined,
     networkId
   );
-  a.setIdentityInformation(information, identityReferences);
-  a.newIdentityMeta(false);
-  await a.finalizeNewIdentityWeb3('identityHash');
+  // Get CIDs for referenced files
+  const files = await setupFilesForAKN(ipfs, directory, identityReferences);
+  // Create main.xml and save it
+  a.newIdentityMeta(information, identityReferences);
+  fs.writeFileSync(directory + 'main.xml', a.meta.finalize());
+  const res = await getFileCID(ipfs, directory, 'main.xml');
+  files.push(res.file);
+  // Sign the .akn package and store the signature
+  await a.signIdentity(false, res.cid);
+  fs.writeFileSync(directory + 'signature.xml', a.signature.finalize());
+  const res2 = await getFileCID(ipfs, directory, 'signature.xml');
+  files.push(res2.file);
+  // Store the end result in IPFS
+  const resFinal = await ipfs.storeIPFSDirectory(path, files);
+  // Store the reference in IPFS
+  const nftCid = `${resFinal.slice(-1)[0].cid.toString()}${path}main.xml`;
+  await a.finalizeNewIdentityWeb3(nftCid);
 
   return a;
 };
 
 const simpleNewCertificate = async () => {
-  const issuerR = await simpleNewIdentity(information1, identityReferences1, 0);
+  // Setup
+  const ipfs = new IPFSWrapper(ipfsProvider);
+  const issuer = await simpleNewIdentity(
+    ipfs,
+    information1,
+    identityReferences1,
+    0,
+    './data1/'
+  );
   const receiver = await simpleNewIdentity(
+    ipfs,
     information2,
     identityReferences2,
-    1
+    1,
+    './data2/'
   );
-
   const c = new IntelligibleCertificate();
+  // Reserve NFT id
   await c.prepareNewCertificateWeb3(
     web3Provider,
     0,
     receiver.web3.address,
     networkId
   );
-  c.setCertificateInformation(certificateInformation, certificateReferences);
-  c.newCertificateMeta();
-
-  const issuerSignature = await issuerR.web3.signData(
-    c.meta.finalizeNoConclusions(),
-    false
+  // Get CIDs for referenced files
+  const files = await setupFilesForAKNCert(
+    ipfs,
+    './data/',
+    certificateReferences
   );
-  c.meta.addSignature(
-    '#icertIssuer',
+  // Save reference to iids
+  certificateReferences['icertIssuer'].href = issuer.web3.uri;
+  certificateReferences['icertReceiver'].href = receiver.web3.uri;
+  // Create main.xml and save it
+  c.newCertificateMeta(certificateInformation, certificateReferences);
+  fs.writeFileSync('./data/main.xml', c.meta.finalize());
+  const res = await getFileCID(ipfs, './data/', 'main.xml');
+  files.push(res.file);
+
+  // Sign the .akn package and store the signature
+  const issuerSignature = await issuer.web3.signData(res.cid, false);
+  c.addSignatureToCertificate(
+    'icertIssuer',
     certificateReferences.icertIssuer.entity,
     Date.now(),
     issuerSignature
   );
-  await c.finalizeNewCertificateWeb3('certificateHash');
-
-  // receiver signature
-  const receiverSignature = await receiver.web3.signData(
-    c.meta.finalizeNoConclusions(),
-    false
+  fs.writeFileSync(
+    `./data/signature-icertIssuer.xml`,
+    c.signatures['icertIssuer'].finalize()
   );
-  c.meta.addSignature(
-    '#icertReceiver',
+  const res1 = await getFileCID(ipfs, './data/', 'signature-icertIssuer.xml');
+  files.push(res1.file);
+  // receiver signature
+  const receiverSignature = await receiver.web3.signData(res1.cid, false);
+  c.addSignatureToCertificate(
+    'icertReceiver',
     certificateReferences.icertReceiver.entity,
     Date.now(),
     receiverSignature
   );
+  fs.writeFileSync(
+    `./data/signature-icertReceiver.xml`,
+    c.signatures['icertReceiver'].finalize()
+  );
+  const res2 = await getFileCID(ipfs, './data/', 'signature-icertReceiver.xml');
+  files.push(res2.file);
+  // Store the end result in IPFS
+  const resFinal = await ipfs.storeIPFSDirectory(path, files);
+  // Store the reference in IPFS
+  const nftCid = `${resFinal.slice(-1)[0].cid.toString()}${path}main.xml`;
+  await c.finalizeNewCertificateWeb3(nftCid);
 
   await verifySignature(
-    c.meta.finalize(),
-    issuerR.meta.finalize(),
-    issuerR.web3.address, //TODO get from DIDDoc
-    receiver.meta.finalize(),
-    receiver.web3.address
+    c.web3.tokenId,
+    issuer.web3.address, //TODO get from DIDDoc
+    receiver.web3.address //TODO get from DIDDoc
   );
 };
 
 const verifySignature = async (
-  certMeta,
-  issuerMeta,
+  tokenId,
   issuerWeb3Address,
-  receiverMeta,
   receiverWeb3Address
 ) => {
+  const ipfs = new IPFSWrapper(ipfsProvider);
+  // Reconstruct Certificate
   const c = new IntelligibleCertificate();
-  c.fromStringMeta(certMeta);
-  const signedPayload = c.meta.finalizeNoConclusions();
-
+  // Obtain the certificate uri from the token id
+  const nftCid = await c.fromWeb3TokenId(web3Provider, 0, tokenId, networkId);
+  // Gets the certificate document from IPFS
+  const resGet = await ipfs.getIPFSFile(nftCid);
+  c.fromStringMeta(resGet);
+  // Get the signature documents and save it
+  const signIssuerCid =
+    nftCid.split('/').slice(0, -1).join('/') + '/signature-icertIssuer.xml';
+  const signIssuerGet = await ipfs.getIPFSFile(signIssuerCid);
+  c.fromStringSignature('icertIssuer', signIssuerGet);
+  const signReceiverCid =
+    nftCid.split('/').slice(0, -1).join('/') + '/signature-icertReceiver.xml';
+  const signReceiverGet = await ipfs.getIPFSFile(signReceiverCid);
+  c.fromStringSignature('icertReceiver', signReceiverGet);
+  // Reconstruct Identities
   const issuer = new IntelligibleIdentity();
-  issuer.fromStringMeta(issuerMeta, web3Provider, issuerWeb3Address);
-  const issuerSignature = c.meta.findValueByEId(
+  const resIssuerGet = await ipfs.getIPFSFile(c.references.icertIssuer.href);
+  issuer.fromStringMeta(resIssuerGet, web3Provider, issuerWeb3Address); //TODO get address from DID
+  const receiver = new IntelligibleIdentity();
+  const resReceiverGet = await ipfs.getIPFSFile(
+    c.references.icertReceiver.href
+  );
+  receiver.fromStringMeta(resReceiverGet, web3Provider, receiverWeb3Address); //TODO get address from DID
+  // Verify issuer signature
+  const fileX = {
+    path: 'main.xml',
+    content: c.meta.finalize(),
+  };
+  const cid1 = await ipfs.getCIDs(path, [fileX]);
+  const issuerSignedPayload = cid1.slice(-1)[0].cid.toString();
+  const issuerSignature = c.signatures['icertIssuer'].findValueByEId(
     'signature_icertIssuer_digitalSignature'
   );
   assert.equal(
     await issuer.web3.verifySignedData(
-      signedPayload,
+      issuerSignedPayload,
       issuerSignature.node.textContent,
       false
     ),
     true
   );
-
-  const receiver = new IntelligibleIdentity();
-  receiver.fromStringMeta(receiverMeta, web3Provider, receiverWeb3Address);
-  const receiverSignature = c.meta.findValueByEId(
+  // Verify receiver signature
+  const fileY = {
+    path: 'signature-icertIssuer.xml',
+    content: c.signatures['icertIssuer'].finalize(),
+  };
+  const cid2 = await ipfs.getCIDs(path, [fileY]);
+  const receiverSignedPayload = cid2.slice(-1)[0].cid.toString();
+  const receiverSignature = c.signatures['icertReceiver'].findValueByEId(
     'signature_icertReceiver_digitalSignature'
   );
   assert.equal(
     await receiver.web3.verifySignedData(
-      signedPayload,
+      receiverSignedPayload,
       receiverSignature.node.textContent,
       false
     ),
     true
   );
-
   console.log('Signatures verified!');
 };
 
-//simpleNoAlgo();
-//onlyAlgo();
 simpleNewCertificate();

@@ -1,5 +1,6 @@
-const { Web3Wrapper } = require('intelligible-nft-web3');
 const { CertificateMeta } = require('./lib/meta');
+const { Web3Wrapper } = require('intelligible-nft-web3');
+const { NoStandardSignatureDoc } = require('intelligible-nostdsign-doc');
 
 /**
  * @description Represents an Intelligible Certificate and includes tha objects that compose it.
@@ -13,7 +14,10 @@ class IntelligibleCertificate {
   constructor() {
     this.web3 = {};
     this.meta = {};
+    this.references = {};
     this.information = {};
+    this.hashDigest = {};
+    this.signatures = {};
   }
 
   /**
@@ -66,51 +70,52 @@ class IntelligibleCertificate {
    * @param {Object} references Certificate's references object
    */
   setCertificateInformation(information, references) {
-    this.information = information;
-    this.references = references;
+    this.information = JSON.parse(JSON.stringify(information));
+    this.references = JSON.parse(JSON.stringify(references));
   }
 
   /**
    * @description Creates a new meta object fetching the information from the certificate
-   * information object (setCertificateInformation required) and the web3 object (not required)
-   * PROVIDER AND RECEIVER SIGNATURES ARE NOT INCLUDED.
+   * information object
    * @param {Object} [information] Certificate's information object
    * @param {Object} [references] Certificate's references object
    */
   newCertificateMeta(information, references) {
-    if (information !== undefined) {
-      this.information = information;
-    }
-    if (references !== undefined) {
-      this.references = references;
-    }
     if (!this.information || !this.references) {
       throw new Error(
         'certificate: You need to set certificate information and references first'
       );
     }
-    let createdWeb3 = !!Object.keys(this.web3).length && !!this.web3.tokenId;
-
-    const web3Information = {
-      smartContractAddress: createdWeb3
-        ? this.web3.contract.options.address
-        : 'addressSmartContractWeb3',
-      tokenId: createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
-    };
+    this.setCertificateInformation(information, references);
 
     // Meta document
-    this.meta = new CertificateMeta(
-      this.information,
-      this.references,
-      web3Information
-    );
+    this.meta = new CertificateMeta(this.information, this.references);
+  }
 
-    //Signatures
-    this.meta.addSwSignature(
-      '#icertIssuerSoftware',
-      this.references.icertIssuerSoftware.entity,
-      'softwareSignature' // Software signature TODO
+  /**
+   * @description Creates a new signature object that represents a signature on the
+   * Certificate's meta object (hash digest).
+   * @param {string} eId Signatory eID
+   * @param {string} entity Signatory entity
+   * @param {string} timestamp Certificate's meta object signature timestamp
+   * @param {string} signat Certificate's meta object signature
+   */
+  async addSignatureToCertificate(eId, entity, timestamp, signat) {
+    if (signat === undefined) {
+      throw new Error(
+        'certificate: You need to set certificate signature first'
+      );
+    }
+
+    //Signature
+    const signature = new NoStandardSignatureDoc();
+    signature.addSignature(
+      '#' + eId, //'#icertIssuer',
+      entity, //this.references.icertIssuer.entity,
+      timestamp,
+      signat
     );
+    this.signatures[eId] = signature;
   }
 
   /**
@@ -150,6 +155,17 @@ class IntelligibleCertificate {
     const { information, references } =
       this.meta.parseInformationAndReferences();
     this.setCertificateInformation(information, references);
+  }
+
+  /**
+   * @description Creates a signature instance from a string that represents the signature document
+   * @param {string} indexKey The key for indexing the signature
+   * @param {string} signatureDocumentString The string that represents the signature XML document
+   */
+  async fromStringSignature(indexKey, signatureDocumentString) {
+    this.signatures[indexKey] = NoStandardSignatureDoc.fromString(
+      signatureDocumentString
+    );
   }
 }
 
