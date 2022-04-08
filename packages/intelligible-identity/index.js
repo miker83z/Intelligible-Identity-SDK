@@ -1,5 +1,6 @@
 const { IdentityWeb3 } = require('./lib/web3');
 const { IdentityMeta } = require('./lib/meta');
+const { NoStandardSignatureDoc } = require('./lib/signature');
 
 /**
  * @description Represents an Intelligible Identity and includes tha objects that compose it.
@@ -15,6 +16,8 @@ class IntelligibleIdentity {
     this.meta = {};
     this.information = {};
     this.references = {};
+    this.hashDigest = {};
+    this.signature = {};
   }
 
   /**
@@ -65,68 +68,55 @@ class IntelligibleIdentity {
    * @param {Object} references Identity's references object
    */
   setIdentityInformation(information, references) {
-    this.information = information;
-    this.references = references;
+    this.information = JSON.parse(JSON.stringify(information));
+    this.references = JSON.parse(JSON.stringify(references));
   }
 
   /**
    * @description Creates a new meta object fetching the information from the personal
    * information object (setIdentityInformation required), the web3 object (not required)
-   * and the algo object (not required)
-   * @param {boolean} [optionalNoPersonalSign] The option for signing with eth.personal.sign
-   * (if true) or eth.sign (if false)
    * @param {Object} [information] Identity's personal information object
    * @param {Object} [references] Identity's references object
    */
-  async newIdentityMeta(optionalNoPersonalSign, information, references) {
-    if (information !== undefined) {
-      this.information = information;
-    }
-    if (references !== undefined) {
-      this.references = references;
-    }
+  async newIdentityMeta(information, references) {
     if (!this.information || !this.references) {
       throw new Error(
         'identity: You need to set identity information and references first'
       );
     }
-    let createdWeb3 = !!Object.keys(this.web3).length && !!this.web3.tokenId;
-
-    const web3Information = {
-      accountAddress: {
-        '@eId': 'identityEthereumAccountAddress',
-        '#': createdWeb3 ? this.web3.address : 'addressWeb3',
-      },
-      smartContractAddress: createdWeb3
-        ? this.web3.contract.options.address
-        : 'addressSmartContractWeb3',
-      tokenId: createdWeb3 ? this.web3.tokenId : 'tokenIdWeb3',
-    };
+    this.setIdentityInformation(information, references);
 
     // Meta document
-    this.meta = new IdentityMeta(
-      this.information,
-      this.references,
-      web3Information
-    );
+    this.meta = new IdentityMeta(this.information, this.references);
+  }
 
-    //Signatures
-    this.meta.addSwSignature(
-      '#iidIssuerSoftware',
-      this.references.iidIssuerSoftware.entity,
-      'softwareSignature' // Software signature TODO
-    );
+  /**
+   * @description Creates a new signature object that represents a signature on the
+   * Identity's meta object (hash digest).
+   * @param {boolean} [optionalNoPersonalSign] The option for signing with eth.personal.sign
+   * (if true) or eth.sign (if false)
+   * @param {string} [hashDigest] Identity's meta object hash
+   */
+  async signIdentity(optionalNoPersonalSign, hashDigest) {
+    if (hashDigest !== undefined) {
+      this.hashDigest = hashDigest;
+    } else {
+      throw new Error('identity: You need to set identity hash digest first');
+    }
+    let createdWeb3 = !!Object.keys(this.web3).length && !!this.web3.tokenId;
 
+    //Signature
     if (createdWeb3) {
-      const signature = await this.web3.signData(
-        this.meta.finalizeNoConclusions(),
+      const signat = await this.web3.signData(
+        hashDigest,
         optionalNoPersonalSign
       );
-      this.meta.addSignature(
+      this.signature = new NoStandardSignatureDoc();
+      this.signature.addSignature(
         '#iidIssuer',
         this.references.iidIssuer.entity,
         Date.now(),
-        signature
+        signat
       );
     }
   }
@@ -165,16 +155,16 @@ class IntelligibleIdentity {
 
   /**
    * @description Creates an meta instance from a string that represents the Meta document
-   * @param {string} metaDocumentString The string that represents the XML document
+   * @param {string} aknDocumentString The string that represents the XML document
    */
   async fromStringMeta(
-    metaDocumentString,
+    aknDocumentString,
     web3Provider,
     web3address,
     networkId,
     intelligibleIdArtifact
   ) {
-    this.meta = IdentityMeta.fromString(metaDocumentString);
+    this.meta = IdentityMeta.fromString(aknDocumentString);
     const { information, references } =
       this.meta.parseInformationAndReferences();
     this.setIdentityInformation(information, references);

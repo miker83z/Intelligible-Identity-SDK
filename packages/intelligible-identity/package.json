@@ -4,7 +4,7 @@
   "description": "Intelligible Identity - The creation of identities through the Intelligible paradigm",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "cd test && node test.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/miker83z/Intelligible-Identity-SDK#readme",
   "dependencies": {
+    "ethereumjs-util": "^7.0.8",
+    "intelligible-akn-doc": "file:../intelligible-akn-doc",
     "intelligible-nft-web3": "file:../intelligible-nft-web3",
-    "intelligible-metadata-doc": "file:../intelligible-metadata-doc",
-    "ethereumjs-util": "^7.0.8"
+    "intelligible-storage-ipfs": "file:../intelligible-storage-ipfs",
+    "xmlbuilder2": "^3.0.2"
   }
 }

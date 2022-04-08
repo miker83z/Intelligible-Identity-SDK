@@ -1,0 +1,16 @@
+{
+  "name": "intelligible-storage-ipfs",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cd test && node test.js"
+  },
+  "author": "Mirko Zichichi <mikerz83@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bl": "^5.0.0",
+    "ipfs-http-client": "^56.0.2",
+    "uint8arrays": "^3.0.0"
+  }
+}

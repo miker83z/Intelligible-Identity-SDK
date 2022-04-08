@@ -5,13 +5,12 @@ const utils = require('./templates');
  * @description Wraps an XML document into a class. Allows to export an
  * XML document to a string and to import a new one from a string,
  */
-class MetaDoc {
+class AKNDoc {
   /**
-   * @description Creates an instance of MetaDoc.
+   * @description Creates an instance of AKNDoc.
    */
   constructor() {
     this.metaAndMain = {};
-    this.conclusions = {};
 
     this.create = create;
   }
@@ -20,7 +19,7 @@ class MetaDoc {
    * @description Creates a new XML document and stores it in this.metaAndMain
    * @param {Object} docElements An object used to create the document.
    */
-  newMetaDocument(docElements) {
+  newAKNDocument(docElements) {
     const xml = JSON.parse(JSON.stringify(utils.templates.metaAndMainTemplate));
     //meta
     ////Identification
@@ -120,7 +119,7 @@ class MetaDoc {
   }
 
   /**
-   * @description Creates an instance of MetaDoc from a string.
+   * @description Creates an instance of AKNDoc from a string.
    * @static
    * @param {string} string The string representing a valid XML document.
    * @return {string}
@@ -131,76 +130,8 @@ class MetaDoc {
     const temp = new this();
 
     temp.metaAndMain = xml;
-    if (xml.akomaNtoso.doc.conclusions !== 'undefined') {
-      temp.conclusions = xml.akomaNtoso.doc.conclusions;
-      delete temp.metaAndMain.akomaNtoso.doc.conclusions;
-    }
 
     return temp;
-  }
-
-  /**
-   * @description Adds a signature to the XML document.
-   * @param {string} eId The eId of the signatory
-   * @param {string} did The did of the signatory
-   * @param {string} timestamp The timestamp to add
-   * @param {string} signature The signature to add
-   */
-  addSignature(eId, did, timestamp, signature) {
-    if (Object.keys(this.conclusions).length == 0)
-      this.conclusions = JSON.parse(
-        JSON.stringify(utils.templates.conclTemplate.conclusions)
-      );
-
-    this.conclusions.signature.push({
-      iidSignatory: {
-        '#': {
-          entity: {
-            '@eId': `signature_${eId.slice(1)}_iidSignatory`,
-            '@refersTo': eId,
-            '#': did,
-          },
-        },
-      },
-      digitalSignature: {
-        '#': {
-          entity: {
-            '@eId': `signature_${eId.slice(1)}_digitalSignature`,
-            '#': signature,
-          },
-        },
-      },
-      timestamp: {
-        '@eId': `signature_${eId.slice(1)}_timestamp`,
-        '@date': timestamp,
-        '#': timestamp,
-      },
-    });
-  }
-
-  /**
-   * @description Adds a software signature to the XML document.
-   * @param {string} eId The eId of the software
-   * @param {string} name The name of the software
-   * @param {string} signature The signature to add
-   */
-  addSwSignature(eId, name, signature) {
-    if (Object.keys(this.conclusions).length == 0)
-      this.conclusions = JSON.parse(
-        JSON.stringify(utils.templates.conclTemplate.conclusions)
-      );
-
-    this.conclusions.signature.push({
-      object: {
-        '@eId': `conclusion_signature_${eId.slice(1)}_sw`,
-        '@refersTo': eId,
-        '#': name,
-      },
-      digitalSignature: {
-        '@eId': `conclusion_signature_${eId.slice(1)}_sw_signature`,
-        '#': signature,
-      },
-    });
   }
 
   /**
@@ -210,8 +141,6 @@ class MetaDoc {
   findValueByEId(eId) {
     if (Object.keys(this.metaAndMain).length === 0) return;
     const xml = JSON.parse(JSON.stringify(this.metaAndMain));
-    if (Object.keys(this.conclusions).length !== 0)
-      xml.akomaNtoso.doc.conclusions = { ...this.conclusions };
 
     return this.create(xml).find(
       (n) => {
@@ -230,32 +159,16 @@ class MetaDoc {
 
   /**
    * @description Finalizes the XML document by returning the string that
-   * represents the XML document, omitting the conclusions part.
-   * (Usually used for the signature payload).
-   * @return {string} The XML document string representation
-   */
-  finalizeNoConclusions() {
-    if (Object.keys(this.metaAndMain).length === 0) return;
-    const xml = JSON.parse(JSON.stringify(this.metaAndMain));
-
-    const final = this.create(xml);
-    return final.end({ prettyPrint: true });
-  }
-
-  /**
-   * @description Finalizes the XML document by returning the string that
-   * represents the XML document
+   * represents the XML document.
    * @return {string} The XML document string representation
    */
   finalize() {
     if (Object.keys(this.metaAndMain).length === 0) return;
     const xml = JSON.parse(JSON.stringify(this.metaAndMain));
-    if (Object.keys(this.conclusions).length !== 0)
-      xml.akomaNtoso.doc.conclusions = { ...this.conclusions };
 
     const final = this.create(xml);
     return final.end({ prettyPrint: true });
   }
 }
 
-module.exports = { MetaDoc };
+module.exports = { AKNDoc };

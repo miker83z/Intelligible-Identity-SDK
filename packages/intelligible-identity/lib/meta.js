@@ -1,19 +1,18 @@
-const { MetaDoc } = require('intelligible-metadata-doc');
+const { AKNDoc } = require('intelligible-akn-doc');
 
 /**
  * @description Provides the means to create and manage an intelligible identity
  * metadata document.
- * @extends {MetaDoc}
+ * @extends {AKNDoc}
  */
-class IdentityMeta extends MetaDoc {
+class IdentityMeta extends AKNDoc {
   /**
    * @description Creates an instance of IdentityMeta. If the information object is not passed as a parameter,
    * the instance will be created empty and a string can be inserted for later parsing.
    * @param {Object} [information] The information regarding the identity (e.g. type, name, etc.)
    * @param {Object} [references] The references to other persons, organizations, objects
-   * @param {Object} [web3Information] The the information regarding the Ethereum representation (token)
    */
-  constructor(information, references, web3Information) {
+  constructor(information, references) {
     super();
 
     if (information !== undefined) {
@@ -179,7 +178,7 @@ class IdentityMeta extends MetaDoc {
         },
       };
 
-      this.newMetaDocument(identityElements);
+      this.newAKNDocument(identityElements);
     }
   }
 

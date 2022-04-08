@@ -125,12 +125,6 @@ const templates = {
       },
     },
   },
-  conclTemplate: {
-    conclusions: {
-      '@eId': 'conclusions',
-      signature: [],
-    },
-  },
 };
 
 module.exports = { templates };

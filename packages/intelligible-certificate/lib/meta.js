@@ -1,11 +1,11 @@
-const { MetaDoc } = require('intelligible-metadata-doc');
+const { AKNDoc } = require('intelligible-akn-doc');
 
 /**
  * @description Provides the means to create and manage an intelligible certificate
  * metadata document.
- * @extends {MetaDoc}
+ * @extends {AKNDoc}
  */
-class CertificateMeta extends MetaDoc {
+class CertificateMeta extends AKNDoc {
   /**
    * @description Creates an instance of CertificateMeta. If the information object is not passed as a parameter,
    * the instance will be created empty and a string can be inserted for later parsing.
@@ -182,7 +182,7 @@ class CertificateMeta extends MetaDoc {
         },
       };
 
-      this.newMetaDocument(certificateElements);
+      this.newAKNDocument(certificateElements);
     }
   }
 

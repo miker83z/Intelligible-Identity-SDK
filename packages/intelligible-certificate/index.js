@@ -143,10 +143,10 @@ class IntelligibleCertificate {
 
   /**
    * @description Creates an meta instance from a string that represents the Meta document
-   * @param {string} metaDocumentString The string that represents the XML document
+   * @param {string} aknDocumentString The string that represents the XML document
    */
-  fromStringMeta(metaDocumentString) {
-    this.meta = CertificateMeta.fromString(metaDocumentString);
+  fromStringMeta(aknDocumentString) {
+    this.meta = CertificateMeta.fromString(aknDocumentString);
     const { information, references } =
       this.meta.parseInformationAndReferences();
     this.setCertificateInformation(information, references);

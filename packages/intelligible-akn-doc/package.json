@@ -1,7 +1,7 @@
 {
-  "name": "intelligible-metadata-doc",
+  "name": "intelligible-akn-doc",
   "version": "1.0.1",
-  "description": "Library for creating and parsong an XML metadata document",
+  "description": "Library for creating and parsong an XML akomantoso document",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
