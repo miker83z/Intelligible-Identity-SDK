@@ -17,10 +17,14 @@
   },
   "homepage": "https://github.com/miker83z/Intelligible-Identity-SDK#readme",
   "dependencies": {
+    "@transmute/did-key-secp256k1": "^0.3.0-unstable.8",
     "ethereumjs-util": "^7.0.8",
     "intelligible-akn-doc": "file:../intelligible-akn-doc",
     "intelligible-nft-web3": "file:../intelligible-nft-web3",
     "intelligible-nostdsign-doc": "file:../intelligible-nostdsign-doc",
-    "intelligible-storage-ipfs": "file:../intelligible-storage-ipfs"
+    "intelligible-storage-ipfs": "file:../intelligible-storage-ipfs",
+    "secp256k1": "^4.0.3",
+    "tslib": "^2.3.1",
+    "zenroom": "^2.2.3"
   }
 }

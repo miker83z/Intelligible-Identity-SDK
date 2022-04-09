@@ -1,6 +1,8 @@
 const { IntelligibleIdentity } = require('./..');
 const { IPFSWrapper } = require('intelligible-storage-ipfs');
 const fs = require('fs');
+const { KeyDid } = require('../lib/key-did');
+const { Zenroom } = require('./../lib/zenroom');
 
 // Setup info////////////////////////
 const web3Provider = 'http://127.0.0.1:8545';
@@ -158,5 +160,16 @@ const fromAddress = async () => {
   console.log(b.meta.finalize());
 };
 
+const keyDidTest = async () => {
+  const a = new IntelligibleIdentity();
+  await a.prepareNewIdentityWeb3(web3Provider, 0, undefined, networkId);
+  const z = new Zenroom(a.web3);
+  const { publicKey, privateKey } = await z.createKeypair();
+  //const kd = new KeyDid();
+  const kd = new KeyDid({ publicKey, privateKey });
+  console.log(await kd.createDIDDocument());
+};
+
 //simpleNewIdentity();
-fromAddress();
+//fromAddress();
+keyDidTest();
