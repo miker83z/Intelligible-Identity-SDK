@@ -5,8 +5,8 @@
       <entity eId="signature_icertReceiver_iidSignatory" refersTo="#icertReceiver">DID:NFT:oadnaoisndoiansoi</entity>
     </iidSignatory>
     <digitalSignature>
-      <entity eId="signature_icertReceiver_digitalSignature">0x243a3779edaa53dad1bc7bc3050fc9ba512ff5770b5f3c25408eefe724794c9509d262c8a56c62c7e3e312411a94b5ca5fbc87023340f5a6265a9a0b5bf70e3f01</entity>
+      <entity eId="signature_icertReceiver_digitalSignature">0xcd7355ba5c9c25eabf1bc3b66d454b3e719ebf0cfa57658ea4a0859d535b7fcf5140cf65917a63f1f39481ccf507e5f12425701c11c18c8a2f4a4481551a7a4f01</entity>
     </digitalSignature>
-    <timestamp eId="signature_icertReceiver_timestamp" date="1649439680452">1649439680452</timestamp>
+    <timestamp eId="signature_icertReceiver_timestamp" date="1654514512964">1654514512964</timestamp>
   </signature>
 </NoStandardSignatureDoc>

@@ -4,9 +4,9 @@
     <meta>
       <identification source="#issuerSoftware">
         <FRBRWork>
-          <FRBRthis eId="frbrwork__frbrthis" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/main"/>
-          <FRBRuri eId="frbrwork__frbruri" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi"/>
-          <FRBRdate eId="frbrwork__frbrdate_1" date="2022-04-08" name="ADP_byCOM"/>
+          <FRBRthis eId="frbrwork__frbrthis" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/main"/>
+          <FRBRuri eId="frbrwork__frbruri" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi"/>
+          <FRBRdate eId="frbrwork__frbrdate_1" date="2022-06-06" name="ADP_byCOM"/>
           <FRBRauthor eId="frbrwork__frbrauthor_1" href="#iidIssuer" as="#author"/>
           <componentInfo>
             <componentData/>
@@ -16,9 +16,9 @@
           <FRBRcountry eId="frbrwork__frbrcountry" value="eu"/>
         </FRBRWork>
         <FRBRExpression>
-          <FRBRthis eId="frbrexpression__frbrthis" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/eng@!main"/>
-          <FRBRuri eId="frbrexpression__frbruri" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/eng@"/>
-          <FRBRdate eId="frbrexpression__frbrdate_1" date="2022-04-08" name="ADP_byCOM"/>
+          <FRBRthis eId="frbrexpression__frbrthis" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/eng@!main"/>
+          <FRBRuri eId="frbrexpression__frbruri" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/eng@"/>
+          <FRBRdate eId="frbrexpression__frbrdate_1" date="2022-06-06" name="ADP_byCOM"/>
           <FRBRauthor eId="frbrexpression__frbrauthor_1" href="#iidIssuer"/>
           <componentInfo>
             <componentData/>
@@ -28,9 +28,9 @@
           <FRBRlanguage eId="frbrexpression__frbrlanguage_1" language="eng"/>
         </FRBRExpression>
         <FRBRManifestation>
-          <FRBRthis eId="frbrmanifestation__frbrthis" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/eng@/main.xml"/>
-          <FRBRuri eId="frbrmanifestation__frbruri" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/eng@.akn"/>
-          <FRBRdate eId="frbrmanifestation__frbrdate_1" date="2022-04-08" name="instantiation"/>
+          <FRBRthis eId="frbrmanifestation__frbrthis" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/eng@/main.xml"/>
+          <FRBRuri eId="frbrmanifestation__frbruri" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/eng@.akn"/>
+          <FRBRdate eId="frbrmanifestation__frbrdate_1" date="2022-06-06" name="instantiation"/>
           <FRBRauthor eId="frbrmanifestation__frbrauthor_1" href="#iidIssuer" as="#author"/>
           <componentInfo>
             <componentData eId="msoftware" href="IntelligibleIdentity1.0.1.hashdigest.json" name="IntelligibleIdentity1.0.1" showAs="IntelligibleIdentity 1.0.1 Software"/>
@@ -41,12 +41,12 @@
         </FRBRManifestation>
       </identification>
       <references source="#issuerSoftware">
-        <TLCReference eId="#iid" href="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/eng@.akn" showAs="iid"/>
-        <TLCReference eId="#iidDIDDoc" href="QmUqZu4gsKcRohzWkaTMhxr3sWvoxN6aBF7Kk14DXSgP54/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/eng@/diddoc.json" showAs="iidDIDDoc"/>
-        <TLCReference eId="#iidIssuer" href="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/eng@.akn" showAs="iidIssuer"/>
+        <TLCReference eId="#iid" href="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/eng@.akn" showAs="iid"/>
+        <TLCReference eId="#iidDIDDoc" href="QmQwisytUwKhmzgze3KzBK9hsk1jXwTjnRZ4dguMq3NNtd/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/eng@/diddoc.json" showAs="iidDIDDoc"/>
+        <TLCReference eId="#iidIssuer" href="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/eng@.akn" showAs="iidIssuer"/>
         <TLCReference eId="#eidas" href="/akn/eu/doc/2021-03-06/2021_281/eng@.akn" showAs="eidas"/>
-        <TLCObject eId="#iidIssuerSoftware" href="Qmcpv4yFKN7nGaVo9NkdqrXfyPsyJoz7AmxNtwGC7YRMnB/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/eng@/IntelligibleIdentity1.0.1.hashdigest.json" showAs="iidIssuerSoftware"/>
-        <TLCObject eId="#nftSmartContract" href="QmWGZPHnCfzHoSgfLAGHnt3LNgpPvYZzsZcsaA9iFa7QuE/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi/eng@/IntelligibleIdentity.sol" showAs="nftSmartContract"/>
+        <TLCObject eId="#iidIssuerSoftware" href="QmdwWxpufpK7gM75M3mr6H7D3bHAedy8bk6E8xYQ2Uvfic/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/eng@/IntelligibleIdentity1.0.1.hashdigest.json" showAs="iidIssuerSoftware"/>
+        <TLCObject eId="#nftSmartContract" href="QmZwCH2dXCQow7NKmb2S9h3ti7A1xVZC1euM6nP1da78FH/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi/eng@/IntelligibleIdentity.sol" showAs="nftSmartContract"/>
       </references>
     </meta>
     <preface eId="preface">

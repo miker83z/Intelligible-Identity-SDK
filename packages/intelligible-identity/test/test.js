@@ -3,10 +3,11 @@ const { IPFSWrapper } = require('intelligible-storage-ipfs');
 const fs = require('fs');
 const { KeyDid } = require('../lib/key-did');
 const { Zenroom } = require('./../lib/zenroom');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 // Setup info////////////////////////
 const web3Provider = 'http://127.0.0.1:8545';
-const networkId = '5777';
+const networkId = '5778';
 const ipfsProvider = {
   host: '127.0.0.1',
   port: '5001',
@@ -161,13 +162,48 @@ const fromAddress = async () => {
 };
 
 const keyDidTest = async () => {
-  const a = new IntelligibleIdentity();
-  await a.prepareNewIdentityWeb3(web3Provider, 0, undefined, networkId);
-  const z = new Zenroom(a.web3);
-  const { publicKey, privateKey } = await z.createKeypair();
-  //const kd = new KeyDid();
-  const kd = new KeyDid({ publicKey, privateKey });
-  console.log(await kd.createDIDDocument());
+  const MNEMONIC = process.env.MNEMONIC;
+  const provider = new HDWalletProvider(MNEMONIC, 'http://127.0.0.1:8545');
+  try {
+    // Create a new Zenroom keypair
+    const z = new Zenroom();
+    const { publicKey: publicKeyZenroom, privateKey: privateKeyZenroom } =
+      await z.createKeypair();
+    // Create a new Etehreum Wallet with this keypair
+    const zenroomProvider = new HDWalletProvider(
+      '0x' + Buffer.from(privateKeyZenroom).toString('hex'),
+      'http://127.0.0.1:8545'
+    );
+    zenroomProvider.engine.stop();
+    // Create a key did with this keypair
+    const kd = new KeyDid({
+      publicKey: publicKeyZenroom,
+      privateKey: privateKeyZenroom,
+    });
+    //console.log(await kd.createDIDDocument());
+
+    // Get Keypair from existing wallet
+    const accounts = Object.keys(provider.wallets);
+    const publicKeyProvider = new Uint8Array(65);
+    publicKeyProvider.set([4]);
+    publicKeyProvider.set(
+      Uint8Array.from(provider.wallets[accounts[0]].publicKey),
+      1
+    );
+    const privateKeyProvider = Uint8Array.from(
+      provider.wallets[accounts[0]].privateKey
+    );
+    // Create a key did with this keypair
+    const kd2 = new KeyDid({
+      publicKey: publicKeyProvider,
+      privateKey: privateKeyProvider,
+    });
+    //console.log(await kd2.createDIDDocument());
+  } catch (error) {
+    console.log(error);
+  } finally {
+    provider.engine.stop();
+  }
 };
 
 //simpleNewIdentity();

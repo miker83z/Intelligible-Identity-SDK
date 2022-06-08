@@ -9,25 +9,20 @@ const secp256k1 = require('secp256k1');
 class Zenroom {
   /**
    * @description Creates an instance of Zenroom.
-   * @param {Object} identityWeb3 The identity web3 object
    */
-  constructor(identityWeb3) {
-    if (identityWeb3 === undefined)
-      throw new Error('wrapper/ethrDid: identityWeb3 not set');
-    this.web3 = identityWeb3.web3;
-    this.mainAddress = identityWeb3.mainAddress;
+  constructor(path) {
+    if (path === undefined) {
+      path = './templates/zencode';
+    }
+    this.zencodePath = path;
   }
 
   /**
-   * @description Create kaypair
+   * @description Generate keypair using Zenroom
    */
   async createKeypair() {
-    const newAccount = await this.web3.eth.accounts.create();
-    //await this.web3.eth.accounts.wallet.add(newAccount);
-    const hex = this.web3.utils.utf8ToHex(newAccount.privateKey.slice(2));
-
     const zencode = fs.readFileSync(
-      path.resolve(__dirname, './templates/zencode/create-keypair.zen'),
+      path.resolve(__dirname, `${this.zencodePath}/create-keypair.zen`),
       {
         encoding: 'utf8',
         flag: 'r',
@@ -35,7 +30,7 @@ class Zenroom {
     );
 
     const result = await zencode_exec(zencode, {
-      conf: `color=0, debug=0, rngseed=hex:${hex.slice(2)}`,
+      conf: `color=0, debug=0`, //, rngseed=hex:${hex.slice(2)},
     });
 
     const pubKeyString = JSON.parse(result.result).DIDController.keypair

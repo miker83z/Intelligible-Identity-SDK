@@ -9,12 +9,12 @@
   "author": "Mirko Zichichi <mikerz83@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "intelligible-akn-doc": "file:../intelligible-akn-doc",
-    "intelligible-nft-web3": "file:../intelligible-nft-web3",
-    "intelligible-nostdsign-doc": "file:../intelligible-nostdsign-doc",
-    "intelligible-storage-ipfs": "file:../intelligible-storage-ipfs"
+    "intelligible-akn-doc": "1.0.1",
+    "intelligible-nft-web3": "1.0.1",
+    "intelligible-nostdsign-doc": "1.0.1",
+    "intelligible-storage-ipfs": "1.0.1"
   },
   "devDependencies": {
-    "intelligible-identity": "file:../intelligible-identity"
+    "intelligible-identity": "1.0.1"
   }
 }

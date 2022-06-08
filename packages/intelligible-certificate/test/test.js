@@ -7,7 +7,7 @@ const assert = require('assert').strict;
 
 //Web3 Setup info////////////////////////
 const web3Provider = 'http://127.0.0.1:8545';
-const networkId = '5777';
+const networkId = '5778';
 const ipfsProvider = {
   host: '127.0.0.1',
   port: '5001',

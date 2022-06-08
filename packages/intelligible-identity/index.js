@@ -1,5 +1,7 @@
 const { IdentityWeb3 } = require('./lib/web3');
 const { IdentityMeta } = require('./lib/meta');
+const { KeyDid } = require('./lib/key-did');
+const { Zenroom } = require('./lib/zenroom');
 const { NoStandardSignatureDoc } = require('intelligible-nostdsign-doc');
 
 /**
@@ -222,5 +224,7 @@ class IntelligibleIdentity {
 module.exports = {
   IdentityWeb3,
   IdentityMeta,
+  KeyDid,
+  Zenroom,
   IntelligibleIdentity,
 };

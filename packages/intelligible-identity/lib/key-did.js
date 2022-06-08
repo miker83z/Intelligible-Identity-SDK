@@ -4,6 +4,7 @@ const {
   generate,
   resolve,
 } = require('@transmute/did-key-secp256k1');
+const secp256k1 = require('secp256k1');
 const {
   getMultibaseFingerprintFromPublicKeyBytes,
 } = require('./utils/getMultibaseFingerprintFromPublicKeyBytes');
@@ -18,10 +19,20 @@ class KeyDid {
    */
   constructor(keypairObject) {
     if (keypairObject !== undefined) {
-      if (keypairObject.publicKey === undefined)
-        throw new Error('keyDid: public key not set');
+      //if (keypairObject.publicKey === undefined)
+      //  throw new Error('keyDid: public key not set');
       if (keypairObject.privateKey === undefined)
         throw new Error('keyDid: private key not set');
+
+      if (keypairObject.publicKey === undefined)
+        keypairObject.publicKey = secp256k1.publicKeyCreate(
+          keypairObject.privateKey
+        );
+      else
+        keypairObject.publicKey = secp256k1.publicKeyConvert(
+          keypairObject.publicKey
+        );
+
       this.publicKey = keypairObject.publicKey;
       this.privateKey = keypairObject.privateKey;
     }

@@ -4,9 +4,9 @@
     <meta>
       <identification source="#issuerSoftware">
         <FRBRWork>
-          <FRBRthis eId="frbrwork__frbrthis" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/main"/>
-          <FRBRuri eId="frbrwork__frbruri" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX"/>
-          <FRBRdate eId="frbrwork__frbrdate_1" date="2022-04-08" name="ADP_byCOM"/>
+          <FRBRthis eId="frbrwork__frbrthis" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/main"/>
+          <FRBRuri eId="frbrwork__frbruri" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX"/>
+          <FRBRdate eId="frbrwork__frbrdate_1" date="2022-06-06" name="ADP_byCOM"/>
           <FRBRauthor eId="frbrwork__frbrauthor_1" href="#icertIssuer" as="#author"/>
           <componentInfo>
             <componentData/>
@@ -16,9 +16,9 @@
           <FRBRcountry eId="frbrwork__frbrcountry" value="eu"/>
         </FRBRWork>
         <FRBRExpression>
-          <FRBRthis eId="frbrexpression__frbrthis" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@!main"/>
-          <FRBRuri eId="frbrexpression__frbruri" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@"/>
-          <FRBRdate eId="frbrexpression__frbrdate_1" date="2022-04-08" name="ADP_byCOM"/>
+          <FRBRthis eId="frbrexpression__frbrthis" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@!main"/>
+          <FRBRuri eId="frbrexpression__frbruri" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@"/>
+          <FRBRdate eId="frbrexpression__frbrdate_1" date="2022-06-06" name="ADP_byCOM"/>
           <FRBRauthor eId="frbrexpression__frbrauthor_1" href="#icertIssuer"/>
           <componentInfo>
             <componentData/>
@@ -28,9 +28,9 @@
           <FRBRlanguage eId="frbrexpression__frbrlanguage_1" language="eng"/>
         </FRBRExpression>
         <FRBRManifestation>
-          <FRBRthis eId="frbrmanifestation__frbrthis" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/main.xml"/>
-          <FRBRuri eId="frbrmanifestation__frbruri" value="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@.akn"/>
-          <FRBRdate eId="frbrmanifestation__frbrdate_1" date="2022-04-08" name="instantiation"/>
+          <FRBRthis eId="frbrmanifestation__frbrthis" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/main.xml"/>
+          <FRBRuri eId="frbrmanifestation__frbruri" value="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@.akn"/>
+          <FRBRdate eId="frbrmanifestation__frbrdate_1" date="2022-06-06" name="instantiation"/>
           <FRBRauthor eId="frbrmanifestation__frbrauthor_1" href="#icertIssuer" as="#author"/>
           <componentInfo>
             <componentData eId="msoftware" href="IntelligibleCertificate1.0.1.hashdigest.json" name="IntelligibleCertificate1.0.1" showAs="IntelligibleCertificate 1.0.1 Software"/>
@@ -41,13 +41,13 @@
         </FRBRManifestation>
       </identification>
       <references source="#issuerSoftware">
-        <TLCReference eId="#icert" href="/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@@.akn" showAs="icert"/>
-        <TLCReference eId="#icertVCDoc" href="QmXivTF5MoqevdGdNnvtnqCkQ6zT5X4egwxbGjPVFoH2jK/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/vcdoc.json" showAs="icertVCDoc"/>
-        <TLCReference eId="#icertReceiver" href="QmZvwfxbVtDMx9LobSCKiWV5gjao9upm85vUAtRG7KyBev/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/main.xml" showAs="icertReceiver"/>
-        <TLCReference eId="#icertIssuer" href="QmR4gmr2uT9P3HQg7A19cidD3siggkZR6JEuNsFyamsrC3/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/main.xml" showAs="icertIssuer"/>
+        <TLCReference eId="#icert" href="/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@@.akn" showAs="icert"/>
+        <TLCReference eId="#icertVCDoc" href="QmNMz19xZkxGPS63CafUEcUYGPYcYsT3cnDjmrwHp4qWQG/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/vcdoc.json" showAs="icertVCDoc"/>
+        <TLCReference eId="#icertReceiver" href="QmTohayxzGnTzE7kP4soNjtKnn1HR2k7feaY4SbpiRRnfj/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/main.xml" showAs="icertReceiver"/>
+        <TLCReference eId="#icertIssuer" href="QmeL4BSZDN6xbWVAAAfm6Kigz9xjiWSduvfHkPn5s1HSvB/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/main.xml" showAs="icertIssuer"/>
         <TLCReference eId="#gdpr" href="/akn/eu/doc/2016-05-04/2016_6791/eng@.akn" showAs="gdpr"/>
-        <TLCObject eId="#icertIssuerSoftware" href="QmNRiEQ3TgKYMd7FkEfqzkNWcbn7douhgMvfdh4WA8LEnv/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/IntelligibleCertificate1.0.1.hashdigest.json" showAs="icertIssuerSoftware"/>
-        <TLCObject eId="#nftSmartContract" href="QmfU3F1JabVe28tgHnuV1uB71mhfxiZLx5JMzWiiterJ1Z/akn/eu/doc/2022-04-08/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/IntelligibleCertificate.sol" showAs="nftSmartContract"/>
+        <TLCObject eId="#icertIssuerSoftware" href="QmfXq1QdJ5EMsYjgSXqTjKyiHetdRmbHaYrqRvfdNt652W/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/IntelligibleCertificate1.0.1.hashdigest.json" showAs="icertIssuerSoftware"/>
+        <TLCObject eId="#nftSmartContract" href="QmXeGrhdMrnHX3JkHwiRZpETtK9sqePaxUPDBwDpYPonUK/akn/eu/doc/2022-06-06/DID:NFT:oadnaoisndoiansoi:GDPRcomplianceX/eng@/IntelligibleCertificate.sol" showAs="nftSmartContract"/>
       </references>
     </meta>
     <preface eId="preface">
