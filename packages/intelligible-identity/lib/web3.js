@@ -20,9 +20,10 @@ class IdentityWeb3 extends Web3Wrapper {
    * @param {Object} provider The web3 provider
    * @param {number} [networkId] The id of the network where the provider operates
    * @param {Object} [contractArtifact] The json object containing the contract abi
+   * @param {string} [contractAddress] The address of the contract in the network
    */
-  constructor(provider, networkId, contractArtifact) {
-    super(provider, 'identity', networkId, contractArtifact);
+  constructor(provider, networkId, contractArtifact, contractAddress) {
+    super(provider, 'identity', networkId, contractArtifact, contractAddress);
   }
 
   /**

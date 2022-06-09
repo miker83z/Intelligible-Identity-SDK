@@ -5,8 +5,8 @@
       <entity eId="signature_iidIssuer_iidSignatory" refersTo="#iidIssuer">DID:NFT:oadnaoisndoiansoi</entity>
     </iidSignatory>
     <digitalSignature>
-      <entity eId="signature_iidIssuer_digitalSignature">0x116883ac7c9fe515852555be1e72b84224b926a82eddf288e0045c6944e9a529513788be3487c45e614472e5bacdec00825087d32cb798ee20273d9203fe400e01</entity>
+      <entity eId="signature_iidIssuer_digitalSignature">0xbb16b532790ee7b9e2356afcbf80aac2fb6e6dfb9273169f714e727117dfa78d2f82ba5a61971204841a22e7d32e890ace9bce803acb8579088f96701f2d43f601</entity>
     </digitalSignature>
-    <timestamp eId="signature_iidIssuer_timestamp" date="1654514981706">1654514981706</timestamp>
+    <timestamp eId="signature_iidIssuer_timestamp" date="1654793495251">1654793495251</timestamp>
   </signature>
 </NoStandardSignatureDoc>

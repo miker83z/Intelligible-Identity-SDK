@@ -19,8 +19,9 @@ class Web3Wrapper {
    * @param {string} [useCase] THe token use case (identity or certificate)
    * @param {number} [networkId] The id of the network where the provider operates
    * @param {Object} [contractArtifact] The json object containing the contract abi
+   * @param {string} [contractAddress] The address of the contract in the network
    */
-  constructor(provider, useCase, networkId, contractArtifact) {
+  constructor(provider, useCase, networkId, contractArtifact, contractAddress) {
     if (provider === undefined)
       throw new Error('wrapper/web3Wrapper: Provider not set');
     this.provider = provider;
@@ -34,7 +35,7 @@ class Web3Wrapper {
       if (networkId === undefined) networkId = devNetworkId;
       if (contractArtifact === undefined) contractArtifact = dict[useCase];
 
-      this.setContract(contractArtifact, networkId);
+      this.setContract(contractArtifact, networkId, contractAddress);
     }
   }
 
@@ -59,16 +60,21 @@ class Web3Wrapper {
    * @description Sets the smart contract for communicating with the blockchain
    * @param {Object} contractArtifact The json object containing the contract abi
    * @param {number} networkId The id of the network where the provider operates
+   * @param {string} [contractAddress] The address of the contract in the network
    */
-  setContract(contractArtifact, networkId) {
+  setContract(contractArtifact, networkId, contractAddress) {
     if (contractArtifact === undefined)
       throw new Error('wrapper/web3Wrapper: Contract artifact not set');
-    if (networkId === undefined)
+    if (networkId === undefined && contractAddress === undefined)
       throw new Error('wrapper/web3Wrapper: Network id not set');
+    contractAddress =
+      contractAddress === undefined
+        ? contractArtifact.networks[networkId].address
+        : contractAddress;
     //const contractArtifact = await JSON.parse(contractArtifactRaw);
     this.contract = new this.web3.eth.Contract(
       contractArtifact.abi,
-      contractArtifact.networks[networkId].address
+      contractAddress
     );
     this.contract.setProvider(this.provider);
   }

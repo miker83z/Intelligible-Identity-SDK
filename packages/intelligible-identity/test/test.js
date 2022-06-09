@@ -143,13 +143,16 @@ const fromAddress = async () => {
   const a = await simpleNewIdentity();
   // Obtain the identity from the web3 address
   // (gets the last token in the contract list)
+  const nftDid = await a.getNFTdid();
   const b = new IntelligibleIdentity();
-  const nftCid = await b.fromWeb3Address(
+  /*const nftCid = await b.fromWeb3Address(
     web3Provider,
     0,
     a.web3.address,
     networkId
-  );
+  );*/
+  const nftCid = await b.fromNFTdid(web3Provider, 0, nftDid, networkId);
+
   // Gets the identity document from IPFS
   const resGet = await ipfs.getIPFSFile(nftCid);
   b.fromStringMeta(resGet);
@@ -207,5 +210,5 @@ const keyDidTest = async () => {
 };
 
 //simpleNewIdentity();
-//fromAddress();
-keyDidTest();
+fromAddress();
+//keyDidTest();

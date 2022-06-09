@@ -1,6 +1,6 @@
 {
   "name": "intelligible-identity",
-  "version": "1.0.1",
+  "version": "1.0.3-2",
   "description": "Intelligible Identity - The creation of identities through the Intelligible paradigm",
   "main": "index.js",
   "scripts": {

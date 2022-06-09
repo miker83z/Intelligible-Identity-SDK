@@ -124,6 +124,16 @@ class IntelligibleIdentity {
   }
 
   /**
+   * @description Creates and return the DID of the NFT holding the iid data
+   * @param {string} nftDID Identity's NDF did
+   */
+  async getNFTdid() {
+    return `did:nft:eip155:${await this.web3.web3.eth.getChainId()}_erc721:${
+      this.web3.contract.options.address
+    }_${this.web3.tokenId}`;
+  }
+
+  /**
    * @description Creates a web3 instance from an Ethereum address by searching for the last Identity
    * token issued to this. It returns the token URI used to derive/obtain the meta document.
    * @param {Object} web3Provider The web3 provider
@@ -173,11 +183,40 @@ class IntelligibleIdentity {
     networkId,
     intelligibleIdArtifact
   ) {
-    this.web3 = new Web3Wrapper(
+    this.web3 = new IdentityWeb3(
       web3Provider,
-      'identity',
       networkId,
       intelligibleIdArtifact
+    );
+    await this.web3.setMainAddress(mainAddress);
+    return await this.web3.getTokenById(tokenId); //tokenURI
+  }
+
+  /**
+   * @description Creates a web3 instance from a NFT DID. It returns the token URI used to derive/obtain
+   * the meta document.
+   * @param {Object} web3Provider The web3 provider
+   * @param {number|string} mainAddress The selected main address or its
+   * position within the provider accounts list
+   * @param {string} nftDID The token NFT DID
+   * @param {number} [networkId] The id of the network where the provider operates
+   * @param {Object} [intelligibleIdArtifact] The json object containing the contract abi
+   * @return {string} The token URI
+   */
+  async fromNFTdid(
+    web3Provider,
+    mainAddress,
+    nftDID,
+    networkId,
+    intelligibleIdArtifact
+  ) {
+    const contractAddress = nftDID.split(':')[4].split('_')[0];
+    const tokenId = nftDID.split(':')[4].split('_')[1];
+    this.web3 = new IdentityWeb3(
+      web3Provider,
+      networkId,
+      intelligibleIdArtifact,
+      contractAddress
     );
     await this.web3.setMainAddress(mainAddress);
     return await this.web3.getTokenById(tokenId); //tokenURI
